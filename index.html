@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stack do segundo cérebro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=B612+Mono:wght@400;700&family=B612:wght@400;700&display=swap">
+</head>
+<body>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f5f5f2; --surface: #fcfcfb; --surface-2: #f0efec; --surface-3: #e6e5e0;
+  --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #6c6a65;
+  --line: #e1e0d9; --axis: #c3c2b7; --edge: rgba(11, 11, 11, 0.30); --halo: #fcfcfb;
+  --accent: #2a78d6; --accent-wash: rgba(42, 120, 214, 0.10);
+  --e-script: #9a9891; --e-local: #2a78d6; --e-claude: #eb6834; --e-gemini: #1baf7a;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b; --good-ink: #006300;
+  --band: rgba(82, 81, 78, 0.07); --shadow: 0 12px 40px rgba(11, 11, 11, 0.16);
+  --f-display: "B612", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "B612 Mono", ui-monospace, Consolas, Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0c0c0d; --surface: #1a1a19; --surface-2: #222220; --surface-3: #2b2b28;
+    --ink: #ffffff; --ink-2: #c3c2b7; --ink-3: #93918b;
+    --line: #2c2c2a; --axis: #383835; --edge: rgba(255, 255, 255, 0.28); --halo: #1a1a19;
+    --accent: #3987e5; --accent-wash: rgba(57, 135, 229, 0.15);
+    --e-script: #6f6e69; --e-local: #3987e5; --e-claude: #d95926; --e-gemini: #199e70;
+    --good-ink: #0ca30c; --band: rgba(195, 194, 183, 0.08); --shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0c0c0d; --surface: #1a1a19; --surface-2: #222220; --surface-3: #2b2b28;
+  --ink: #ffffff; --ink-2: #c3c2b7; --ink-3: #93918b;
+  --line: #2c2c2a; --axis: #383835; --edge: rgba(255, 255, 255, 0.28); --halo: #1a1a19;
+  --accent: #3987e5; --accent-wash: rgba(57, 135, 229, 0.15);
+  --e-script: #6f6e69; --e-local: #3987e5; --e-claude: #d95926; --e-gemini: #199e70;
+  --good-ink: #0ca30c; --band: rgba(195, 194, 183, 0.08); --shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { background: var(--page); color: var(--ink); font: 400 15px/1.5 var(--f-body); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code, .mono { font-family: var(--f-mono); font-size: 0.84em; }
+code { background: var(--surface-2); padding: 0.05em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+.muted { color: var(--ink-3); }
+.wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; }
+
+/* cabeçalho */
+.top { padding-block: 28px 18px; display: grid; gap: 14px; }
+.eyebrow { font: 700 12px/1.2 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.top h1 { font: 700 clamp(34px, 6vw, 52px)/1 var(--f-display); letter-spacing: 0.04em; }
+.top h1 span { font-weight: 400; color: var(--ink-3); letter-spacing: 0; font-size: 0.42em; margin-left: 0.4em; vertical-align: 0.35em; }
+.lead { max-width: 72ch; color: var(--ink-2); font-size: 16px; text-wrap: pretty; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 6px; border-top: 1px solid var(--line); }
+.facts div { display: grid; gap: 1px; padding-top: 8px; }
+.facts dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.facts dd { font: 700 15px/1.3 var(--f-display); font-variant-numeric: tabular-nums; }
+
+/* navegação */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--page); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.nav a { flex: none; padding: 12px 10px 10px; text-decoration: none; color: var(--ink-3); font-weight: 700; font-size: 14px; border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav a:hover { color: var(--ink); }
+.nav a.on { color: var(--ink); border-bottom-color: var(--ink); }
+.nav .count { font: 700 11px/1 var(--f-mono); background: var(--warning); color: #111; border-radius: 99px; padding: 2px 6px; margin-left: 4px; vertical-align: 1px; }
+
+/* seções */
+section { padding-block: 40px 8px; scroll-margin-top: 56px; }
+.sec-head { display: grid; gap: 6px; margin-bottom: 18px; }
+.sec-head h2 { font: 700 24px/1.2 var(--f-display); text-wrap: balance; }
+.sec-head p { max-width: 74ch; color: var(--ink-2); text-wrap: pretty; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+figcaption { color: var(--ink-3); font-size: 13px; padding: 10px 14px 12px; max-width: 90ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); padding: 12px 14px 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.sw.script { background: var(--e-script); } .sw.local { background: var(--e-local); } .sw.claude { background: var(--e-claude); } .sw.gemini { background: var(--e-gemini); }
+.key-line { width: 22px; height: 0; border-top: 1.5px solid var(--edge); display: inline-block; }
+.key-line.dash { border-top-style: dashed; }
+
+/* mapa (SVG) */
+#map svg { display: block; width: max(100%, 1080px); height: auto; }
+.col-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-3); }
+.vault-box { fill: var(--surface-2); stroke: var(--axis); stroke-width: 1; }
+.band-box { fill: var(--band); stroke: none; }
+.grp-box { fill: none; stroke: var(--e-claude); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.8; }
+.grp-t { font: 700 10.5px/1 var(--f-display); fill: var(--ink-2); letter-spacing: 0.04em; }
+.n { cursor: pointer; transition: opacity 0.15s; }
+.n rect { fill: var(--surface); stroke: var(--axis); stroke-width: 1; }
+.n.row rect { fill: var(--surface); stroke: var(--line); }
+.n.ext rect { fill: var(--page); stroke-dasharray: 4 3; }
+.n:hover rect, .n.sel rect { stroke: var(--ink); stroke-width: 1.6; }
+.n .nt { font: 700 12.5px/1 var(--f-body); fill: var(--ink); }
+.n .ns { font: 400 11px/1 var(--f-body); fill: var(--ink-3); }
+.n .dot { stroke: var(--surface); stroke-width: 2; }
+.n .warn { fill: var(--warning); stroke: var(--surface); stroke-width: 2; }
+.ed { fill: none; stroke: var(--edge); stroke-width: 1.3; transition: opacity 0.15s, stroke 0.15s; }
+.ed.dash { stroke-dasharray: 4 4; }
+.el { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); paint-order: stroke; stroke: var(--halo); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; transition: opacity 0.15s; }
+.arrow { fill: var(--edge); }
+.el.quiet { opacity: 0; }
+.focus .ed { opacity: 0.1; } .focus .el { opacity: 0; } .focus .n { opacity: 0.32; }
+.focus .ed.on { opacity: 1; stroke: var(--ink); stroke-width: 1.8; } .focus .el.on { opacity: 1; fill: var(--ink-2); } .focus .n.on { opacity: 1; }
+.map-hint { font-size: 13px; color: var(--ink-3); padding: 0 14px 10px; }
+</style>
+
+<style>
+/* rotinas 24h */
+.tl-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 12px 14px 0; }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: none; padding: 5px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; color: var(--ink-3); }
+.seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1px var(--line); }
+#tl svg { display: block; width: max(100%, 980px); height: auto; }
+.tl-grid { stroke: var(--line); stroke-width: 1; }
+.tl-axis { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }
+.tl-grp { font: 700 10.5px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; fill: var(--ink-3); }
+.tl-name { font: 400 12.5px/1 var(--f-body); fill: var(--ink); cursor: pointer; }
+.tl-name:hover { text-decoration: underline; }
+.tl-when { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }
+.tl-row:hover .tl-hit { fill: var(--accent-wash); }
+.tl-hit { fill: transparent; }
+.tk { cursor: pointer; } .tk:hover { stroke: var(--ink); stroke-width: 1.5; }
+.tl-cont { opacity: 0.55; }
+.tl-now { stroke: var(--critical); stroke-width: 1.5; }
+.tl-now-t { font: 700 11px/1 var(--f-mono); fill: var(--critical); }
+.tl-win { fill: var(--band); }
+.tl-win-t { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); }
+.tl-event { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px 20px; padding: 4px 14px 14px; font-size: 13.5px; }
+.tl-event li { display: flex; gap: 8px; align-items: baseline; }
+.tl-event b { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); font-weight: 400; min-width: 86px; }
+.tip { position: fixed; z-index: 60; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-width: 280px; }
+.tip b { display: block; }
+
+/* fluxos */
+.flows { display: grid; gap: 14px; }
+.flow { padding: 14px 16px 16px; }
+.flow-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 4px; }
+.flow-h h3 { font: 700 16px/1.3 var(--f-display); }
+.flow-io { font-size: 13px; color: var(--ink-3); }
+.flow-io b { color: var(--ink-2); font-weight: 700; }
+.stations { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr); overflow-x: auto; padding-top: 10px; }
+.st { position: relative; padding: 18px 12px 4px 0; }
+.st::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--axis); }
+.st:last-child::before { right: auto; width: 12px; }
+.st::after { content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink-2); }
+.st.local::after { background: var(--e-local); border-color: var(--e-local); }
+.st.claude::after { background: var(--e-claude); border-color: var(--e-claude); }
+.st.gemini::after { background: var(--e-gemini); border-color: var(--e-gemini); }
+.st.end::after { background: var(--ink); border-color: var(--ink); }
+.st-name { font-weight: 700; font-size: 13.5px; line-height: 1.3; }
+.st-name button { border: 0; background: none; padding: 0; font-weight: 700; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }
+.st-name button:hover { text-decoration-color: var(--ink); }
+.st-meta { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; margin-top: 2px; }
+.st-when { display: inline-block; margin-top: 4px; font: 400 11.5px/1.3 var(--f-mono); background: var(--surface-2); border-radius: 4px; padding: 1px 5px; color: var(--ink-2); }
+.flow-note { margin-top: 10px; font-size: 13px; color: var(--ink-2); max-width: 90ch; }
+
+/* rodando agora */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+.card { padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+.card h3 { font: 700 15px/1.3 var(--f-display); display: flex; justify-content: space-between; gap: 8px; }
+.card h3 small { font: 400 12px/1.3 var(--f-mono); color: var(--ink-3); }
+.card p { font-size: 13px; color: var(--ink-2); }
+.plist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.plist li:first-child { border-top: 0; }
+.plist .pn { font-weight: 700; }
+.plist .pp { font: 400 12px/1.4 var(--f-mono); color: var(--ink-3); text-align: right; white-space: nowrap; }
+.plist .pd { grid-column: 1 / -1; color: var(--ink-3); font-size: 12.5px; }
+.stack-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 22px 0 10px; }
+.ports { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ports th, .ports td { text-align: left; padding: 7px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.ports th { font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); border-top: 0; }
+.ports td:first-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* status */
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 2px 9px 2px 6px; white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }
+.pill i { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-3); }
+.pill.good i { background: var(--good); } .pill.warning i { background: var(--warning); } .pill.serious i { background: var(--serious); } .pill.critical i { background: var(--critical); } .pill.info i { background: var(--accent); }
+.att { display: grid; gap: 10px; }
+.att li { padding: 14px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; }
+.att .sev { grid-row: span 3; padding-top: 2px; }
+.att h3 { font: 700 15px/1.35 var(--f-body); }
+.att p { font-size: 14px; color: var(--ink-2); max-width: 92ch; }
+.att .fix { font-size: 13px; color: var(--ink-3); }
+.att .fix b { color: var(--ink-2); }
+
+/* inventário */
+.inv-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.chip.on { background: var(--ink); color: var(--page); border-color: var(--ink); }
+#inv-q { flex: 1 1 220px; min-width: 0; max-width: 360px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 14px; }
+.inv { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 13.5px; }
+.inv th { text-align: left; font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 10px 12px; border-bottom: 1px solid var(--axis); position: sticky; top: 0; background: var(--surface); }
+.inv td { padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.inv tbody tr { cursor: pointer; }
+.inv tbody tr:hover td { background: var(--accent-wash); }
+.inv .k { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.inv .w { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); }
+.inv .nm { font-weight: 700; }
+
+/* gaveta de detalhe */
+.drawer { position: fixed; z-index: 50; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow); transform: translateX(105%); transition: transform 0.22s ease; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); }
+.drawer.open { transform: none; }
+.dr-h { display: flex; gap: 10px; align-items: flex-start; padding: 16px 16px 12px; border-bottom: 1px solid var(--line); }
+.dr-h h3 { font: 700 19px/1.25 var(--f-display); flex: 1; text-wrap: balance; }
+.dr-h .kind { display: block; font: 400 12px/1.4 var(--f-body); color: var(--ink-3); margin-bottom: 4px; }
+.dr-x { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; width: 34px; height: 34px; font-size: 18px; line-height: 1; flex: none; }
+.dr-b { overflow-y: auto; padding: 6px 16px 24px; display: grid; gap: 2px; align-content: start; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+.dr-b dl { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.dr-b dt { font: 700 11px/1.5 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }
+.dr-b dd { color: var(--ink); overflow-wrap: anywhere; }
+.dr-note { font-size: 14px; color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--line); }
+.dr-links { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; }
+.dr-links button { border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 4px 9px; font-size: 13px; }
+.dr-links button:hover { border-color: var(--ink); }
+.dr-sub { font: 700 11px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-top: 14px; }
+.scrim { position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, 0.25); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.scrim.open { opacity: 1; pointer-events: auto; }
+footer { padding-block: 40px 48px; color: var(--ink-3); font-size: 13px; }
+@media (max-width: 640px) {
+  .drawer { top: auto; width: 100vw; height: 78vh; border-left: 0; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; transform: translateY(105%); }
+  .drawer.open { transform: none; }
+  .stations { grid-auto-flow: row; grid-auto-columns: auto; }
+  .st { padding: 0 0 14px 24px; }
+  .st::before { top: 6px; bottom: 0; left: 5px; right: auto; width: 2px; height: auto; }
+  .st:last-child::before { display: none; }
+  .att li { grid-template-columns: 1fr; }
+  .att .sev { grid-row: auto; }
+  section { padding-block: 32px 4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="wrap top">
+  <p class="eyebrow">Raio-X · leitura de <span id="stamp">—</span> <span id="stale"></span></p>
+  <h1>PEDRO <span>um desktop Windows 11</span></h1>
+  <p class="lead">Um desktop Windows 11 que fica ligado como servidor do seu segundo cérebro. Capturas entram por iPhone, Telegram, PLAUD e Gmail, viram transcrição e rascunho com IA local, passam pela triagem do Claude, caem no vault <b>Conhecimento</b> e saem para o Obsidian, o GitHub, o backup e o seu iPhone. Na mesma máquina rodam a casa (Home Assistant), a mídia (Jellyfin), a IA local (Ollama) e o cockpit que vigia tudo.</p>
+  <dl class="facts">
+    <div><dt>Máquina</dt><dd>Ryzen 7 7700X · 31 GB · RTX 5060 Ti</dd></div>
+    <div><dt>Ligado desde</dt><dd id="f-ligado">—</dd></div>
+    <div><dt>Rotinas próprias</dt><dd>33 no Agendador</dd></div>
+    <div><dt>Sempre rodando</dt><dd id="f-rodando">—</dd></div>
+    <div><dt>Claude nos jobs</dt><dd id="f-claude">—</dd></div>
+    <div><dt>Discos</dt><dd id="f-discos">—</dd></div><div><dt>Vault</dt><dd id="f-vault">—</dd></div>
+  </dl>
+</header>
+
+<nav class="nav" aria-label="Seções">
+  <div class="wrap">
+    <a href="#mapa">Mapa</a>
+    <a href="#rotinas">Rotinas 24 h</a>
+    <a href="#fluxos">Fluxos</a>
+    <a href="#rodando">Rodando agora</a>
+    <a href="#atencao">Atenção <span class="count" id="att-count">7</span></a>
+    <a href="#inventario">Inventário</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="mapa">
+    <div class="sec-head">
+      <h2>Mapa do segundo cérebro</h2>
+      <p>Da esquerda para a direita: de onde vem a informação, quem a coleta no PEDRO, quem processa, onde ela mora no vault e para onde sai. A faixa de baixo é quem mantém tudo de pé. Clique em qualquer caixa para ver horário, entrada, saída e arquivos; as ligações dela se acendem.</p>
+    </div>
+    <figure class="panel" id="map">
+      <div class="legend" aria-label="Legenda">
+        <span><i class="sw script"></i>script (sem IA)</span>
+        <span><i class="sw local"></i>IA local · Ollama e Whisper</span>
+        <span><i class="sw claude"></i>Claude · pago pela cota</span>
+        <span><i class="sw gemini"></i>Gemini · piloto em sombra</span>
+        <span><i class="key-line"></i>dado que flui</span>
+        <span><i class="key-line dash"></i>controle ou leitura</span>
+        <span><i class="sw" style="background:var(--warning)"></i>tem ponto de atenção</span>
+      </div>
+      <div class="scroll-x" id="map-svg"></div>
+      <figcaption>Cada seta mostra o dado que passa e quando. Tudo que é caixa no meio roda no PEDRO; as caixas tracejadas são serviços de fora (nuvem, celular). Os rótulos das setas do meio aparecem ao passar o mouse ou tocar numa caixa.</figcaption>
+    </figure>
+  </section>
+
+  <section id="rotinas">
+    <div class="sec-head">
+      <h2>Rotinas em 24 horas</h2>
+      <p>Cada linha é uma rotina; cada marca, uma execução. A cor diz quem faz o trabalho. A madrugada é o turno pesado: triagem, diário, backup, cópias e retenção entre 02:00 e 05:45. Troque o dia para ver o que só roda na sexta ou no domingo.</p>
+    </div>
+    <figure class="panel" id="tl">
+      <div class="tl-bar">
+        <div class="seg" role="group" aria-label="Dia da semana" id="tl-days"></div>
+        <div class="legend" style="padding:0">
+          <span><i class="sw script"></i>script</span><span><i class="sw local"></i>IA local</span><span><i class="sw claude"></i>Claude</span><span><i class="sw gemini"></i>Gemini</span>
+          <span><i class="sw" style="background:var(--band);border:1px solid var(--axis)"></i>janela sem turbo (se a tela estiver bloqueada)</span>
+        </div>
+      </div>
+      <div class="scroll-x" id="tl-svg"></div>
+      <figcaption>Faixas contínuas são repetições de 5 em 5 minutos ou processos sempre ligados. A linha vermelha é o agora. Rotinas que não dependem de horário estão logo abaixo.</figcaption>
+      <p class="dr-sub" style="padding:0 14px 8px">Por evento, não por horário</p>
+      <ul class="tl-event" id="tl-events"></ul>
+    </figure>
+  </section>
+
+  <section id="fluxos">
+    <div class="sec-head">
+      <h2>Fluxos: de cada entrada até a saída</h2>
+      <p>O mapa mostra tudo junto; aqui cada entrada segue sozinha, estação por estação, com o horário de cada passagem. Os nomes sublinhados abrem o detalhe.</p>
+    </div>
+    <div class="flows" id="flows"></div>
+  </section>
+
+  <section id="rodando">
+    <div class="sec-head">
+      <h2>Rodando agora</h2>
+      <p>Processos, serviços, contêineres e a VM de pé no momento da leitura, agrupados pelo que fazem. O primeiro bloco vem da coleta desta hora; o resto descreve a estrutura.</p>
+    </div>
+    <div id="running"></div>
+  </section>
+
+  <section id="atencao">
+    <div class="sec-head">
+      <h2>Pontos de atenção</h2>
+      <p>O que o raio-X encontrou fora do eixo, do mais sério para o mais leve. Nada aqui foi alterado: é só diagnóstico.</p>
+    </div>
+    <ul class="att" id="att"></ul>
+  </section>
+
+  <section id="inventario">
+    <div class="sec-head">
+      <h2>Inventário completo</h2>
+      <p>Todas as rotinas do Agendador fora da pasta da Microsoft (inclusive as que rodam como SYSTEM e não aparecem para um usuário comum), daemons, serviços e contêineres. As 185 tarefas internas da Microsoft ficaram de fora.</p>
+    </div>
+    <div class="inv-bar">
+      <div id="inv-chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      <input id="inv-q" type="search" placeholder="Buscar nome, script, pasta…" aria-label="Buscar no inventário">
+    </div>
+    <div class="panel scroll-x"><table class="inv" id="inv"></table></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  Gerado de hora em hora a partir do Agendador de Tarefas, processos, serviços, Docker, Ollama e dos arquivos de estado do vault. Segredos e conteúdo de notas não são lidos nem aparecem aqui. O cockpit mostra o estado ao vivo; esta página mostra a estrutura e como ela está se comportando.
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="dr-title">
+  <div class="dr-h"><h3 id="dr-title"><span class="kind" id="dr-kind"></span><span id="dr-name"></span></h3><button class="dr-x" id="dr-x" aria-label="Fechar detalhe">×</button></div>
+  <div class="dr-b" id="dr-body"></div>
+</aside>
+<div class="tip" id="tip" hidden></div>
+
+<style>
+.linkish { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }
+.linkish:hover { text-decoration-color: var(--ink); }
+.inv tbody tr:focus-visible td { background: var(--accent-wash); }
+@media (min-width: 641px) { .scrim { display: none; } }
+</style><script>
+const PUBLICO = true;
+const LIVE = {"gerado":"2026-09-27T22:37:33","geradoLabel":"domingo, 27/09/2026, 22:37","minuto":1357,"dow":0,"fatos":{"ligado":"ontem 12:40 · 34 h","claude":"~US$ 0,9/dia · cota 7 d 24%","discos":"C: 1.651 GB livres · E: 706 GB livres","rodando":"5 daemons · 6 contêineres · 1 VM","vault":"41 fontes · 11 diários · 8 commits hoje"},"itens":{"s-sentinel":{"last":"ontem 12:45 · ok"},"t-rb-local":{"next":"04/10 05:45","last":"hoje 05:45 · ok"},"t-prereboot":{"last":"hoje 04:20 · ok"},"e-obsidian":{"last":"de pé agora"},"t-rb-prune":{"next":"amanhã 05:15","last":"hoje 05:15 · ok"},"t-rb-scopy":{"next":"amanhã 05:00","last":"hoje 05:00 · ok"},"b-email":{"next":"amanhã 06:50","last":"hoje 06:50 · ok"},"t-rb-check":{"next":"04/10 03:30","last":"hoje 03:30 · ok"},"t-restore":{"last":"hoje 04:00 · ok"},"c-local":{"next":"amanhã 09:40","last":"hoje 20:40 · ok"},"t-git":{"last":"hoje 22:30 · ok"},"c-email":{"next":"amanhã 07:00","last":"hoje 07:00 · ok"},"d-ollama":{"last":"de pé agora"},"b-applaud":{"last":"de pé agora"},"s-lock":{"last":"ontem 12:40 · ok"},"t-cockpit-wd":{"next":"hoje 22:38","last":"hoje 22:33 · ok"},"b-icloud":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"t-energia-h":{"next":"hoje 23:00","last":"hoje 17:00 · ok"},"t-reboot":{"last":"hoje 04:30 · ok"},"t-rb-vault":{"next":"hoje 23:00","last":"hoje 22:00 · ok"},"s-avisos":{"last":"hoje 08:00 · ok"},"s-watchdog":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"b-bridge":{"last":"de pé agora"},"t-lint":{"next":"sex 02/10 07:00","last":"ontem 12:50 · ok"},"s-daemons":{"last":"ontem 12:41 · ok"},"t-rgb":{"last":"ontem 12:40 · ok"},"e-cockpit":{"last":"de pé agora"},"t-energia-d":{"last":"ontem 12:40 · ok"},"b-transcribe":{"next":"hoje 23:20","last":"hoje 22:20 · ok"},"t-energia-b":{"last":"ontem 12:40 · ok"},"c-gemini":{"next":"hoje 22:57","last":"hoje 22:27 · ok"},"t-cockpit":{"last":"ontem 12:40 · ok"},"t-rb-sis":{"next":"amanhã 03:05","last":"hoje 03:05 · ok"},"c-semanal":{"status":"warn","last":"ontem 12:50 · código 1","next":"sex 02/10 07:30"},"c-diario":{"next":"amanhã 02:20","last":"hoje 18:20 · ok"},"t-drift":{"last":"hoje 05:00 · código 1","status":"warn"},"t-rb-vcopy":{"next":"amanhã 04:45","last":"hoje 04:45 · ok"},"c-inbox":{"next":"amanhã 02:00","last":"hoje 22:00 · ok"}},"att":[["warning","2 rotina(s) terminaram com erro","Últimas: Claude-Semanal (código 1, ontem 12:50) · Server-DriftCheck (código 1, hoje 05:00).","Abrir a rotina no inventário para ver o script e o log; as que rodam como SYSTEM pedem um terminal elevado.",null],["warning","5 job(s) do Claude falharam nos últimos 3 dias","inbox às 12:50 · semanal às 12:50 · diario às 12:50 · email às 12:50 · inbox às 02:00","Ler o jsonl da execução em _meta/logs. Quando várias recuperações caem no mesmo minuto, costuma ser disputa pelo lock do vault.","c-inbox"],["warning","Um aviso não chegou até você","O notify.ps1 registrou 1 vez(es) SEM CANAL nos últimos 7 dias (nem ntfy nem Telegram) e 5 falha(s) de envio.","Fazer o notify.ps1 guardar o que não saiu e reenviar na rodada seguinte do watchdog.","e-ntfy"],["low","A rota da Siri está sem uso","Nenhuma captura por iCloud Drive desde 12/09; a tarefa continua rodando a cada 5 min.","Testar com um lembrete pela Siri; se não chegar, conferir o Atalho no iPhone.","b-icloud"]],"memoria":[["claude",21,1911.0],["vmmemWSL",1,578.0],["msedge",9,499.0],["svchost",92,494.0],["pwsh",7,356.0],["msedgewebview2",6,262.0]],"containers":[["homeassistant","Up 34 hours"],["qbittorrent","Up 34 hours"],["jellyfin","Up 34 hours (healthy)"],["zigbee2mqtt","Up 34 hours"],["open-webui","Up 34 hours (healthy)"],["mosquitto","Up 34 hours"]],"vault":{"notas":2,"fontes":41,"inbox":0,"diario":11}};
+
+// ─── Mapa: nós (coordenadas fixas num viewBox 1240 × 740) ───────────────────
+const COLS = { A: [16, 150], B: [240, 182], C: [488, 196], D: [760, 192], E: [1036, 188] };
+const VS = 'Tarefa agendada · \\VaultServer\\';
+const NODES = [
+  // Fontes (fora do PC)
+  { id: 'a-iphone', c: 'A', y: 40, ext: 1, t: 'iPhone', s: 'Siri · Atalhos', k: 'Fonte externa', dom: 'cerebro',
+    out: 'Arquivos .md/.txt que o Atalho grava em iCloud Drive\\Capturas', note: 'Rota escolhida em 12/09: o Obsidian Sync no iOS só envia com o app aberto, o iCloud sincroniza em segundo plano.' },
+  { id: 'a-telegram', c: 'A', y: 120, ext: 1, t: 'Telegram', s: 'captura + secretária', k: 'Fonte externa', dom: 'cerebro',
+    out: 'Texto, links, áudio de voz, fotos, prints de post e perguntas', note: 'Só o seu chat é atendido; mensagens de outros chats são ignoradas e registradas.' },
+  { id: 'a-plaud', c: 'A', y: 270, ext: 1, t: 'Gravador PLAUD', s: 'nuvem PLAUD', k: 'Fonte externa', dom: 'cerebro',
+    out: 'Gravações (audio.ogg + metadata.json; às vezes transcrição e resumo do próprio PLAUD)' },
+  { id: 'a-gmail', c: 'A', y: 350, ext: 1, t: 'Gmail', s: 'caixa de entrada', k: 'Fonte externa', dom: 'cerebro',
+    out: 'Mensagens das últimas 24 h; corpo inteiro só das que têm o rótulo obsidian' },
+  { id: 'a-garmin', c: 'A', y: 590, ext: 1, t: 'Garmin Connect', s: 'sono, HRV, treinos', k: 'Fonte externa', dom: 'saude',
+    out: '46 métricas diárias, série minuto a minuto (FC, estresse, Body Battery) e atividades' },
+
+  // Coleta no PEDRO
+  { id: 'b-icloud', c: 'B', y: 40, eng: 'script', warn: 1, t: 'Capture-iCloud', s: 'a cada 5 min', k: VS + 'Capture-iCloud', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: 'A cada 5 min, o dia todo', last: 'hoje 22:15 · ok', next: 'hoje 22:20',
+    in: 'uma pasta do usuário (*.md, *.txt)', out: '00-Inbox (txt vira md; nome em conflito ganha sufixo)',
+    where: 'server-config\\scripts\\icloud-inbox.ps1', logs: '_meta/logs/icloud.log · _meta/tmp/icloud-seen.json',
+    note: 'O iCloud para Windows está rodando agora, mas a pasta Capturas está vazia e a última captura movida foi em 12/09: a rota está de pé e sem uso há duas semanas.' },
+  { id: 'b-bridge', c: 'B', y: 120, eng: 'script', t: 'Ponte do Telegram', s: 'pythonw · sempre ligada', k: 'Daemon · telegram-bridge.py', dom: 'cerebro', as: 'pedro',
+    when: 'Sempre ligada (long polling, sem porta aberta). Sobe no logon pelo Server-Daemons; o watchdog religa em até 5 min se cair.',
+    in: 'Mensagens do seu chat no bot', out: 'texto → 00-Inbox · link do YouTube → youtube.py · outro link → página limpa no inbox · áudio → 00-Inbox/_audio e transcrição na hora · foto → _assets/inbox + ponteiro · print de post → visão local → 50-Fontes/instagram · /status e perguntas → secretária',
+    where: 'server-config\\scripts\\telegram-bridge.py (estado em C:\\Tools\\telegram\\state.json)', logs: '_meta/logs/telegram.log',
+    note: 'Mensagem é dado, não comando: fora dos comandos fixos, nada do texto é executado. Hoje o log registrou quatro quedas de rede momentâneas (timeout de leitura); a ponte reconecta sozinha em 5 s.' },
+  { id: 'b-transcribe', c: 'B', y: 200, eng: 'local', t: 'Capture-Transcribe', s: 'hh:20 · Whisper na GPU', k: VS + 'Capture-Transcribe', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: 'De hora em hora, aos 20 min (e na hora, quando chega áudio pelo Telegram)', last: 'hoje 21:20 · nada novo', next: 'hoje 22:20',
+    in: 'Gravações do applaud (C:\\Tools\\applaud\\data) e 00-Inbox/_audio', out: 'Transcrição com marcas de tempo em 20-Areas/Privado/transcricoes (padrão do PLAUD) ou 50-Fontes/transcricoes (etiqueta trabalho e áudios do inbox) + ponteiro em 00-Inbox',
+    where: 'scripts\\transcribe.ps1 → transcribe.py no venv C:\\Tools\\whisper (faster-whisper large-v3, float16, CUDA)', logs: '_meta/logs/transcribe.log · C:\\Tools\\whisper\\state.json (nunca transcreve duas vezes)',
+    note: 'Não roda se um job do Claude estiver com o lock do vault; tenta na hora seguinte.' },
+  { id: 'b-applaud', c: 'B', y: 270, eng: 'script', t: 'applaud', s: 'node 22 · IP da rede local:44471', k: 'Daemon · C:\\Tools\\applaud', dom: 'cerebro', as: 'pedro',
+    when: 'Sempre ligado; sobe no logon (Server-Daemons) e o watchdog religa', in: 'Conta PLAUD (tokens em %APPDATA%\\applaud\\settings.json)', out: 'C:\\Tools\\applaud\\data\\<gravação>\\audio.ogg + metadata.json',
+    where: 'node server/dist/index.js com o Node 22 do fnm (better-sqlite3 não tem binário para o Node 24)', logs: '_meta/logs/daemons.log',
+    note: 'Interface local em http://IP da rede local:44471.' },
+  { id: 'b-email', c: 'B', y: 350, eng: 'script', t: 'Capture-Email', s: '06:50 · IMAP só leitura', k: VS + 'Capture-Email', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: 'Todo dia 06:50', last: 'hoje 06:50 · ok (25 mensagens)', next: 'amanhã 06:50',
+    in: 'Gmail por IMAP com senha de app (~\\.secrets); nunca marca como lido, nunca apaga', out: '_meta/tmp/email-<data>.md (remetente, assunto, trecho, links)',
+    where: 'scripts\\gmail-collect.ps1 → gmail-collect.py', logs: '_meta/logs/email.log' },
+  { id: 'b-gsync', c: 'B', y: 590, eng: 'script', t: 'Sync do Garmin', s: 'pelo cockpit · a cada 6 h', k: 'Rotina interna do cockpit', dom: 'saude', as: 'pedro',
+    when: 'A cada 6 h desde que o cockpit subiu, e no botão ↻ (tecla G), com intervalo mínimo de 10 min', in: 'API do Garmin Connect (tokens em garmin-insights\\.garmin_tokens)', out: 'Documents\\garmin-insights\\data\\garmin.db (SQLite: daily, intraday, activities, insights)',
+    last: 'hoje 18:52 · garmin.db atualizado', where: 'garmin-insights\\sync.py --from <último dia> --refresh --intraday-days 2', note: 'O mesmo banco alimenta o dashboard Streamlit (app.py) e as análises locais (analyst.py → Ollama) do garmin-insights.' },
+
+  // Processamento
+  { id: 'c-secretaria', c: 'C', y: 40, eng: 'claude', t: 'Secretária', s: 'Claude só leitura · 30/dia', k: 'Camada da ponte · secretaria.py', dom: 'cerebro', as: 'pedro',
+    when: 'Quando você pergunta algo no Telegram', in: 'Sua pergunta + leitura do vault (nunca 20-Areas/Privado)', out: 'Resposta no Telegram',
+    where: 'scripts\\secretaria.py · config\\claude-secretaria-settings.json · config\\prompts\\secretaria.md', logs: '_meta/logs/secretaria-ledger.csv (10 perguntas até hoje)',
+    note: 'Primeiro tenta responder por leitura direta (hoje, tarefas, inbox, aniversários), sem gastar cota. O resto vai para o Claude em modo só leitura, com a conversa mantida por 6 h e disjuntor de cota.' },
+  { id: 'c-vision', c: 'C', y: 120, eng: 'local', t: 'Visão local', s: 'qwen2.5vl:7b · prints de post', k: 'Etapa da ponte do Telegram', dom: 'cerebro', as: 'pedro',
+    when: 'Quando chega um print de post (Instagram, Threads, TikTok, X)', in: 'Imagem', out: '50-Fontes/instagram (assunto, autor, pontos, tema → tag) + imagem em _assets/instagram',
+    where: 'telegram-bridge.py → Ollama IP da rede local:11434', note: 'Sem custo e sem sair do PC.' },
+  { id: 'c-local', c: 'C', y: 200, eng: 'local', t: 'Local-Reunioes', s: 'hh:40 · qwen3:14b', k: VS + 'Local-Reunioes', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: '09:40, 10:40, 11:40, 13:40, 14:40, 15:40, 16:40, 17:40, 19:40, 20:40 (pula 12 h e 18 h, quando roda o Claude)', last: 'hoje 20:40 · nenhum ponteiro no inbox', next: 'amanhã 09:40',
+    in: 'Ponteiros de áudio em 00-Inbox + a transcrição ligada', out: 'Rascunho em 50-Fontes/reunioes (status draft, ai_generated, model qwen3:14b); ponteiro → 90-Arquivo/inbox; relatório na Central de revisão',
+    where: 'scripts\\local-job.py reunioes --max 6', logs: '_meta/logs/local-job.log',
+    note: 'O modelo local faz o volume de graça; o Claude revisa depois (Claude-Inbox, passo 0).' },
+  { id: 'c-inbox', c: 'C', y: 280, eng: 'claude', warn: 1, t: 'Claude-Inbox', s: '02 · 12 · 18 · 22 h', k: VS + 'Claude-Inbox', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: '02:00, 12:00, 18:00, 22:00', last: 'hoje 22:00 · ok (9 turnos, US$ 0,23)', next: 'amanhã 02:00',
+    in: '_meta/tmp/digest-inbox.md, 00-Inbox, rascunhos do qwen', out: 'Revisa até 3 rascunhos do qwen (reviewed_by: claude); cria até 2 notas de reunião; ideias viram notas atômicas; menções vão para a nota da pessoa; capturas processadas → 90-Arquivo/inbox',
+    where: 'scripts\\claude-job.ps1 -Name inbox · teto 20 turnos e US$ 2,50', logs: '_meta/logs/job-inbox-*.jsonl · jobs-ledger.csv',
+    note: 'Lembretes, treino, alimentação, sono e frases soltas ficam para o Claude-Diario, que roda logo depois. A rodada das 02:00 de hoje falhou no primeiro turno (exit 1, sem custo), como as quatro da volta de 26/09.' },
+  { id: 'c-diario', c: 'C', y: 336, eng: 'claude', t: 'Claude-Diario', s: '02:20 · 18:20', k: VS + 'Claude-Diario', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: '02:20 e 18:20', last: 'hoje 18:20 · ok (6 turnos)', next: 'amanhã 02:20',
+    in: '_meta/tmp/digest-diario.md, a daily anterior e o 00-Inbox', out: '70-Diario/<data>.md: seção Pendências (tarefas abertas, lembretes, Saúde, Log, links, fila de revisão); campos treino/alimentação/sono',
+    where: 'claude-job.ps1 -Name diario · teto 12 turnos e US$ 1,50', logs: '_meta/logs/job-diario-*.jsonl', note: 'Nunca edita dias anteriores.' },
+  { id: 'c-email', c: 'C', y: 392, eng: 'claude', t: 'Claude-Email', s: '07:00', k: VS + 'Claude-Email', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: 'Todo dia 07:00', last: 'hoje 07:00 · ok (10 turnos, US$ 0,39)', next: 'amanhã 07:00',
+    in: '_meta/tmp/email-<data>.md', out: '50-Fontes/email/<data> E-mails.md',
+    where: 'scripts\\email-job.ps1 → claude-job.ps1 -Name email', logs: '_meta/logs/email.log',
+    note: 'Desde 15/09 garante o digest antes de rodar: se o coletor não gerou o arquivo, roda o coletor; se ainda faltar, avisa em vez de fingir sucesso.' },
+  { id: 'c-semanal', c: 'C', y: 448, eng: 'claude', warn: 1, t: 'Claude-Semanal', s: 'sexta 07:30', k: VS + 'Claude-Semanal', dom: 'cerebro', as: 'pedro (Interactive)',
+    when: 'Sexta 07:30', last: 'não rodou em 25/09 (PC desligado); a recuperação de 26/09 falhou (exit 1)', next: '02/10 07:30',
+    in: 'Notas de 50-Fontes/instagram dos últimos 7 dias', out: 'Nota Resumo da semana', where: 'claude-job.ps1 -Name semanal · config\\prompts\\semanal.md' },
+  { id: 'c-gemini', c: 'C', y: 530, eng: 'gemini', t: 'Piloto Gemini', s: 'sombra · 30 min · até 30/09', k: 'Tarefa agendada · \\Piloto\\Gemini sombra', dom: 'ia', as: 'pedro',
+    when: 'A cada 30 min (hh:27 e hh:57) de 16/09 15:24 a 30/09 15:24', last: 'hoje 18:28 · ok', next: 'hoje 22:27',
+    in: 'Cada execução nova no jobs-ledger.csv + o commit que o Claude recebeu', out: 'Refaz o job com gemini-3.1-pro-high numa cópia do vault (sem Privado) e publica a comparação em _meta/piloto-gemini',
+    where: 'server-config\\scripts\\piloto-gemini\\gemini-sombra.ps1 · uma pasta do usuário', logs: 'PilotoGemini\\ledger.csv (40 comparações) · _meta/logs/piloto-gemini.log',
+    note: 'O Gemini nunca escreve no vault real. O piloto termina em 30/09 às 15:24.' },
+
+  // Vault
+  { id: 'v-inbox', c: 'D', row: 1, y: 132, t: '00-Inbox', s: 'captura bruta · vazio agora', k: 'Pasta do vault', dom: 'cerebro', note: 'Esvaziado pelos jobs. No retrato só havia 2 áudios do Telegram de 12/09 em _audio (já transcritos).' },
+  { id: 'v-fontes', c: 'D', row: 1, y: 182, t: '50-Fontes', s: 'reuniões · transcrições · e-mail', k: 'Pasta do vault', dom: 'cerebro', note: 'Também instagram, audio e artigos. 41 notas.' },
+  { id: 'v-privado', c: 'D', row: 1, y: 232, t: '20-Areas/Privado', s: 'fora do git e dos jobs', k: 'Pasta do vault', dom: 'cerebro', note: 'Destino padrão das transcrições do PLAUD desde o incidente de privacidade de 12/09. Cockpit, secretária e Gemini nunca abrem esta pasta.' },
+  { id: 'v-notas', c: 'D', row: 1, y: 282, t: '40-Notas · Pessoas', s: 'notas atômicas e pessoas', k: 'Pasta do vault', dom: 'cerebro', note: 'Pessoas ficam em 20-Areas/<área>/Pessoas (aniversário e prazos alimentam o Avisos-Familia).' },
+  { id: 'v-diario', c: 'D', row: 1, y: 332, t: '70-Diario', s: 'uma nota por dia', k: 'Pasta do vault', dom: 'cerebro', note: '11 notas. Sem dias entre 21 e 25/09, quando o PC esteve desligado.' },
+  { id: 'v-mocs', c: 'D', row: 1, y: 382, t: '60-MOCs', s: 'Home · Central de revisão', k: 'Pasta do vault', dom: 'cerebro', note: 'A Central de revisão é a fila do que a IA criou (status draft) esperando você.' },
+  { id: 'v-arquivo', c: 'D', row: 1, y: 432, t: '90-Arquivo', s: 'capturas já processadas', k: 'Pasta do vault', dom: 'cerebro', note: 'Nada é apagado: descartar = mover para cá.' },
+  { id: 'v-meta', c: 'D', row: 1, y: 482, t: '_meta', s: 'digests, ledger, cota', k: 'Pasta do vault', dom: 'cerebro',
+    note: 'tmp/: digest-<job>.md, email-<data>.md, watchdog.json, rate_limits.json (cota gravada pela statusline). logs/: jobs-ledger.csv, logs de cada rotina, lint semanal.' },
+
+  // Destinos
+  { id: 'e-telegram', c: 'E', y: 40, ext: 1, t: 'Telegram', s: 'respostas e /status', k: 'Destino externo', dom: 'cerebro' },
+  { id: 'e-obsidian', c: 'E', y: 120, eng: 'script', t: 'Obsidian no PEDRO', s: 'sempre aberto · CLI ligado', k: 'Aplicativo · Obsidian 1.13', dom: 'cerebro', as: 'pedro',
+    when: 'Sempre aberto (switches anti-throttling); o watchdog relança se fechar', in: 'Os arquivos do vault', out: 'Obsidian Sync; CLI usado pelos jobs para renomear/mover com links atualizados',
+    note: 'Plugins: Dataview, Templater, Git, Linter, Shell commands, Commander, Tag Wrangler, Open vscode.' },
+  { id: 'e-sync', c: 'E', y: 186, ext: 1, t: 'Obsidian Sync', s: 'Mac e iPhone · você revisa', k: 'Destino externo', dom: 'cerebro', note: 'É onde você lê, revisa e promove os rascunhos (draft → evergreen).' },
+  { id: 'e-github', c: 'E', y: 262, ext: 1, t: 'GitHub privado', s: 'commit a cada 30 min', k: 'Destino externo · repositório Conhecimento', dom: 'backup',
+    when: 'Server-GitAutocommit a cada 30 min (SYSTEM) e no fim de cada job ([job:<nome>])', last: 'hoje 22:00 · ok (8 commits hoje)',
+    note: 'Committer único, com lock; pula se há sessão do Claude aberta ou nota mudando há menos de 10 min. Se o remoto divergir, não faz rebase: avisa.' },
+  { id: 'e-b2', c: 'E', y: 332, ext: 1, t: 'Backblaze B2', s: 'restic · de hora em hora', k: 'Destino externo · repositório restic', dom: 'backup',
+    when: 'vault: de hora em hora (VSS) · sistema: 03:05 · check: dom 03:30 · retenção: 05:15', last: 'hoje 22:00 · ok (de hora em hora)',
+    note: 'Hoje todas as rotinas do restic fecharam em 0: backup de hora em hora, sistema 03:05, check 03:30, cópias 04:45 e 05:00 e retenção 05:15 e 05:45.' },
+  { id: 'e-disk', c: 'E', y: 398, eng: 'script', t: 'Disco E:', s: 'cópia 04:45 e 05:00', k: 'Disco local · E:\\restic-vault', dom: 'backup',
+    when: 'vault copy 04:45 · sistema copy 05:00 · retenção dom 05:45', last: 'hoje 04:45 e 05:00 · ok', next: 'amanhã 04:45',
+    note: 'Regra 3-2-1: original no C:, off-site no B2, cópia local no E:. E: fica sem BitLocker de propósito.' },
+  { id: 'e-cockpit', c: 'E', y: 590, eng: 'local', t: 'Cockpit', s: ':8765 · monitor, tablet, iPad', k: 'Daemon · C:\\Tools\\cockpit', dom: 'cockpit', as: 'pedro',
+    when: 'Sobe no logon (\\Cockpit\\Cockpit) e o Cockpit-Watchdog religa a cada 5 min', in: 'Vault e _meta, jobs-ledger, watchdog.json, cota, garmin.db, Home Assistant (VM), Agendador, sensores do PC', out: 'Painel v2 no monitor (kiosk), tablet da parede /tablet, iPad /ipad com ações, alertas',
+    where: 'C:\\Tools\\cockpit (Python 3.13, SQLite em data\\cockpit.db)', logs: 'data\\cockpit.log',
+    note: 'Resumos da casa e do cérebro com qwen3:14b a cada 30 min (adiados se a GPU estiver ocupada). Quatro aparelhos pareados: o Fire da parede, o iPad e um Echo Show liberado hoje. As telas alexa-8, alexa-10 e tablet-10 apareceram em web\\ hoje e ainda não estão ligadas ao servidor.' },
+
+  // Supervisão
+  { id: 's-lock', band: 1, x: 16, t: 'Autologon + trava', s: 'logon + 5 s', eng: 'script', k: VS + 'Server-LockAfterLogon', dom: 'servidor', as: 'pedro (Interactive)',
+    when: '5 s depois de cada logon', last: '26/09 12:40 · ok', note: 'O autologon deixa a sessão de pedro aberta depois de um boot (jobs Interactive precisam dela) e a tarefa trava a tela logo em seguida. BitLocker com TPM no C:.' },
+  { id: 's-daemons', band: 1, x: 196, t: 'Server-Daemons', s: 'logon + 1 min', eng: 'script', k: VS + 'Server-Daemons', dom: 'servidor', as: 'pedro (Interactive)',
+    when: '1 min depois do logon', last: '26/09 12:41 · ok', where: 'scripts\\ensure-daemons.ps1', note: 'Lança a ponte e o applaud desacoplados do console (auditoria de 15/09: eles morriam juntos com 0xC000013A). Substituiu as antigas tarefas Telegram-Bridge e Plaud-Sync.' },
+  { id: 's-watchdog', band: 1, x: 376, t: 'Server-Watchdog', s: 'a cada 5 min', eng: 'script', warn: 1, k: VS + 'Server-Watchdog', dom: 'servidor', as: 'pedro (Interactive)',
+    when: 'A cada 5 min e 20 s depois do logon', last: 'hoje 22:15 · ok', next: 'hoje 22:20',
+    out: 'Relança Obsidian e daemons; checa Tailscale, sshd, discos, login do Claude, lock, git sujo, tarefas com falha → _meta/tmp/watchdog.json; ntfy só quando algo muda e resumo às 07:00',
+    where: 'scripts\\watchdog.ps1', logs: '_meta/logs/watchdog.log', note: 'Hoje ele registra um “relançado” sem nome a cada 5 min e marca Tailscale como erro. Os dois são falsos positivos: veja Pontos de atenção.' },
+  { id: 's-sentinel', band: 1, x: 556, t: 'Boot sentinel', s: 'boot + 4 min · SYSTEM', eng: 'script', k: VS + 'Server-BootSentinel', dom: 'servidor', as: 'SYSTEM',
+    when: '4 min depois do boot', last: '26/09 12:44 · ok', where: 'scripts\\boot-sentinel.ps1', logs: 'C:\\ProgramData\\vault-server\\logs\\sentinel.log',
+    note: 'A única coisa que percebe autologon quebrado: avisa se ninguém logou, reporta reboot pendente e BitLocker, limpa lock órfão.' },
+  { id: 's-reboot', band: 1, x: 736, warn: 1, t: 'Manutenção', s: 'domingo 04:00–05:00', eng: 'script', k: 'Tarefas agendadas · \\VaultServer\\ (SYSTEM)', dom: 'servidor', as: 'SYSTEM',
+    when: 'Domingo: RestoreTest 04:00 · PreReboot 04:20 · WeeklyReboot 04:30 · DriftCheck 05:00', last: 'hoje: restore-test passou · pre-reboot ok · reboot ok · drift código 1', next: 'domingo 04/10',
+    where: 'restore-test.ps1 · pre-reboot.ps1 · weekly-reboot.ps1 · tests\\Run-HealthCheck.ps1', logs: 'C:\\ProgramData\\vault-server\\logs',
+    note: 'O reboot só acontece se o pré-reboot autorizou há menos de 15 min, há update pendente e nenhum job está rodando.' },
+  { id: 's-avisos', band: 1, x: 916, t: 'Avisos-Familia', s: '08:00 · SYSTEM', eng: 'script', k: VS + 'Avisos-Familia', dom: 'servidor', as: 'SYSTEM',
+    when: 'Todo dia 08:00', last: 'hoje 08:00 · ok', where: 'scripts\\birthdays.ps1',
+    in: 'birthday: e tarefas 📅 das notas de pessoa', out: 'ntfy 7 dias antes, 1 dia antes e no dia' },
+  { id: 'e-ntfy', band: 1, x: 1086, ext: 1, warn: 1, t: 'ntfy → iPhone', s: 'alertas do PC', k: 'Destino externo', dom: 'servidor',
+    where: 'scripts\\notify.ps1 (tópico privado em ProgramData\\vault-server\\secrets)', note: 'Quem avisa são os wrappers e rotinas, nunca o agente que escreve notas. Em 26/09, logo depois do boot, nem ntfy nem Telegram resolviam DNS e o aviso do watchdog se perdeu (SEM CANAL no log). O envio pelo Telegram falha por timeout com frequência.' },
+];
+// vault inteiro (contêiner clicável)
+const VAULT = { id: 'vault', t: 'Vault Conhecimento', k: 'Vault do Obsidian · uma pasta do usuário', dom: 'cerebro',
+  s: '~72 notas vivas · git · Obsidian Sync',
+  note: 'Estrutura PARA + Zettelkasten. Tudo que a IA cria nasce status: draft; só você promove. vault.py (lint, moc, digest, move) faz o trabalho determinístico sem gastar tokens; Vault-Lint roda sexta 07:00. Hooks do Claude no vault: contexto na abertura, guarda de escrita antes de editar, updated e lint depois.' };
+
+// ─── Arestas: [origem, destino, rótulo, tipo] · tipo: f = dado (padrão), r = leitura/controle (tracejado); modo v = vertical, b = volta
+const EDGES = [
+  ['a-iphone', 'b-icloud', 'iCloud'],
+  ['b-icloud', 'v-inbox', '.md · 5 min'],
+  ['a-telegram', 'b-bridge', 'polling'],
+  ['b-bridge', 'v-inbox', 'texto, links, fotos'],
+  ['b-bridge', 'c-vision', 'print de post'],
+  ['c-vision', 'v-fontes', 'instagram'],
+  ['b-bridge', 'b-transcribe', 'áudio · na hora', 'f', 'v'],
+  ['b-bridge', 'c-secretaria', 'pergunta'],
+  ['c-secretaria', 'e-telegram', 'resposta'],
+  ['vault', 'c-secretaria', 'lê (só leitura)', 'r', 'b'],
+  ['a-plaud', 'b-applaud', 'nuvem'],
+  ['b-applaud', 'b-transcribe', 'audio.ogg', 'f', 'v'],
+  ['b-transcribe', 'v-inbox', 'ponteiro'],
+  ['b-transcribe', 'v-privado', 'PLAUD (padrão)'],
+  ['b-transcribe', 'v-fontes', 'trabalho'],
+  ['v-inbox', 'c-local', 'ponteiros', 'r', 'b'],
+  ['c-local', 'v-fontes', 'rascunho qwen'],
+  ['v-inbox', 'c-inbox', 'digest', 'r', 'b'],
+  ['c-inbox', 'v-fontes', 'reuniões'],
+  ['c-inbox', 'v-notas', 'ideias, pessoas'],
+  ['c-inbox', 'v-arquivo', 'processados'],
+  ['c-diario', 'v-diario', 'Pendências'],
+  ['a-gmail', 'b-email', 'IMAP'],
+  ['b-email', 'v-meta', 'email-<data>.md'],
+  ['v-meta', 'c-email', 'digest', 'r', 'b'],
+  ['c-email', 'v-fontes', 'e-mail'],
+  ['c-semanal', 'v-fontes', 'resumo'],
+  ['c-gemini', 'v-meta', 'comparação'],
+  ['a-garmin', 'b-gsync', 'API'],
+  ['b-gsync', 'e-cockpit', 'garmin.db'],
+  ['v-meta', 'e-cockpit', 'ledger, cota, watchdog', 'r'],
+  ['vault', 'e-obsidian', 'arquivos'],
+  ['e-obsidian', 'e-sync', 'Sync', 'f', 'v'],
+  ['vault', 'e-github', 'push · 30 min'],
+  ['vault', 'e-b2', 'restic · 1 h'],
+  ['e-b2', 'e-disk', 'cópia', 'f', 'v'],
+];
+// relações de controle: não desenhadas, acendem no foco
+const CTL = {
+  's-watchdog': ['e-obsidian', 'b-bridge', 'b-applaud', 'v-meta', 'e-ntfy'],
+  's-daemons': ['b-bridge', 'b-applaud'],
+  's-sentinel': ['e-ntfy'], 's-reboot': ['e-github', 'e-ntfy', 'e-b2'], 's-avisos': ['v-notas', 'e-ntfy'],
+  'c-inbox': ['e-ntfy', 'v-meta', 'e-github'], 'c-diario': ['e-ntfy', 'v-meta', 'e-github', 'v-inbox'], 'c-email': ['e-ntfy', 'v-meta', 'e-github'],
+  'c-semanal': ['e-ntfy', 'v-meta'], 'e-cockpit': ['vault', 'v-mocs'],
+};
+
+// ─── Inventário: o que não é caixa do mapa ───────────────────────────────────
+const RB = 'Tarefa agendada · \\resticprofile backup\\';
+const INV = [
+  { id: 't-git', cat: 'Tarefa', dom: 'backup', t: 'Server-GitAutocommit', when: 'a cada 30 min (hh:00 e hh:30)', as: 'SYSTEM', last: 'hoje 22:00 · ok', k: VS + 'Server-GitAutocommit', where: 'scripts\\git-autocommit.ps1', note: 'Commit + push com deploy key. Invisível para um usuário comum: o estado vem do log do Agendador lido pelo cockpit.' },
+  { id: 't-lint', cat: 'Tarefa', dom: 'cerebro', t: 'Vault-Lint', eng: 'script', when: 'sexta 07:00', as: 'pedro', last: '26/09 12:50 · ok (recuperação)', next: '02/10 07:00', k: VS + 'Vault-Lint', where: 'python _scripts/vault.py lint --report _meta/logs/lint-<data>.md', note: '100% script, zero tokens.' },
+  { id: 't-rb-vault', cat: 'Tarefa', dom: 'backup', t: 'restic · vault backup', when: 'de hora em hora', as: 'SYSTEM', last: 'hoje 22:00 · ok', next: 'hoje 23:00', k: RB + 'vault backup', where: 'resticprofile … run-schedule backup@vault (VSS)', note: 'Exclui _meta/logs, _meta/tmp, o lock e o workspace do Obsidian.' },
+  { id: 't-rb-sis', cat: 'Tarefa', dom: 'backup', t: 'restic · sistema backup', when: '03:05', as: 'SYSTEM', last: 'hoje 03:05 · ok', next: 'amanhã 03:05', k: RB + 'sistema backup', note: 'O que reconstrói a máquina: configs e credenciais do Claude, ~/.ssh e ProgramData\\ssh, estado do Tailscale, Obsidian, plugins, vault-server e server-config/state e tasks.' },
+  { id: 't-rb-check', cat: 'Tarefa', dom: 'backup', t: 'restic · vault check', when: 'domingo 03:30', as: 'SYSTEM', last: 'hoje 03:30 · ok', next: '04/10 03:30', k: RB + 'vault check', note: 'Lê 10% dos dados do repositório para conferir integridade.' },
+  { id: 't-rb-vcopy', cat: 'Tarefa', dom: 'backup', t: 'restic · vault copy', when: '04:45', as: 'SYSTEM', last: 'hoje 04:45 · ok', next: 'amanhã 04:45', k: RB + 'vault copy', note: 'B2 → E:\\restic-vault.' },
+  { id: 't-rb-scopy', cat: 'Tarefa', dom: 'backup', t: 'restic · sistema copy', when: '05:00', as: 'SYSTEM', last: 'hoje 05:00 · ok', next: 'amanhã 05:00', k: RB + 'sistema copy' },
+  { id: 't-rb-prune', cat: 'Tarefa', dom: 'backup', t: 'restic · prune forget', when: '05:15', as: 'SYSTEM', last: 'hoje 05:15 · ok', next: 'amanhã 05:15', k: RB + 'prune forget', note: 'Retenção no B2: 48 horários, 30 diários, 12 semanais, 24 mensais, 5 anuais.' },
+  { id: 't-rb-local', cat: 'Tarefa', dom: 'backup', t: 'restic · local forget', when: 'domingo 05:45', as: 'SYSTEM', last: 'hoje 05:45 · ok', next: '04/10 05:45', k: RB + 'local forget', note: 'Retenção no E:: 30 diários, 12 semanais, 12 mensais.' },
+  { id: 't-restore', cat: 'Tarefa', dom: 'servidor', t: 'Server-RestoreTest', when: 'domingo 04:00', as: 'SYSTEM', last: 'hoje 04:00 · ok (passou)', next: '04/10 04:00', k: VS + 'Server-RestoreTest', where: 'scripts\\restore-test.ps1', note: 'Restaura 40-Notas e um arquivo do grupo sistema para C:\\Temp e compara com o original.' },
+  { id: 't-prereboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-PreReboot', when: 'domingo 04:20', as: 'SYSTEM', last: 'hoje 04:20 · ok', next: '04/10 04:20', k: VS + 'Server-PreReboot', where: 'scripts\\pre-reboot.ps1', note: 'Commit + push e autoriza o reboot (preboot-ok.json).' },
+  { id: 't-reboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-WeeklyReboot', when: 'domingo 04:30', as: 'SYSTEM', last: 'hoje 04:30 · ok', next: '04/10 04:30', k: VS + 'Server-WeeklyReboot', where: 'scripts\\weekly-reboot.ps1', note: 'Só reinicia com update pendente, pré-reboot recente e nenhum job rodando.' },
+  { id: 't-drift', cat: 'Tarefa', dom: 'servidor', warn: 1, t: 'Server-DriftCheck', when: 'domingo 05:00', as: 'SYSTEM', last: 'hoje 05:00 · código 1', next: '04/10 05:00', k: VS + 'Server-DriftCheck', where: 'tests\\Run-HealthCheck.ps1 (Pester)', note: 'Compara a máquina com o baseline (BitLocker, serviços, firewall, tarefas).' },
+  { id: 't-cockpit', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit', when: 'logon + 30 s', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Cockpit\\Cockpit', where: 'C:\\Tools\\cockpit\\scripts\\start.ps1 -Page v2', note: 'Sobe o servidor e abre o painel v2 em tela cheia no monitor.' },
+  { id: 't-cockpit-wd', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit-Watchdog', when: 'a cada 5 min', as: 'pedro', last: 'hoje 22:13 · ok', next: 'hoje 22:18', k: 'Tarefa agendada · \\Cockpit\\Cockpit-Watchdog', where: 'start.ps1 -NoKiosk' },
+  { id: 't-energia-h', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · horário', when: '08:00, 17:00, 23:00 e logon', as: 'pedro', last: 'hoje 17:00 · ok', next: 'hoje 23:00', k: 'Tarefa agendada · \\Energia\\Modo energia - horario', where: '%LOCALAPPDATA%\\EnergiaAuto\\modo-energia.ps1 -Evento Horario', note: 'Nas viradas de horário, vai para “Noite (sem turbo)” só se a tela estiver bloqueada. Janelas: 23–08 todo dia, 08–17 de segunda a sexta.' },
+  { id: 't-energia-b', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · bloqueio', when: 'ao bloquear a tela', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - bloqueio', where: 'modo-energia.ps1 -Evento Bloqueio', note: 'Tira o turbo se estiver dentro de uma janela.' },
+  { id: 't-energia-d', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · desbloqueio', when: 'ao desbloquear ou conectar remoto', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - desbloqueio', where: 'modo-energia.ps1 -Evento Desbloqueio', note: 'Volta sempre para Equilibrado com turbo.' },
+  { id: 't-rgb', cat: 'Tarefa', dom: 'energia', t: 'RGB apagado no bloqueio', when: 'ao bloquear a tela', as: 'pedro (elevada)', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\RGB - apagar no bloqueio', where: 'EnergiaAuto\\rgb-bloqueio.ps1 (Aura SDK)', note: 'Fica leve enquanto a tela está bloqueada; no desbloqueio devolve o RGB ao Armoury Crate.' },
+  { id: 't-retired', cat: 'Tarefa', dom: 'servidor', t: 'Telegram-Bridge e Plaud-Sync', when: 'aposentadas em 15/09', as: 'pedro', last: '15/09 · 0xC000013A', k: 'Tarefas antigas', note: 'Morriam juntas com 0xC000013A e ficaram 3 h fora sem aviso. Substituídas pelo Server-Daemons + watchdog.' },
+  { id: 't-asus', cat: 'Tarefa', dom: 'sistema', t: 'ASUS (4 tarefas de logon)', when: 'logon', as: 'pedro', last: 'P508PowerAgent: 0x80070002', warn: 1, k: 'Tarefas agendadas · \\ASUS\\', note: 'AcPowerNotification e NoiseCancelingEngine rodando; ArmourySocketServer ok; P508PowerAgent_sdk (mouse ROG Strix Carry) falha com arquivo não encontrado.' },
+  { id: 't-onedrive', cat: 'Tarefa', dom: 'sistema', t: 'OneDrive (3 tarefas)', when: 'logon + 10 min · ~17:50 · 18:00', as: 'pedro / SYSTEM', last: 'atualizador: 0x8004EE04', k: 'Tarefas agendadas · OneDrive', note: 'A inicialização do OneDrive está desativada e ele não estava rodando. O vault antigo Alimentação mora no OneDrive.' },
+  { id: 't-misc', cat: 'Tarefa', dom: 'sistema', t: 'NVIDIA, PowerToys e SoftLanding', when: 'evento · logon + 3 s · 14:30 e a cada 15 min', as: 'pedro', k: 'Tarefas agendadas · fabricante e Windows', note: 'Atualizador do NVIDIA App (por evento), PowerToys no logon, SoftLanding (dicas do próprio Windows).' },
+  { id: 'd-ollama', cat: 'Daemon', dom: 'ia', eng: 'local', t: 'Ollama', when: 'sempre (atalho na Inicialização)', as: 'pedro', where: 'ollama serve · IP da rede local:11434', k: 'Daemon · IA local', note: 'Modelos: qwen3:14b (9,3 GB, cockpit e Local-Reunioes), qwen2.5vl:7b (6,0 GB, visão dos prints), ministral-3:14b, deepcoder:14b e llama3.2:1b (sem uso nas rotinas). 34,7 GB no total. Só escuta localmente.' },
+  { id: 'vm-ha', cat: 'VM', dom: 'casa', t: 'Home Assistant (VM Hyper-V)', when: 'sempre', where: 'IP da rede local:80 · switch HA-External · MAC 00-15-5D (Hyper-V)', k: 'Máquina virtual · Hyper-V', note: 'É o HA que o cockpit consulta (estados e logbook a cada 5 min, resumo com qwen3:14b). No ar há 34 h, desde o boot de 26/09.' },
+  { id: 'ct-ha', cat: 'Contêiner', dom: 'casa', warn: 1, t: 'homeassistant', when: 'sempre (unless-stopped)', where: ':8123 · C:\\Server\\HomeAssistant · 312 MB (limite 3 GB)', k: 'Contêiner · compose homeassistant', note: 'Segundo Home Assistant, além da VM. Não é o que o cockpit usa.' },
+  { id: 'ct-mqtt', cat: 'Contêiner', dom: 'casa', t: 'mosquitto', when: 'sempre', where: ':1883 · 5 MB', k: 'Contêiner · compose homeassistant', note: 'Broker MQTT.' },
+  { id: 'ct-z2m', cat: 'Contêiner', dom: 'casa', t: 'zigbee2mqtt', when: 'sempre', where: ':8099 · 29 MB', k: 'Contêiner · compose homeassistant', note: 'O dongle Zigbee ainda não está anexado (trecho devices comentado; seria via usbipd).' },
+  { id: 'ct-webui', cat: 'Contêiner', dom: 'ia', t: 'open-webui', when: 'sempre', where: ':8080 · 710 MB', k: 'Contêiner · compose homeassistant', note: 'Chat no navegador com os modelos do Ollama (host.docker.internal:11434).' },
+  { id: 'ct-jelly', cat: 'Contêiner', dom: 'casa', t: 'jellyfin', when: 'sempre', where: ':8096 e 7359/udp · 175 MB · GPU NVIDIA', k: 'Contêiner · compose mediaserver', note: 'Servidor de mídia das TVs: http://IP da rede local:8096. Biblioteca em C:\\MediaServer\\data\\media (só leitura).' },
+  { id: 'ct-qbit', cat: 'Contêiner', dom: 'casa', t: 'qbittorrent', when: 'sempre', where: ':8081 (web) e 6881 · 21 MB', k: 'Contêiner · compose mediaserver', note: 'Baixa em data/torrents; prowlarr e radarr existem no compose, desligados (perfil arr).' },
+  { id: 'sv-remote', cat: 'Serviço', dom: 'rede', t: 'Tailscale · sshd · RDP · Parsec', when: 'sempre (automático)', as: 'SYSTEM', where: ':22 · :3389 · tailnet', k: 'Serviços de acesso remoto', note: 'SSH só com chave e firewall só no tailnet; é por ele que o Claude Desktop do MacBook abre sessões aqui. RDP com NLA, só tailnet. Tailscale: MacBook Air online; debian-server e iPhone offline no retrato.' },
+  { id: 'sv-other', cat: 'Serviço', dom: 'sistema', t: 'Outros serviços de terceiros', when: 'sempre (automático)', as: 'SYSTEM', k: 'Serviços', note: 'Claude (CoworkVMService), WSL, usbipd (:3240), Everything, Office Click-to-Run, ASUS (Armoury Crate, AURA, fan control, ROG Live, cert, com), NVIDIA LocalSystem Container, Defender. Docker Desktop Service está manual (o Docker sobe como app).' },
+];
+
+// ─── Rotinas no relógio (minutos do dia) ────────────────────────────────────
+const every = (step, off = 0) => { const a = []; for (let m = off; m < 1440; m += step) a.push(m); return a; };
+const at = (...hm) => hm.map(s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; });
+const ROUT = [
+  { g: 'Captura', rows: [
+    { id: 'b-bridge', n: 'Ponte do Telegram', eng: 'script', cont: 1, w: 'sempre' },
+    { id: 'b-applaud', n: 'applaud (PLAUD)', eng: 'script', cont: 1, w: 'sempre' },
+    { id: 'b-icloud', n: 'Capture-iCloud', eng: 'script', band: 5, w: '5 min' },
+    { id: 'b-transcribe', n: 'Capture-Transcribe', eng: 'local', t: every(60, 20), w: 'hh:20' },
+    { id: 'b-email', n: 'Capture-Email', eng: 'script', t: at('06:50'), w: '06:50' } ] },
+  { g: 'IA', rows: [
+    { id: 'c-local', n: 'Local-Reunioes', eng: 'local', t: at('09:40', '10:40', '11:40', '13:40', '14:40', '15:40', '16:40', '17:40', '19:40', '20:40'), w: 'hh:40' },
+    { id: 'e-cockpit', n: 'Resumos do cockpit', eng: 'local', band: 30, w: '30 min' },
+    { id: 'c-inbox', n: 'Claude-Inbox', eng: 'claude', t: at('02:00', '12:00', '18:00', '22:00'), w: '4× ao dia' },
+    { id: 'c-diario', n: 'Claude-Diario', eng: 'claude', t: at('02:20', '18:20'), w: '02:20 · 18:20' },
+    { id: 'c-email', n: 'Claude-Email', eng: 'claude', t: at('07:00'), w: '07:00' },
+    { id: 'c-semanal', n: 'Claude-Semanal', eng: 'claude', t: at('07:30'), days: [5], w: 'sex 07:30' },
+    { id: 'c-gemini', n: 'Piloto Gemini', eng: 'gemini', t: every(30, 27), w: '30 min' } ] },
+  { g: 'Vault e backup', rows: [
+    { id: 't-git', n: 'Git autocommit', eng: 'script', t: every(30, 0), w: '30 min' },
+    { id: 't-lint', n: 'Vault-Lint', eng: 'script', t: at('07:00'), days: [5], w: 'sex 07:00' },
+    { id: 't-rb-vault', n: 'restic · vault', eng: 'script', t: every(60, 0), w: '1 h' },
+    { id: 't-rb-sis', n: 'restic · sistema', eng: 'script', t: at('03:05'), w: '03:05' },
+    { id: 't-rb-check', n: 'restic · check', eng: 'script', t: at('03:30'), days: [0], w: 'dom 03:30' },
+    { id: 't-rb-vcopy', n: 'restic · cópias p/ E:', eng: 'script', t: at('04:45', '05:00'), w: '04:45 · 05:00', warn: 1 },
+    { id: 't-rb-prune', n: 'restic · retenção', eng: 'script', t: at('05:15'), extra: { 0: at('05:45') }, w: '05:15', warn: 1 } ] },
+  { g: 'Servidor', rows: [
+    { id: 's-watchdog', n: 'Server-Watchdog', eng: 'script', band: 5, w: '5 min' },
+    { id: 't-cockpit-wd', n: 'Cockpit-Watchdog', eng: 'script', band: 5, w: '5 min' },
+    { id: 's-avisos', n: 'Avisos-Familia', eng: 'script', t: at('08:00'), w: '08:00' },
+    { id: 's-reboot', n: 'Restore · reboot · drift', eng: 'script', t: at('04:00', '04:20', '04:30', '05:00'), days: [0], w: 'dom 04–05', warn: 1 } ] },
+  { g: 'Energia e Windows', rows: [
+    { id: 't-energia-h', n: 'Modo energia', eng: 'script', t: at('08:00', '17:00', '23:00'), w: '08 · 17 · 23' },
+    { id: 't-onedrive', n: 'OneDrive', eng: 'script', t: at('17:50', '18:00'), w: '~17:50 · 18:00' },
+    { id: 't-misc', n: 'SoftLanding (Windows)', eng: 'script', t: at('14:30'), w: '14:30' } ] },
+];
+const EVENTS = [
+  ['boot + 4 min', 'Boot sentinel', 's-sentinel'], ['logon + 3 s', 'PowerToys', 't-misc'], ['logon + 5 s', 'Trava a tela', 's-lock'],
+  ['logon + 20 s', '1ª rodada do watchdog', 's-watchdog'], ['logon + 30 s', 'Cockpit e painel no monitor', 't-cockpit'],
+  ['logon + 1 min', 'Ponte do Telegram e applaud', 's-daemons'], ['logon + 10 min', 'OneDrive', 't-onedrive'], ['logon', 'ASUS e modo de energia', 't-asus'],
+  ['tela bloqueada', 'Sem turbo (na janela) e RGB apagado', 't-energia-b'], ['desbloqueio', 'Equilibrado com turbo', 't-energia-d'],
+  ['áudio no Telegram', 'Transcrição na hora', 'b-transcribe'], ['pergunta no Telegram', 'Secretária', 'c-secretaria'],
+  ['a cada 6 h do cockpit', 'Sync do Garmin', 'b-gsync'], ['evento NVIDIA', 'Atualizador do NVIDIA App', 't-misc'],
+];
+
+// ─── Fluxos: cada entrada até a saída ────────────────────────────────────────
+// estação: [nome, id|null, meta, quando, classe]
+const FLOWS = [
+  { t: 'Gravação do PLAUD → nota de reunião', i: 'áudio de reunião', o: 'nota de reunião revisada', s: [
+    ['Gravador PLAUD', 'a-plaud', 'você grava', '', ''],
+    ['applaud', 'b-applaud', 'baixa da nuvem PLAUD', 'contínuo', ''],
+    ['Capture-Transcribe', 'b-transcribe', 'Whisper large-v3 na GPU', 'hh:20', 'local'],
+    ['Transcrição', 'v-privado', 'Privado por padrão; etiqueta trabalho vai para 50-Fontes + ponteiro', '', ''],
+    ['Local-Reunioes', 'c-local', 'rascunho com qwen3:14b', 'hh:40', 'local'],
+    ['Claude-Inbox', 'c-inbox', 'confere contra a transcrição e melhora', '02 · 12 · 18 · 22 h', 'claude'],
+    ['Central de revisão', 'v-mocs', 'fila do que a IA criou', '', ''],
+    ['Você, no Obsidian', 'e-sync', 'revisa e promove', 'Mac ou iPhone', 'end'] ],
+    note: 'Do fim da gravação ao rascunho local: até ~1 h 20 min em horário comercial. A revisão do Claude chega na rodada seguinte. Gravação sem etiqueta trabalho fica em 20-Areas/Privado, fora do git e dos jobs.' },
+  { t: 'Texto, link ou foto no Telegram', i: 'mensagem sua no bot', o: 'nota no vault ou item no diário', s: [
+    ['Telegram', 'a-telegram', 'você manda', '', ''],
+    ['Ponte do Telegram', 'b-bridge', 'long polling', 'na hora', ''],
+    ['00-Inbox', 'v-inbox', 'texto vira captura; link vira fonte limpa; YouTube vira nota com legendas', 'na hora', ''],
+    ['Claude-Inbox', 'c-inbox', 'ideia vira nota atômica; pessoa vai para a nota dela', '02 · 12 · 18 · 22 h', 'claude'],
+    ['Claude-Diario', 'c-diario', 'lembretes, saúde e frases soltas', '02:20 · 18:20', 'claude'],
+    ['40-Notas, Pessoas, 70-Diario', 'v-notas', 'nasce draft', '', 'end'],
+    ['90-Arquivo', 'v-arquivo', 'a captura usada é arquivada', '', ''] ] },
+  { t: 'Pergunta no Telegram', i: 'pergunta sua', o: 'resposta no chat', s: [
+    ['Telegram', 'a-telegram', '', '', ''],
+    ['Ponte do Telegram', 'b-bridge', '', 'na hora', ''],
+    ['Secretária', 'c-secretaria', 'primeiro tenta ler direto (hoje, tarefas, inbox, aniversários) sem gastar cota; senão, Claude só leitura', 'até 30/dia', 'claude'],
+    ['Resposta', 'e-telegram', 'conversa mantida por 6 h', 'segundos', 'end'] ] },
+  { t: 'Print de post salvo', i: 'captura de tela de Instagram, Threads, TikTok ou X', o: 'resumo da semana', s: [
+    ['Telegram', 'a-telegram', 'você manda o print', '', ''],
+    ['Visão local', 'c-vision', 'qwen2.5vl:7b lê a imagem', 'na hora', 'local'],
+    ['50-Fontes/instagram', 'v-fontes', 'assunto, autor, pontos, tema', '', ''],
+    ['Claude-Semanal', 'c-semanal', 'junta os posts dos últimos 7 dias', 'sexta 07:30', 'claude'],
+    ['Resumo da semana', 'v-fontes', '', '', 'end'] ] },
+  { t: 'Siri e Atalhos no iPhone', i: 'lembrete ou nota falada', o: 'pendência na nota do dia', s: [
+    ['iPhone', 'a-iphone', 'Siri, Lembretes, Notas', '', ''],
+    ['iCloud Drive\\Capturas', 'b-icloud', 'depende do iCloud para Windows sincronizar', 'segundo plano', ''],
+    ['Capture-iCloud', 'b-icloud', 'move para o inbox', '5 min', ''],
+    ['00-Inbox', 'v-inbox', '', '', ''],
+    ['Claude-Diario', 'c-diario', 'lembrete vira tarefa em Pendências', '02:20 · 18:20', 'claude'],
+    ['70-Diario', 'v-diario', '', '', 'end'] ],
+    note: 'Última captura por esta rota: 12/09. Veja Pontos de atenção.' },
+  { t: 'E-mail do dia', i: 'caixa de entrada do Gmail', o: 'nota-resumo dos e-mails', s: [
+    ['Gmail', 'a-gmail', '', '', ''],
+    ['Capture-Email', 'b-email', 'IMAP só leitura, últimas 24 h', '06:50', ''],
+    ['email-<data>.md', 'v-meta', '_meta/tmp', '', ''],
+    ['Claude-Email', 'c-email', 'roda o coletor antes se o digest faltar', '07:00', 'claude'],
+    ['50-Fontes/email', 'v-fontes', '<data> E-mails.md', '', 'end'] ] },
+  { t: 'Corpo (Garmin)', i: 'relógio', o: 'bloco Corpo e alertas no cockpit', s: [
+    ['Relógio Garmin', 'a-garmin', 'sono, HRV, FC, Body Battery, treinos', '', ''],
+    ['Sync do Garmin', 'b-gsync', 'hoje e ontem de novo + buracos', 'a cada 6 h', ''],
+    ['garmin.db', 'b-gsync', 'SQLite no garmin-insights', '', ''],
+    ['Cockpit', 'e-cockpit', 'Corpo, Corpo · 30 dias, alerta de sono/HRV fora do seu normal', 'a cada 5 s', 'end'] ],
+    note: 'Os dados de saúde não entram no vault; a saúde que entra no vault vem das suas capturas (treino, alimentação, sono) via Claude-Diario.' },
+  { t: 'Proteção do vault', i: 'cada mudança no vault', o: 'três cópias em dois lugares', s: [
+    ['Vault', 'vault', 'C:', '', ''],
+    ['GitHub', 'e-github', 'commit + push com deploy key', '30 min', ''],
+    ['Backblaze B2', 'e-b2', 'restic com snapshot VSS', '1 h', ''],
+    ['Disco E:', 'e-disk', 'cópia do repositório', '04:45', ''],
+    ['Retenção', 't-rb-prune', 'B2 05:15 · E: domingo 05:45', 'diário', ''],
+    ['Teste de restauração', 't-restore', 'restaura e compara', 'domingo 04:00', 'end'] ],
+    note: 'O grupo sistema (credenciais e configs do Claude, SSH, Tailscale, Obsidian, server-config) vai para o B2 às 03:05 e para o E: às 05:00.' },
+  { t: 'Alertas para o seu iPhone', i: 'algo mudou de estado', o: 'notificação', s: [
+    ['Watchdog, jobs, sentinela, reboot, avisos', 's-watchdog', 'só avisam quando algo muda; resumo às 07:00', '5 min · por evento', ''],
+    ['notify.ps1', 'e-ntfy', 'tópico privado; Telegram como reserva', '', ''],
+    ['iPhone', 'e-ntfy', 'app ntfy', 'segundos', 'end'] ],
+    note: 'Em 26/09, logo depois do boot, os dois canais falharam por DNS e o aviso se perdeu; o envio pelo Telegram falha por timeout com frequência.' },
+  { t: 'Casa', i: 'sensores e dispositivos', o: 'painel da casa', s: [
+    ['Dispositivos', null, 'luzes, portas, pessoas, clima', '', ''],
+    ['Home Assistant (VM)', 'vm-ha', 'IP da rede local', 'contínuo', ''],
+    ['Cockpit', 'e-cockpit', 'estados e logbook', '5 min', ''],
+    ['Resumo da casa', 'd-ollama', 'qwen3:14b', '30 min', 'local'],
+    ['Monitor, tablet, iPad', 'e-cockpit', '', '', 'end'] ] },
+];
+
+// ─── Rodando agora ───────────────────────────────────────────────────────────
+// card: [título, rótulo à direita, texto, [[nome, detalhe à direita, descrição, id?]]]
+const RUN = [
+  ['Segundo cérebro', [
+    ['Vault e captura', '5 processos', 'O que precisa estar de pé para as capturas entrarem.', [
+      ['Obsidian', '4 proc · 121 MB', 'o watchdog relança se fechar', 'e-obsidian'],
+      ['Ponte do Telegram', 'pythonw', 'telegram-bridge.py', 'b-bridge'],
+      ['applaud', 'node · :44471', 'PLAUD → C:\\Tools\\applaud\\data', 'b-applaud']]],
+    ['IA local', '34,7 GB em modelos', 'Resumos, rascunhos e visão sem sair do PC.', [
+      ['Ollama', ':11434 · 168 MB', 'serve + app (Inicialização)', 'd-ollama'],
+      ['open-webui', ':8080 · 710 MB', 'chat com os modelos', 'ct-webui'],
+      ['Whisper', 'sob demanda', 'C:\\Tools\\whisper, só na hora da transcrição', 'b-transcribe']]],
+    ['Cockpit', ':8765 · 4 aparelhos', 'Painel ao vivo do PC, da casa, do corpo e do cérebro.', [
+      ['cockpit', 'pythonw · 2 proc', 'pareados: Fire da parede, iPad e um Echo Show (hoje)', 'e-cockpit'],
+      ['Painel do monitor', 'Edge em tela cheia', 'perfil kiosk em data\\kiosk-profile', 't-cockpit'],
+      ['Telas novas', 'alexa-8 · alexa-10 · tablet-10', 'apareceram hoje em web\\, ainda sem rota no servidor', 'e-cockpit']]] ]],
+  ['Casa e mídia', [
+    ['Home Assistant (VM)', 'Hyper-V', 'A casa de verdade: é este que o cockpit consulta.', [
+      ['VM no switch HA-External', 'IP da rede local', 'vmmem + vmwp', 'vm-ha']]],
+    ['Pilha homeassistant (Docker)', '4 contêineres', 'C:\\Server\\HomeAssistant\\docker-compose.yml', [
+      ['homeassistant', ':8123 · 312 MB', 'segundo HA, fora do cockpit', 'ct-ha'],
+      ['mosquitto', ':1883 · 5 MB', 'MQTT', 'ct-mqtt'],
+      ['zigbee2mqtt', ':8099 · 29 MB', 'dongle ainda não anexado', 'ct-z2m'],
+      ['open-webui', ':8080 · 710 MB', 'usa o Ollama do host', 'ct-webui']]],
+    ['Mídia (Docker)', '2 contêineres', 'C:\\MediaServer — o que as TVs acessam.', [
+      ['jellyfin', ':8096 · 175 MB', 'transcodifica na RTX', 'ct-jelly'],
+      ['qbittorrent', ':8081 · 21 MB', 'downloads em data/torrents', 'ct-qbit']]],
+    ['Docker e WSL', '~1,2 GB', 'O motor dos contêineres.', [
+      ['Docker Desktop', '4 proc + backend', 'autostart desativado; sobe como app', null],
+      ['WSL2 · docker-desktop', 'Running · 757 MB', 'Ubuntu parado', null]]] ]],
+  ['Acesso, Claude e sincronização', [
+    ['Acesso remoto', 'só pelo tailnet', 'Como você e o Mac chegam aqui.', [
+      ['Tailscale', 'o PC', 'MacBook Air online; debian-server e iPhone offline', 'sv-remote'],
+      ['OpenSSH (sshd)', ':22', 'só chave; sessões do Claude Desktop do Mac', 'sv-remote'],
+      ['Área de Trabalho Remota', ':3389', 'NLA, firewall só tailnet', 'sv-remote'],
+      ['Parsec', 'serviço + app · 416 MB', 'acesso com vídeo', 'sv-remote'],
+      ['usbipd', ':3240', 'USB para o WSL', 'sv-other']]],
+    ['Claude', '~2 GB', 'O app, os jobs e as sessões.', [
+      ['Claude Desktop', '20 proc · 3,6 GB', 'maior consumidor de memória agora', null],
+      ['Claude Code', 'CLI 2.1.275', 'sessões do app e jobs claude -p (sonnet)', 'c-inbox'],
+      ['CoworkVMService', 'serviço', 'VM do Cowork', 'sv-other'],
+      ['statusline.py', 'a cada sessão', 'grava a cota em _meta/tmp/rate_limits.json', 'v-meta']]],
+    ['Sincronização', '', 'Por onde os arquivos saem e entram.', [
+      ['Obsidian Sync', 'ativo', 'PEDRO, MacBook e iPhone', 'e-sync'],
+      ['iCloud para Windows', 'instalado, parado', 'rota da Siri depende dele', 'b-icloud'],
+      ['OneDrive', 'desativado', 'guarda o vault antigo Alimentação', 't-onedrive']]] ]],
+  ['Energia, hardware e utilitários', [
+    ['EnergiaAuto', '4 tarefas', 'Plano de energia por horário e bloqueio; RGB apagado com a tela travada.', [
+      ['Sem turbo', '23–08 todo dia', 'e 08–17 de segunda a sexta, se a tela estiver bloqueada', 't-energia-h'],
+      ['RGB', 'Aura SDK', 'apaga no bloqueio, devolve no desbloqueio', 't-rgb']]],
+    ['Fabricante', '~600 MB', 'ASUS, NVIDIA, Realtek, AMD.', [
+      ['Armoury Crate e AURA', 'serviços + 7 proc', 'RGB, ventoinhas, ROG Live', 't-asus'],
+      ['NVIDIA', 'container · 160 MB', 'driver e app', 't-misc']]],
+    ['Aplicativos de fundo', '', 'O que mais pesa na memória.', [
+      ['Chrome', '11 proc · 871 MB', 'mais leve que no retrato anterior', null],
+      ['PowerToys', '9 módulos', 'Awake, FancyZones, Peek, Light Switch, Command Palette', 't-misc'],
+      ['Everything', 'serviço', 'busca instantânea de arquivos', 'sv-other'],
+      ['Defender', '~400 MB', 'antivírus do Windows', null]]] ]],
+];
+const PORTS = [
+  ['22', 'sshd', 'todas as interfaces; firewall só tailnet'], ['3389', 'Área de Trabalho Remota', 'firewall só tailnet'],
+  ['8765', 'cockpit', 'rede local; só aparelhos pareados'], ['8080', 'open-webui', 'todas as interfaces (Docker)'],
+  ['8081 · 6881', 'qBittorrent (web · torrent)', 'todas as interfaces (Docker)'], ['8096 · 7359/udp', 'Jellyfin', 'rede local (TVs)'],
+  ['8099', 'Zigbee2MQTT', 'todas as interfaces (Docker)'], ['8123', 'Home Assistant (contêiner)', 'todas as interfaces (Docker)'],
+  ['1883', 'Mosquitto (MQTT)', 'todas as interfaces (Docker)'], ['3240', 'usbipd', 'todas as interfaces'],
+  ['11434 · 53075', 'Ollama (serviço · app)', 'só local'], ['44471', 'applaud', 'só local'],
+  ['1042 · 6850 · 9012–9013 · 13030–13032 · 22112 · 50100 · 51100', 'ASUS (Armoury, AURA, ROG Live)', 'só local'],
+  ['2179', 'Hyper-V (vmms)', 'todas as interfaces'], ['42843 · 55692', 'tailscaled', 'só tailnet'],
+  ['135 · 139 · 445 · 5040 · 5357 · 7680 · 49664–49681', 'Windows (RPC, SMB, descoberta, updates)', 'padrão do Windows'],
+];
+
+// ─── Pontos de atenção ───────────────────────────────────────────────────────
+// [severidade, título, texto, o que fazer, id relacionado]
+const ATT_FIXO = [
+  ['info', 'O watchdog acusa daemons que estão de pé', 'A cada 5 min ele grava “relançado pelo watchdog” sem nome e marca daemons = problema, mesmo com a ponte e o applaud rodando. O ensure-daemons.ps1 devolve o resultado em $script:DaemonsStarted, variável que some quando o watchdog o chama com &; @($null) conta como 1.', 'Fazer o ensure-daemons.ps1 devolver um objeto (Started, Problems) e o watchdog ler esse retorno.', 's-watchdog'],
+  ['info', 'O watchdog marca o Tailscale como erro', 'Com a expiração da chave desativada, KeyExpiry vem vazio e [datetime]$null gera exceção, mesmo com o Tailscale rodando.', 'Pular a checagem de expiração quando KeyExpiry estiver vazio.', 's-watchdog'],
+  ['info', 'O que o DriftCheck cobra', 'Ele compara a máquina com o baseline (BitLocker, serviços, firewall, tarefas) todo domingo às 05:00. Código 1 quer dizer que algum item saiu do lugar — e ele vem fechando em 1.', 'Rodar tests\\Run-HealthCheck.ps1 num terminal elevado para ver qual item está fora.', 't-drift'],
+  ['info', 'Dois Home Assistant ligados', 'A VM (a que o cockpit consulta) e o contêiner homeassistant com Mosquitto e Zigbee2MQTT, cujo dongle ainda não foi anexado.', 'Decidir qual fica. Se o contêiner for a pilha antiga ou de teste, desligá-lo libera memória e portas.', 'ct-ha'],
+  ['low', 'Tarefa do mouse ASUS falha no logon', 'P508PowerAgent_sdk termina com 0x80070002 (arquivo não encontrado).', 'Ruído do fabricante; reinstalar o módulo do mouse no Armoury Crate ou desativar a tarefa.', 't-asus'],
+  ['low', 'Dois áudios de 12/09 continuam em 00-Inbox/_audio', 'Já foram transcritos para 50-Fontes/transcricoes, mas os arquivos .ogg ficaram na pasta.', 'Confirmar se é de propósito.', 'v-inbox'],
+];
+
+// ─── Registro, utilidades e gaveta ───────────────────────────────────────────
+const REG = {};
+[...NODES, VAULT, ...INV].forEach(o => { REG[o.id] = o; });
+const PUB = typeof PUBLICO !== 'undefined' && PUBLICO;
+const L = typeof LIVE !== 'undefined' ? LIVE : { itens: {}, att: [], fatos: {}, memoria: [], containers: [] };
+for (const [id, v] of Object.entries(L.itens || {})) {
+  const o = REG[id]; if (!o) continue;
+  if (v.last) o.last = v.last;
+  o.next = v.next || '';
+  o.warn = v.status === 'warn' ? 1 : 0;
+}
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const SVGNS = 'http://www.w3.org/2000/svg';
+const ENG = { script: 'script (sem IA)', local: 'IA local', claude: 'Claude', gemini: 'Gemini (piloto)' };
+
+function neighbors(id) {
+  const out = new Set();
+  EDGES.forEach(([a, b]) => { if (a === id) out.add(b); if (b === id) out.add(a); });
+  (CTL[id] || []).forEach(x => out.add(x));
+  Object.entries(CTL).forEach(([k, v]) => { if (v.includes(id)) out.add(k); });
+  if (id === 'vault') NODES.filter(n => n.row).forEach(n => out.add(n.id));
+  return [...out].filter(x => REG[x]);
+}
+
+const drawer = $('#drawer'), scrim = $('#scrim');
+function openItem(id, fromMap) {
+  const o = REG[id]; if (!o) return;
+  $('#dr-kind').textContent = o.k || o.cat || '';
+  $('#dr-name').textContent = o.t;
+  const rows = [['Quando', o.when], ['Última', o.last], ['Próxima', o.next], ['Entrada', o.in], ['Saída', o.out], ['Onde', o.where], ['Logs', o.logs], ['Roda como', o.as], ['Motor', o.eng && o.eng !== 'script' ? ENG[o.eng] : '']]
+    .filter(r => r[1] && !(PUB && (r[0] === 'Onde' || r[0] === 'Logs')));
+  let h = '';
+  if (o.s && !o.when) h += `<p class="dr-note">${esc(o.s)}</p>`;
+  if (rows.length) h += '<dl>' + rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('') + '</dl>';
+  if (o.note) h += `<p class="dr-note">${o.warn ? '<span class="pill warning"><i></i>atenção</span> ' : ''}${esc(o.note)}</p>`;
+  const nb = neighbors(id);
+  if (nb.length) h += '<p class="dr-sub">Ligado a</p><div class="dr-links">' + nb.map(x => `<button data-go="${x}">${esc(REG[x].t)}</button>`).join('') + '</div>';
+  const onMap = !!mapEls[id];
+  if (onMap && !fromMap) h += `<div class="dr-links"><button data-map="${id}">Mostrar no mapa ↗</button></div>`;
+  $('#dr-body').innerHTML = h;
+  drawer.classList.add('open'); drawer.setAttribute('aria-hidden', 'false'); scrim.classList.add('open');
+  if (onMap) focusMap(id);
+  $('#dr-x').focus({ preventScroll: true });
+}
+function closeDrawer() { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); scrim.classList.remove('open'); focusMap(null); }
+$('#dr-x').onclick = closeDrawer; scrim.onclick = closeDrawer;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+$('#dr-body').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) openItem(b.dataset.go, !!mapEls[b.dataset.go]);
+  if (b.dataset.map) { closeDrawer(); $('#mapa').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => openItem(b.dataset.map, true), 450); }
+});
+
+// ─── Mapa ────────────────────────────────────────────────────────────────────
+const W = 1240, H = 744, NH = 46, RH = 40, BAND_Y = 680, BW = 150;
+const BOX = { x: 748, y: 96, w: 216, h: 448 };
+const GRP = { x: 480, y: 262, w: 212, h: 258 };
+const mapEls = {};
+function geom(n) {
+  if (n.id === 'vault') return { x: BOX.x, y: BOX.y, w: BOX.w, h: BOX.h };
+  if (n.band) return { x: n.x, y: BAND_Y, w: n.id === 'e-ntfy' ? 150 : BW, h: NH };
+  const [x, w] = COLS[n.c];
+  return { x, y: n.y, w, h: n.row ? RH : NH };
+}
+function el(tag, attrs, parent) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function text(parent, x, y, cls, s, anchor) { const t = el('text', { x, y, class: cls }, parent); if (anchor) t.setAttribute('text-anchor', anchor); t.textContent = s; return t; }
+function fit(t, max) { let fs = parseFloat(getComputedStyle(t).fontSize); while (t.getComputedTextLength() > max && fs > 8.5) { fs -= 0.5; t.style.fontSize = fs + 'px'; } }
+
+function drawMap() {
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Mapa do segundo cérebro: fontes, coleta, processamento, vault, destinos e supervisão, com as setas de dado entre eles.' });
+  $('#map-svg').appendChild(svg);
+  const defs = el('defs', {}, svg);
+  [['ah', 'arrow'], ['ah-on', '']].forEach(([id, cls]) => {
+    const m = el('marker', { id, viewBox: '0 0 8 8', refX: 7.5, refY: 4, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
+    const p = el('path', { d: 'M0,0 L8,4 L0,8 z' }, m); if (cls) p.setAttribute('class', cls); else p.style.fill = 'var(--ink)';
+  });
+  const sheet = document.createElement('style'); sheet.textContent = '.focus .ed.on{marker-end:url(#ah-on)}'; document.head.appendChild(sheet);
+  // fundos
+  el('rect', { x: 0, y: BAND_Y - 32, width: W, height: H - BAND_Y + 32, class: 'band-box', rx: 0 }, svg);
+  [['A', 'Fontes'], ['B', 'Coleta no PEDRO'], ['C', 'Processamento'], ['E', 'Destinos']].forEach(([c, s]) => text(svg, COLS[c][0], 20, 'col-h', s));
+  text(svg, BOX.x, 20, 'col-h', 'Onde mora');
+  text(svg, 16, BAND_Y - 12, 'col-h', 'Supervisão · mantém tudo de pé');
+  el('rect', { x: GRP.x, y: GRP.y, width: GRP.w, height: GRP.h, rx: 10, class: 'grp-box' }, svg);
+  text(svg, GRP.x + 10, GRP.y + GRP.h - 9, 'grp-t', 'claude -p · sonnet · teto de US$ e turnos');
+  const vg = el('g', { class: 'n', 'data-id': 'vault', tabindex: 0, role: 'button', 'aria-label': 'Vault Conhecimento' }, svg);
+  el('rect', { x: BOX.x, y: BOX.y, width: BOX.w, height: BOX.h, rx: 12, class: 'vault-box' }, vg);
+  text(vg, BOX.x + 12, BOX.y + 20, 'nt', 'Vault Conhecimento');
+  mapEls.vault = vg;
+  const gE = el('g', {}, svg), gN = el('g', {}, svg), gL = el('g', {}, svg);
+  // nós
+  NODES.forEach(n => {
+    const g = geom(n);
+    const cls = 'n' + (n.row ? ' row' : '') + (n.ext ? ' ext' : '');
+    const grp = el('g', { class: cls, 'data-id': n.id, tabindex: 0, role: 'button', 'aria-label': `${n.t}: ${n.s}` }, gN);
+    el('rect', { x: g.x, y: g.y, width: g.w, height: g.h, rx: 8 }, grp);
+    const hasDot = n.eng && !n.row;
+    const t1 = text(grp, g.x + 12, g.y + (n.row ? 17 : 19), 'nt', n.t);
+    const t2 = text(grp, g.x + 12, g.y + (n.row ? 31 : 35), 'ns', n.s);
+    requestAnimationFrame(() => { fit(t1, g.w - (hasDot ? 34 : 22)); fit(t2, g.w - 22); });
+    if (hasDot) el('circle', { cx: g.x + g.w - 13, cy: g.y + 14, r: 5, class: 'dot', style: `fill:var(--e-${n.eng})` }, grp);
+    if (n.warn) el('circle', { cx: g.x + g.w - 1, cy: g.y + 1, r: 5.5, class: 'warn' }, grp);
+    mapEls[n.id] = grp;
+  });
+  // arestas
+  const ctr = id => { const n = id === 'vault' ? VAULT : REG[id]; return geom(n); };
+  EDGES.forEach(([a, b, lab, type = 'f', mode = 'h'], i) => {
+    const A = ctr(a), B = ctr(b);
+    let p0, p1, p2, p3;
+    const clampY = y => Math.max(BOX.y + 36, Math.min(BOX.y + BOX.h - 16, y));
+    if (mode === 'v') {
+      const down = B.y > A.y;
+      const x0 = A.x + A.w / 2, x1 = B.x + B.w / 2;
+      p0 = [x0, down ? A.y + A.h : A.y]; p3 = [x1, down ? B.y : B.y + B.h];
+      const d = (p3[1] - p0[1]) / 2; p1 = [x0, p0[1] + d]; p2 = [x1, p3[1] - d];
+    } else if (mode === 'b') {
+      const ty = B.y + B.h / 2;
+      p0 = [A.x, a === 'vault' ? clampY(ty) : A.y + A.h / 2]; p3 = [B.x + B.w, ty];
+      const d = Math.max(28, (p0[0] - p3[0]) / 2); p1 = [p0[0] - d, p0[1]]; p2 = [p3[0] + d, p3[1]];
+    } else {
+      const ty = B.y + B.h / 2, sy = A.y + A.h / 2;
+      p0 = [A.x + A.w, a === 'vault' ? clampY(ty) : sy]; p3 = [B.x, b === 'vault' ? clampY(sy) : ty];
+      const d = Math.max(24, (p3[0] - p0[0]) / 2); p1 = [p0[0] + d, p0[1]]; p2 = [p3[0] - d, p3[1]];
+    }
+    const path = el('path', { d: `M${p0} C${p1} ${p2} ${p3}`, class: 'ed' + (type === 'r' ? ' dash' : ''), 'marker-end': 'url(#ah)', 'data-a': a, 'data-b': b }, gE);
+    const mx = (p0[0] + 3 * p1[0] + 3 * p2[0] + p3[0]) / 8, my = (p0[1] + 3 * p1[1] + 3 * p2[1] + p3[1]) / 8;
+    const colOf = id => id === 'vault' ? 'D' : (REG[id].band ? 'S' : REG[id].c);
+    const ca = colOf(a), cb = colOf(b);
+    const rest = mode === 'v' || (ca === 'A' && cb === 'B') || cb === 'E';
+    const lt = mode === 'v' ? text(gL, mx + 7, my + 4, 'el', lab) : text(gL, mx, my - 5, 'el', lab, 'middle');
+    if (!rest) lt.classList.add('quiet');
+    lt.dataset.a = a; lt.dataset.b = b;
+    path._label = lt;
+  });
+  svg.addEventListener('click', e => {
+    const g = e.target.closest('.n');
+    if (g) openItem(g.dataset.id, true); else closeDrawer();
+  });
+  svg.addEventListener('keydown', e => { const g = e.target.closest('.n'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openItem(g.dataset.id, true); } });
+  svg.addEventListener('mouseover', e => { if (drawer.classList.contains('open')) return; const g = e.target.closest('.n'); focusMap(g ? g.dataset.id : null); });
+  svg.addEventListener('mouseleave', () => { if (!drawer.classList.contains('open')) focusMap(null); });
+}
+function focusMap(id) {
+  const svg = $('#map-svg svg'); if (!svg) return;
+  svg.querySelectorAll('.on, .sel').forEach(x => x.classList.remove('on', 'sel'));
+  if (!id || !mapEls[id]) { svg.classList.remove('focus'); return; }
+  svg.classList.add('focus');
+  mapEls[id].classList.add('on', 'sel');
+  const inVault = id === 'vault' ? null : (REG[id].row ? 'vault' : null);
+  svg.querySelectorAll('.ed, .el').forEach(p => {
+    const hit = p.dataset.a === id || p.dataset.b === id || (id === 'vault' && (REG[p.dataset.a]?.row || REG[p.dataset.b]?.row));
+    if (hit) { p.classList.add('on'); [p.dataset.a, p.dataset.b].forEach(x => mapEls[x] && mapEls[x].classList.add('on')); }
+  });
+  neighbors(id).forEach(x => mapEls[x] && mapEls[x].classList.add('on'));
+  if (inVault) mapEls.vault.classList.add('on');
+}
+
+// ─── Rotinas 24 h ────────────────────────────────────────────────────────────
+const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const TODAY = (typeof LIVE !== 'undefined' ? LIVE.dow : 0), NOW = (typeof LIVE !== 'undefined' ? LIVE.minuto : 0);
+const tip = $('#tip');
+const hhmm = m => String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+function showTip(e, html) { tip.innerHTML = html; tip.hidden = false; const x = Math.min(e.clientX + 14, innerWidth - 290), y = e.clientY + 16; tip.style.left = x + 'px'; tip.style.top = y + 'px'; }
+function hideTip() { tip.hidden = true; }
+
+function drawTimeline(day) {
+  const box = $('#tl-svg'); box.innerHTML = '';
+  const X0 = 300, X1 = 1164, TW = 1184, RH2 = 22, GH = 26, TOP = 56;
+  const X = m => X0 + (X1 - X0) * m / 1440;
+  let rowsH = 0; ROUT.forEach(g => { rowsH += GH + g.rows.length * RH2; });
+  const H2 = TOP + rowsH + 10;
+  const svg = el('svg', { viewBox: `0 0 ${TW} ${H2}`, role: 'img', 'aria-label': `Rotinas de ${DAYS[day]} ao longo de 24 horas, agrupadas por área.` });
+  box.appendChild(svg);
+  // janela sem turbo
+  const wins = [[0, 480], [1380, 1440]]; if (day >= 1 && day <= 5) wins.push([480, 1020]);
+  wins.forEach(([a, b]) => el('rect', { x: X(a), y: TOP - 8, width: X(b) - X(a), height: rowsH + 12, class: 'tl-win' }, svg));
+  // grade e eixo
+  for (let h = 0; h <= 24; h++) {
+    el('line', { x1: X(h * 60), x2: X(h * 60), y1: TOP - 8, y2: TOP + rowsH + 4, class: 'tl-grid', style: h % 6 ? 'opacity:.55' : '' }, svg);
+    if (h % 2 === 0) text(svg, X(h * 60), TOP - 16, 'tl-axis', String(h).padStart(2, '0'), 'middle');
+  }
+  let y = TOP;
+  ROUT.forEach(g => {
+    text(svg, 16, y + 17, 'tl-grp', g.g); y += GH;
+    g.rows.forEach(r => {
+      const row = el('g', { class: 'tl-row' }, svg);
+      el('rect', { x: 8, y, width: TW - 16, height: RH2, class: 'tl-hit', rx: 4 }, row);
+      const nm = text(row, 16, y + 15, 'tl-name', r.n); nm.dataset.id = r.id;
+      if (r.warn) el('circle', { cx: 16 + nm.getComputedTextLength() + 9, cy: y + 11, r: 4, style: 'fill:var(--warning)' }, row);
+      const off = r.days && !r.days.includes(day);
+      text(row, X0 - 12, y + 15, 'tl-when', off ? 'só ' + r.days.map(d => DAYS[d].toLowerCase()).join('/') : r.w, 'end');
+      const col = `var(--e-${r.eng})`, cy = y + RH2 / 2;
+      if (r.cont || r.band) {
+        const b = el('rect', { x: X0, y: cy - 3, width: X1 - X0, height: 6, rx: 3, class: 'tl-cont tk', style: `fill:${col};opacity:${r.cont ? 0.6 : 0.32}` }, row);
+        b.dataset.id = r.id; b.dataset.tip = `<b>${esc(r.n)}</b>${r.cont ? 'sempre ligado' : 'a cada ' + r.band + ' min, o dia todo'}`;
+      } else if (!off) {
+        const ts = [...(r.t || []), ...((r.extra && r.extra[day]) || [])];
+        ts.forEach(m => {
+          const k = el('rect', { x: X(m) - 2.5, y: cy - 7, width: 5, height: 14, rx: 2, class: 'tk', style: `fill:${col};stroke:var(--surface);stroke-width:1` }, row);
+          k.dataset.id = r.id;
+          const past = day === TODAY && m < NOW;
+          k.dataset.tip = `<b>${esc(r.n)} · ${hhmm(m)}</b>${day === TODAY ? (past ? 'já rodou hoje' : 'ainda vai rodar hoje') : DAYS[day]}`;
+        });
+      }
+      y += RH2;
+    });
+  });
+  if (day === TODAY) {
+    el('line', { x1: X(NOW), x2: X(NOW), y1: TOP - 46, y2: TOP + rowsH + 6, class: 'tl-now' }, svg);
+    text(svg, X(NOW) + 5, TOP - 36, 'tl-now-t', 'agora ' + hhmm(NOW));
+  }
+  svg.addEventListener('mousemove', e => { const t = e.target.closest('.tk'); if (t) showTip(e, t.dataset.tip + '<span class="muted">clique para detalhes</span>'); else hideTip(); });
+  svg.addEventListener('mouseleave', hideTip);
+  svg.addEventListener('click', e => { const t = e.target.closest('[data-id]'); if (t) openItem(t.dataset.id); });
+}
+function initTimeline() {
+  const seg = $('#tl-days');
+  seg.innerHTML = DAYS.map((d, i) => `<button data-d="${i}" class="${i === TODAY ? 'on' : ''}" aria-pressed="${i === TODAY}">${d}${i === TODAY ? ' · hoje' : ''}</button>`).join('');
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    seg.querySelectorAll('button').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
+    drawTimeline(+b.dataset.d);
+  });
+  drawTimeline(TODAY);
+  $('#tl-events').innerHTML = EVENTS.map(([w, n, id]) => `<li><b>${esc(w)}</b><span><button class="linkish" data-open="${id}">${esc(n)}</button></span></li>`).join('');
+}
+
+// ─── Fluxos ──────────────────────────────────────────────────────────────────
+function drawFlows() {
+  $('#flows').innerHTML = FLOWS.map(f => `
+    <article class="panel flow">
+      <div class="flow-h"><h3>${esc(f.t)}</h3><p class="flow-io">entra <b>${esc(f.i)}</b> · sai <b>${esc(f.o)}</b></p></div>
+      <ol class="stations">${f.s.map(([n, id, m, w, c]) => `
+        <li class="st ${c}">
+          <div class="st-name">${id && REG[id] ? `<button data-open="${id}">${esc(n)}</button>` : esc(n)}</div>
+          ${m ? `<div class="st-meta">${esc(m)}</div>` : ''}${w ? `<span class="st-when">${esc(w)}</span>` : ''}
+        </li>`).join('')}
+      </ol>
+      ${f.note ? `<p class="flow-note">${esc(f.note)}</p>` : ''}
+    </article>`).join('');
+}
+
+// ─── Rodando agora ───────────────────────────────────────────────────────────
+function drawRunning() {
+  let h = '';
+  if (L.memoria && L.memoria.length) {
+    h += '<h3 class="stack-h">Agora, nesta leitura</h3><div class="cards">';
+    const dae = [['b-bridge', 'Ponte do Telegram'], ['b-applaud', 'applaud'], ['e-cockpit', 'cockpit'], ['d-ollama', 'Ollama'], ['e-obsidian', 'Obsidian']];
+    h += '<article class="panel card"><h3>Daemons<small>' + dae.filter(([i]) => (L.itens[i] || {}).last === 'de pé agora').length + ' de ' + dae.length + '</small></h3><ul class="plist">' +
+      dae.map(([i, n]) => { const ok = (L.itens[i] || {}).last === 'de pé agora'; return `<li><span class="pn"><button class="linkish" data-open="${i}">${esc(n)}</button></span><span class="pp"><span class="pill ${ok ? 'good' : 'critical'}"><i></i>${ok ? 'de pé' : 'fora'}</span></span></li>`; }).join('') + '</ul></article>';
+    h += '<article class="panel card"><h3>Contêineres<small>' + (L.containers || []).length + '</small></h3><ul class="plist">' +
+      (L.containers || []).map(([n, st]) => `<li><span class="pn">${esc(n)}</span><span class="pp">${esc(st)}</span></li>`).join('') + '</ul></article>';
+    h += '<article class="panel card"><h3>Memória<small>somada por app</small></h3><ul class="plist">' +
+      L.memoria.map(([n, c, mb]) => `<li><span class="pn">${esc(n)}</span><span class="pp">${c}× · ${mb >= 1024 ? (mb / 1024).toFixed(1) + ' GB' : mb + ' MB'}</span></li>`).join('') + '</ul></article>';
+    h += '</div>';
+  }
+  RUN.forEach(([stack, cards]) => {
+    h += `<h3 class="stack-h">${esc(stack)}</h3><div class="cards">`;
+    cards.forEach(([t, small, p, items]) => {
+      if (PUB && (t === 'Acesso remoto' || t === 'Sincronização')) return;
+      h += `<article class="panel card"><h3>${esc(t)}${small ? `<small>${esc(small)}</small>` : ''}</h3><p>${esc(p)}</p><ul class="plist">` +
+        items.map(([n, r, d, id]) => `<li><span class="pn">${id && REG[id] ? `<button class="linkish" data-open="${id}">${esc(n)}</button>` : esc(n)}</span><span class="pp">${esc(r)}</span>${d ? `<span class="pd">${esc(d)}</span>` : ''}</li>`).join('') +
+        '</ul></article>';
+    });
+    h += '</div>';
+  });
+  if (!PUB) h += `<h3 class="stack-h">Portas abertas</h3><div class="panel scroll-x"><table class="ports"><thead><tr><th>Porta</th><th>Quem escuta</th><th>Alcance</th></tr></thead><tbody>` +
+    PORTS.map(([p, w, a]) => `<tr><td>${esc(p)}</td><td>${esc(w)}</td><td>${esc(a)}</td></tr>`).join('') + '</tbody></table></div>';
+  $('#running').innerHTML = h;
+}
+
+// ─── Atenção ─────────────────────────────────────────────────────────────────
+const SEV = { critical: 'Crítico', serious: 'Sério', warning: 'Atenção', info: 'Aviso', low: 'Leve' };
+function drawAtt() {
+  const ATT = [...(L.att || []), ...ATT_FIXO];
+  $('#att').innerHTML = ATT.map(([s, t, p, fix, id]) => `
+    <li class="panel">
+      <span class="sev"><span class="pill ${s}"><i></i>${SEV[s]}</span></span>
+      <h3>${esc(t)}</h3>
+      <p>${esc(p)}</p>
+      <p class="fix"><b>O que fazer:</b> ${esc(fix)}${id && REG[id] ? ` · <button class="linkish" data-open="${id}">ver detalhe</button>` : ''}</p>
+    </li>`).join('');
+  $('#att-count').textContent = ATT.filter(a => ['critical', 'serious', 'warning'].includes(a[0])).length;
+}
+
+// ─── Inventário ──────────────────────────────────────────────────────────────
+const DOMS = [['', 'Tudo'], ['cerebro', 'Segundo cérebro'], ['backup', 'Backup'], ['servidor', 'Servidor'], ['cockpit', 'Cockpit'], ['ia', 'IA'], ['casa', 'Casa e mídia'], ['saude', 'Saúde'], ['energia', 'Energia'], ['rede', 'Rede'], ['sistema', 'Windows e fabricante']];
+const catOf = o => o.cat || (o.k || '').split(' ·')[0].replace('Tarefa agendada', 'Tarefa').replace('Rotina interna do cockpit', 'Rotina').replace(/^(Camada|Etapa).*/, 'Etapa').replace(/^Aplicativo.*/, 'App').replace(/^Disco.*/, 'Disco');
+const INV_ALL = [...NODES.filter(n => !n.ext && !n.row), ...INV];
+let invDom = '', invQ = '';
+function drawInv() {
+  const q = invQ.trim().toLowerCase();
+  const rows = INV_ALL.filter(o => (!invDom || o.dom === invDom) && (!q || [o.t, o.k, o.where, o.note, o.when, o.s].join(' ').toLowerCase().includes(q)));
+  $('#inv').innerHTML = `<thead><tr><th>Tipo</th><th>Nome</th><th>Quando</th><th>Roda como</th><th>Última execução</th>${PUB ? '' : '<th>Onde</th>'}</tr></thead><tbody>` +
+    (rows.length ? rows.map(o => `<tr data-open="${o.id}" tabindex="0">
+      <td class="k">${esc(catOf(o))}</td>
+      <td><span class="nm">${esc(o.t)}</span>${o.warn ? ' <span class="pill warning"><i></i>atenção</span>' : ''}${o.eng && o.eng !== 'script' ? ` <span class="pill"><i style="background:var(--e-${o.eng})"></i>${ENG[o.eng]}</span>` : ''}</td>
+      <td class="w">${esc(o.when || o.s || '')}</td><td class="k">${esc(o.as || '')}</td><td class="w">${esc(o.last || '')}</td>${PUB ? '' : `<td class="w">${esc(o.where || '')}</td>`}</tr>`).join('')
+      : `<tr><td colspan="${PUB ? 5 : 6}" class="muted">Nada com esse filtro.</td></tr>`) + '</tbody>';
+}
+function initInv() {
+  $('#inv-chips').innerHTML = DOMS.map(([d, n]) => `<button class="chip${d === '' ? ' on' : ''}" data-dom="${d}" aria-pressed="${d === ''}">${n}</button>`).join('');
+  $('#inv-chips').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; invDom = b.dataset.dom;
+    $('#inv-chips').querySelectorAll('button').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
+    drawInv();
+  });
+  $('#inv-q').addEventListener('input', e => { invQ = e.target.value; drawInv(); });
+  $('#inv').addEventListener('keydown', e => { const tr = e.target.closest('tr[data-open]'); if (tr && e.key === 'Enter') openItem(tr.dataset.open); });
+  drawInv();
+}
+
+// ─── Navegação e partida ─────────────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-open]'); if (!t || t.closest('#dr-body')) return;
+  openItem(t.dataset.open);
+});
+function spy() {
+  const links = [...document.querySelectorAll('.nav a')];
+  let cur = links[0];
+  links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s && s.getBoundingClientRect().top < 120) cur = a; });
+  links.forEach(a => a.classList.toggle('on', a === cur));
+}
+addEventListener('scroll', spy, { passive: true });
+function aplicarLive() {
+  const f = L.fatos || {};
+  const set = (id, v) => { const e = document.getElementById(id); if (e && v) e.textContent = v; };
+  set('f-ligado', f.ligado); set('f-rodando', f.rodando); set('f-claude', f.claude); set('f-discos', f.discos); set('f-vault', f.vault);
+  set('stamp', L.geradoLabel);
+  const idade = L.gerado ? (Date.now() - new Date(L.gerado).getTime()) / 36e5 : 0;
+  if (idade > 2.2) {
+    const e = document.getElementById('stale');
+    if (e) e.innerHTML = `<span class="pill warning"><i></i>coleta parada há ${Math.round(idade)} h</span>`;
+  }
+  if (PUB) {
+    document.querySelector('#atencao')?.remove();
+    document.querySelector('.nav a[href="#atencao"]')?.remove();
+  }
+}
+aplicarLive();
+drawMap(); initTimeline(); drawFlows(); drawRunning(); if (!PUB) drawAtt(); initInv(); spy();
+
+</script>
+</body>
+</html>
