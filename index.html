@@ -51,192 +51,37 @@ ul, ol { padding: 0; list-style: none; }
 button { font: inherit; color: inherit; cursor: pointer; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
-code, .mono { font-family: var(--f-mono); font-size: 0.84em; }
-code { background: var(--surface-2); padding: 0.05em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
-.muted { color: var(--ink-3); }
-.wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; }
+code,.mono { font-family: var(--f-mono); font-size: 0.84em; }
+code { background: var(--surface-2); padding: 0.05em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }.muted { color: var(--ink-3); }.wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; }
 
-/* cabeçalho */
-.top { padding-block: 28px 18px; display: grid; gap: 14px; }
-.eyebrow { font: 700 12px/1.2 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
-.top h1 { font: 700 clamp(34px, 6vw, 52px)/1 var(--f-display); letter-spacing: 0.04em; }
-.top h1 span { font-weight: 400; color: var(--ink-3); letter-spacing: 0; font-size: 0.42em; margin-left: 0.4em; vertical-align: 0.35em; }
-.lead { max-width: 72ch; color: var(--ink-2); font-size: 16px; text-wrap: pretty; }
-.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 6px; border-top: 1px solid var(--line); }
-.facts div { display: grid; gap: 1px; padding-top: 8px; }
-.facts dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
-.facts dd { font: 700 15px/1.3 var(--f-display); font-variant-numeric: tabular-nums; }
+/* cabeçalho */.top { padding-block: 28px 18px; display: grid; gap: 14px; }.eyebrow { font: 700 12px/1.2 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }.top h1 { font: 700 clamp(34px, 6vw, 52px)/1 var(--f-display); letter-spacing: 0.04em; }.top h1 span { font-weight: 400; color: var(--ink-3); letter-spacing: 0; font-size: 0.42em; margin-left: 0.4em; vertical-align: 0.35em; }.lead { max-width: 72ch; color: var(--ink-2); font-size: 16px; text-wrap: pretty; }.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 6px; border-top: 1px solid var(--line); }.facts div { display: grid; gap: 1px; padding-top: 8px; }.facts dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }.facts dd { font: 700 15px/1.3 var(--f-display); font-variant-numeric: tabular-nums; }
 
-/* navegação */
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--page); border-bottom: 1px solid var(--line); }
-.nav .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-.nav a { flex: none; padding: 12px 10px 10px; text-decoration: none; color: var(--ink-3); font-weight: 700; font-size: 14px; border-bottom: 2px solid transparent; white-space: nowrap; }
-.nav a:hover { color: var(--ink); }
-.nav a.on { color: var(--ink); border-bottom-color: var(--ink); }
-.nav .count { font: 700 11px/1 var(--f-mono); background: var(--warning); color: #111; border-radius: 99px; padding: 2px 6px; margin-left: 4px; vertical-align: 1px; }
+/* navegação */.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--page); border-bottom: 1px solid var(--line); }.nav.wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }.nav a { flex: none; padding: 12px 10px 10px; text-decoration: none; color: var(--ink-3); font-weight: 700; font-size: 14px; border-bottom: 2px solid transparent; white-space: nowrap; }.nav a:hover { color: var(--ink); }.nav a.on { color: var(--ink); border-bottom-color: var(--ink); }.nav.count { font: 700 11px/1 var(--f-mono); background: var(--warning); color: #111; border-radius: 99px; padding: 2px 6px; margin-left: 4px; vertical-align: 1px; }
 
 /* seções */
-section { padding-block: 40px 8px; scroll-margin-top: 56px; }
-.sec-head { display: grid; gap: 6px; margin-bottom: 18px; }
-.sec-head h2 { font: 700 24px/1.2 var(--f-display); text-wrap: balance; }
-.sec-head p { max-width: 74ch; color: var(--ink-2); text-wrap: pretty; }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-figcaption { color: var(--ink-3); font-size: 13px; padding: 10px 14px 12px; max-width: 90ch; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); padding: 12px 14px 0; }
-.legend span { display: inline-flex; align-items: center; gap: 6px; }
-.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
-.sw.script { background: var(--e-script); } .sw.local { background: var(--e-local); } .sw.claude { background: var(--e-claude); } .sw.gemini { background: var(--e-gemini); }
-.key-line { width: 22px; height: 0; border-top: 1.5px solid var(--edge); display: inline-block; }
-.key-line.dash { border-top-style: dashed; }
+section { padding-block: 40px 8px; scroll-margin-top: 56px; }.sec-head { display: grid; gap: 6px; margin-bottom: 18px; }.sec-head h2 { font: 700 24px/1.2 var(--f-display); text-wrap: balance; }.sec-head p { max-width: 74ch; color: var(--ink-2); text-wrap: pretty; }.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+figcaption { color: var(--ink-3); font-size: 13px; padding: 10px 14px 12px; max-width: 90ch; }.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); padding: 12px 14px 0; }.legend span { display: inline-flex; align-items: center; gap: 6px; }.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }.sw.script { background: var(--e-script); }.sw.local { background: var(--e-local); }.sw.claude { background: var(--e-claude); }.sw.gemini { background: var(--e-gemini); }.key-line { width: 22px; height: 0; border-top: 1.5px solid var(--edge); display: inline-block; }.key-line.dash { border-top-style: dashed; }
 
 /* mapa (SVG) */
-#map svg { display: block; width: max(100%, 1080px); height: auto; }
-.col-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-3); }
-.vault-box { fill: var(--surface-2); stroke: var(--axis); stroke-width: 1; }
-.band-box { fill: var(--band); stroke: none; }
-.grp-box { fill: none; stroke: var(--e-claude); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.8; }
-.grp-t { font: 700 10.5px/1 var(--f-display); fill: var(--ink-2); letter-spacing: 0.04em; }
-.n { cursor: pointer; transition: opacity 0.15s; }
-.n rect { fill: var(--surface); stroke: var(--axis); stroke-width: 1; }
-.n.row rect { fill: var(--surface); stroke: var(--line); }
-.n.ext rect { fill: var(--page); stroke-dasharray: 4 3; }
-.n:hover rect, .n.sel rect { stroke: var(--ink); stroke-width: 1.6; }
-.n .nt { font: 700 12.5px/1 var(--f-body); fill: var(--ink); }
-.n .ns { font: 400 11px/1 var(--f-body); fill: var(--ink-3); }
-.n .dot { stroke: var(--surface); stroke-width: 2; }
-.n .warn { fill: var(--warning); stroke: var(--surface); stroke-width: 2; }
-.ed { fill: none; stroke: var(--edge); stroke-width: 1.3; transition: opacity 0.15s, stroke 0.15s; }
-.ed.dash { stroke-dasharray: 4 4; }
-.el { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); paint-order: stroke; stroke: var(--halo); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; transition: opacity 0.15s; }
-.arrow { fill: var(--edge); }
-.el.quiet { opacity: 0; }
-.focus .ed { opacity: 0.1; } .focus .el { opacity: 0; } .focus .n { opacity: 0.32; }
-.focus .ed.on { opacity: 1; stroke: var(--ink); stroke-width: 1.8; } .focus .el.on { opacity: 1; fill: var(--ink-2); } .focus .n.on { opacity: 1; }
-.map-hint { font-size: 13px; color: var(--ink-3); padding: 0 14px 10px; }
+#map svg { display: block; width: max(100%, 1080px); height: auto; }.col-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-3); }.vault-box { fill: var(--surface-2); stroke: var(--axis); stroke-width: 1; }.band-box { fill: var(--band); stroke: none; }.grp-box { fill: none; stroke: var(--e-claude); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.8; }.grp-t { font: 700 10.5px/1 var(--f-display); fill: var(--ink-2); letter-spacing: 0.04em; }.n { cursor: pointer; transition: opacity 0.15s; }.n rect { fill: var(--surface); stroke: var(--axis); stroke-width: 1; }.n.row rect { fill: var(--surface); stroke: var(--line); }.n.ext rect { fill: var(--page); stroke-dasharray: 4 3; }.n:hover rect,.n.sel rect { stroke: var(--ink); stroke-width: 1.6; }.n.nt { font: 700 12.5px/1 var(--f-body); fill: var(--ink); }.n.ns { font: 400 11px/1 var(--f-body); fill: var(--ink-3); }.n.dot { stroke: var(--surface); stroke-width: 2; }.n.warn { fill: var(--warning); stroke: var(--surface); stroke-width: 2; }.ed { fill: none; stroke: var(--edge); stroke-width: 1.3; transition: opacity 0.15s, stroke 0.15s; }.ed.dash { stroke-dasharray: 4 4; }.el { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); paint-order: stroke; stroke: var(--halo); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; transition: opacity 0.15s; }.arrow { fill: var(--edge); }.el.quiet { opacity: 0; }.focus.ed { opacity: 0.1; }.focus.el { opacity: 0; }.focus.n { opacity: 0.32; }.focus.ed.on { opacity: 1; stroke: var(--ink); stroke-width: 1.8; }.focus.el.on { opacity: 1; fill: var(--ink-2); }.focus.n.on { opacity: 1; }.map-hint { font-size: 13px; color: var(--ink-3); padding: 0 14px 10px; }
 </style>
 
 <style>
-/* rotinas 24h */
-.tl-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 12px 14px 0; }
-.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 3px; gap: 2px; }
-.seg button { border: 0; background: none; padding: 5px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; color: var(--ink-3); }
-.seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1px var(--line); }
-#tl svg { display: block; width: max(100%, 980px); height: auto; }
-.tl-grid { stroke: var(--line); stroke-width: 1; }
-.tl-axis { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }
-.tl-grp { font: 700 10.5px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; fill: var(--ink-3); }
-.tl-name { font: 400 12.5px/1 var(--f-body); fill: var(--ink); cursor: pointer; }
-.tl-name:hover { text-decoration: underline; }
-.tl-when { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }
-.tl-row:hover .tl-hit { fill: var(--accent-wash); }
-.tl-hit { fill: transparent; }
-.tk { cursor: pointer; } .tk:hover { stroke: var(--ink); stroke-width: 1.5; }
-.tl-cont { opacity: 0.55; }
-.tl-now { stroke: var(--critical); stroke-width: 1.5; }
-.tl-now-t { font: 700 11px/1 var(--f-mono); fill: var(--critical); }
-.tl-win { fill: var(--band); }
-.tl-win-t { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); }
-.tl-event { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px 20px; padding: 4px 14px 14px; font-size: 13.5px; }
-.tl-event li { display: flex; gap: 8px; align-items: baseline; }
-.tl-event b { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); font-weight: 400; min-width: 86px; }
-.tip { position: fixed; z-index: 60; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-width: 280px; }
-.tip b { display: block; }
+/* rotinas 24h */.tl-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 12px 14px 0; }.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 3px; gap: 2px; }.seg button { border: 0; background: none; padding: 5px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; color: var(--ink-3); }.seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1px var(--line); }
+#tl svg { display: block; width: max(100%, 980px); height: auto; }.tl-grid { stroke: var(--line); stroke-width: 1; }.tl-axis { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }.tl-grp { font: 700 10.5px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; fill: var(--ink-3); }.tl-name { font: 400 12.5px/1 var(--f-body); fill: var(--ink); cursor: pointer; }.tl-name:hover { text-decoration: underline; }.tl-when { font: 400 11px/1 var(--f-mono); fill: var(--ink-3); }.tl-row:hover.tl-hit { fill: var(--accent-wash); }.tl-hit { fill: transparent; }.tk { cursor: pointer; }.tk:hover { stroke: var(--ink); stroke-width: 1.5; }.tl-cont { opacity: 0.55; }.tl-now { stroke: var(--critical); stroke-width: 1.5; }.tl-now-t { font: 700 11px/1 var(--f-mono); fill: var(--critical); }.tl-win { fill: var(--band); }.tl-win-t { font: 400 10.5px/1 var(--f-body); fill: var(--ink-3); }.tl-event { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px 20px; padding: 4px 14px 14px; font-size: 13.5px; }.tl-event li { display: flex; gap: 8px; align-items: baseline; }.tl-event b { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); font-weight: 400; min-width: 86px; }.tip { position: fixed; z-index: 60; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-width: 280px; }.tip b { display: block; }
 
-/* fluxos */
-.flows { display: grid; gap: 14px; }
-.flow { padding: 14px 16px 16px; }
-.flow-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 4px; }
-.flow-h h3 { font: 700 16px/1.3 var(--f-display); }
-.flow-io { font-size: 13px; color: var(--ink-3); }
-.flow-io b { color: var(--ink-2); font-weight: 700; }
-.stations { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr); overflow-x: auto; padding-top: 10px; }
-.st { position: relative; padding: 18px 12px 4px 0; }
-.st::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--axis); }
-.st:last-child::before { right: auto; width: 12px; }
-.st::after { content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink-2); }
-.st.local::after { background: var(--e-local); border-color: var(--e-local); }
-.st.claude::after { background: var(--e-claude); border-color: var(--e-claude); }
-.st.gemini::after { background: var(--e-gemini); border-color: var(--e-gemini); }
-.st.end::after { background: var(--ink); border-color: var(--ink); }
-.st-name { font-weight: 700; font-size: 13.5px; line-height: 1.3; }
-.st-name button { border: 0; background: none; padding: 0; font-weight: 700; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }
-.st-name button:hover { text-decoration-color: var(--ink); }
-.st-meta { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; margin-top: 2px; }
-.st-when { display: inline-block; margin-top: 4px; font: 400 11.5px/1.3 var(--f-mono); background: var(--surface-2); border-radius: 4px; padding: 1px 5px; color: var(--ink-2); }
-.flow-note { margin-top: 10px; font-size: 13px; color: var(--ink-2); max-width: 90ch; }
+/* fluxos */.flows { display: grid; gap: 14px; }.flow { padding: 14px 16px 16px; }.flow-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 4px; }.flow-h h3 { font: 700 16px/1.3 var(--f-display); }.flow-io { font-size: 13px; color: var(--ink-3); }.flow-io b { color: var(--ink-2); font-weight: 700; }.stations { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr); overflow-x: auto; padding-top: 10px; }.st { position: relative; padding: 18px 12px 4px 0; }.st::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--axis); }.st:last-child::before { right: auto; width: 12px; }.st::after { content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink-2); }.st.local::after { background: var(--e-local); border-color: var(--e-local); }.st.claude::after { background: var(--e-claude); border-color: var(--e-claude); }.st.gemini::after { background: var(--e-gemini); border-color: var(--e-gemini); }.st.end::after { background: var(--ink); border-color: var(--ink); }.st-name { font-weight: 700; font-size: 13.5px; line-height: 1.3; }.st-name button { border: 0; background: none; padding: 0; font-weight: 700; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }.st-name button:hover { text-decoration-color: var(--ink); }.st-meta { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; margin-top: 2px; }.st-when { display: inline-block; margin-top: 4px; font: 400 11.5px/1.3 var(--f-mono); background: var(--surface-2); border-radius: 4px; padding: 1px 5px; color: var(--ink-2); }.flow-note { margin-top: 10px; font-size: 13px; color: var(--ink-2); max-width: 90ch; }
 
-/* rodando agora */
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
-.card { padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
-.card h3 { font: 700 15px/1.3 var(--f-display); display: flex; justify-content: space-between; gap: 8px; }
-.card h3 small { font: 400 12px/1.3 var(--f-mono); color: var(--ink-3); }
-.card p { font-size: 13px; color: var(--ink-2); }
-.plist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
-.plist li:first-child { border-top: 0; }
-.plist .pn { font-weight: 700; }
-.plist .pp { font: 400 12px/1.4 var(--f-mono); color: var(--ink-3); text-align: right; white-space: nowrap; }
-.plist .pd { grid-column: 1 / -1; color: var(--ink-3); font-size: 12.5px; }
-.stack-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 22px 0 10px; }
-.ports { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.ports th, .ports td { text-align: left; padding: 7px 12px; border-top: 1px solid var(--line); vertical-align: top; }
-.ports th { font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); border-top: 0; }
-.ports td:first-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* rodando agora */.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }.card { padding: 14px 16px; display: grid; gap: 8px; align-content: start; }.card h3 { font: 700 15px/1.3 var(--f-display); display: flex; justify-content: space-between; gap: 8px; }.card h3 small { font: 400 12px/1.3 var(--f-mono); color: var(--ink-3); }.card p { font-size: 13px; color: var(--ink-2); }.plist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px; }.plist li:first-child { border-top: 0; }.plist.pn { font-weight: 700; }.plist.pp { font: 400 12px/1.4 var(--f-mono); color: var(--ink-3); text-align: right; white-space: nowrap; }.plist.pd { grid-column: 1 / -1; color: var(--ink-3); font-size: 12.5px; }.stack-h { font: 700 11px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 22px 0 10px; }.ports { width: 100%; border-collapse: collapse; font-size: 13.5px; }.ports th,.ports td { text-align: left; padding: 7px 12px; border-top: 1px solid var(--line); vertical-align: top; }.ports th { font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); border-top: 0; }.ports td:first-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-/* status */
-.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 2px 9px 2px 6px; white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }
-.pill i { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-3); }
-.pill.good i { background: var(--good); } .pill.warning i { background: var(--warning); } .pill.serious i { background: var(--serious); } .pill.critical i { background: var(--critical); } .pill.info i { background: var(--accent); }
-.att { display: grid; gap: 10px; }
-.att li { padding: 14px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; }
-.att .sev { grid-row: span 3; padding-top: 2px; }
-.att h3 { font: 700 15px/1.35 var(--f-body); }
-.att p { font-size: 14px; color: var(--ink-2); max-width: 92ch; }
-.att .fix { font-size: 13px; color: var(--ink-3); }
-.att .fix b { color: var(--ink-2); }
+/* status */.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 2px 9px 2px 6px; white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }.pill i { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-3); }.pill.good i { background: var(--good); }.pill.warning i { background: var(--warning); }.pill.serious i { background: var(--serious); }.pill.critical i { background: var(--critical); }.pill.info i { background: var(--accent); }.att { display: grid; gap: 10px; }.att li { padding: 14px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; }.att.sev { grid-row: span 3; padding-top: 2px; }.att h3 { font: 700 15px/1.35 var(--f-body); }.att p { font-size: 14px; color: var(--ink-2); max-width: 92ch; }.att.fix { font-size: 13px; color: var(--ink-3); }.att.fix b { color: var(--ink-2); }
 
-/* inventário */
-.inv-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
-.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
-.chip.on { background: var(--ink); color: var(--page); border-color: var(--ink); }
-#inv-q { flex: 1 1 220px; min-width: 0; max-width: 360px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 14px; }
-.inv { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 13.5px; }
-.inv th { text-align: left; font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 10px 12px; border-bottom: 1px solid var(--axis); position: sticky; top: 0; background: var(--surface); }
-.inv td { padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }
-.inv tbody tr { cursor: pointer; }
-.inv tbody tr:hover td { background: var(--accent-wash); }
-.inv .k { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
-.inv .w { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); }
-.inv .nm { font-weight: 700; }
+/* inventário */.inv-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--ink-2); }.chip.on { background: var(--ink); color: var(--page); border-color: var(--ink); }
+#inv-q { flex: 1 1 220px; min-width: 0; max-width: 360px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 14px; }.inv { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 13.5px; }.inv th { text-align: left; font: 700 11px/1.2 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 10px 12px; border-bottom: 1px solid var(--axis); position: sticky; top: 0; background: var(--surface); }.inv td { padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }.inv tbody tr { cursor: pointer; }.inv tbody tr:hover td { background: var(--accent-wash); }.inv.k { font-size: 12px; color: var(--ink-3); white-space: nowrap; }.inv.w { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); }.inv.nm { font-weight: 700; }
 
-/* gaveta de detalhe */
-.drawer { position: fixed; z-index: 50; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow); transform: translateX(105%); transition: transform 0.22s ease; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); }
-.drawer.open { transform: none; }
-.dr-h { display: flex; gap: 10px; align-items: flex-start; padding: 16px 16px 12px; border-bottom: 1px solid var(--line); }
-.dr-h h3 { font: 700 19px/1.25 var(--f-display); flex: 1; text-wrap: balance; }
-.dr-h .kind { display: block; font: 400 12px/1.4 var(--f-body); color: var(--ink-3); margin-bottom: 4px; }
-.dr-x { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; width: 34px; height: 34px; font-size: 18px; line-height: 1; flex: none; }
-.dr-b { overflow-y: auto; padding: 6px 16px 24px; display: grid; gap: 2px; align-content: start; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
-.dr-b dl { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-.dr-b dt { font: 700 11px/1.5 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }
-.dr-b dd { color: var(--ink); overflow-wrap: anywhere; }
-.dr-note { font-size: 14px; color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--line); }
-.dr-links { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; }
-.dr-links button { border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 4px 9px; font-size: 13px; }
-.dr-links button:hover { border-color: var(--ink); }
-.dr-sub { font: 700 11px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-top: 14px; }
-.scrim { position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, 0.25); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.scrim.open { opacity: 1; pointer-events: auto; }
+/* gaveta de detalhe */.drawer { position: fixed; z-index: 50; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow); transform: translateX(105%); transition: transform 0.22s ease; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); }.drawer.open { transform: none; }.dr-h { display: flex; gap: 10px; align-items: flex-start; padding: 16px 16px 12px; border-bottom: 1px solid var(--line); }.dr-h h3 { font: 700 19px/1.25 var(--f-display); flex: 1; text-wrap: balance; }.dr-h.kind { display: block; font: 400 12px/1.4 var(--f-body); color: var(--ink-3); margin-bottom: 4px; }.dr-x { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; width: 34px; height: 34px; font-size: 18px; line-height: 1; flex: none; }.dr-b { overflow-y: auto; padding: 6px 16px 24px; display: grid; gap: 2px; align-content: start; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }.dr-b dl { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }.dr-b dt { font: 700 11px/1.5 var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }.dr-b dd { color: var(--ink); overflow-wrap: anywhere; }.dr-note { font-size: 14px; color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--line); }.dr-links { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; }.dr-links button { border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 4px 9px; font-size: 13px; }.dr-links button:hover { border-color: var(--ink); }.dr-sub { font: 700 11px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-top: 14px; }.scrim { position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, 0.25); opacity: 0; pointer-events: none; transition: opacity 0.2s; }.scrim.open { opacity: 1; pointer-events: auto; }
 footer { padding-block: 40px 48px; color: var(--ink-3); font-size: 13px; }
-@media (max-width: 640px) {
-  .drawer { top: auto; width: 100vw; height: 78vh; border-left: 0; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; transform: translateY(105%); }
-  .drawer.open { transform: none; }
-  .stations { grid-auto-flow: row; grid-auto-columns: auto; }
-  .st { padding: 0 0 14px 24px; }
-  .st::before { top: 6px; bottom: 0; left: 5px; right: auto; width: 2px; height: auto; }
-  .st:last-child::before { display: none; }
-  .att li { grid-template-columns: 1fr; }
-  .att .sev { grid-row: auto; }
+@media (max-width: 640px) {.drawer { top: auto; width: 100vw; height: 78vh; border-left: 0; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; transform: translateY(105%); }.drawer.open { transform: none; }.stations { grid-auto-flow: row; grid-auto-columns: auto; }.st { padding: 0 0 14px 24px; }.st::before { top: 6px; bottom: 0; left: 5px; right: auto; width: 2px; height: auto; }.st:last-child::before { display: none; }.att li { grid-template-columns: 1fr; }.att.sev { grid-row: auto; }
   section { padding-block: 32px 4px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -262,7 +107,7 @@ footer { padding-block: 40px 48px; color: var(--ink-3); font-size: 13px; }
     <a href="#rotinas">Rotinas 24 h</a>
     <a href="#fluxos">Fluxos</a>
     <a href="#rodando">Rodando agora</a>
-    <a href="#atencao">Atenção <span class="count" id="att-count">7</span></a>
+    
     <a href="#inventario">Inventário</a>
   </div>
 </nav>
@@ -324,13 +169,7 @@ footer { padding-block: 40px 48px; color: var(--ink-3); font-size: 13px; }
     <div id="running"></div>
   </section>
 
-  <section id="atencao">
-    <div class="sec-head">
-      <h2>Pontos de atenção</h2>
-      <p>O que o raio-X encontrou fora do eixo, do mais sério para o mais leve. Nada aqui foi alterado: é só diagnóstico.</p>
-    </div>
-    <ul class="att" id="att"></ul>
-  </section>
+  
 
   <section id="inventario">
     <div class="sec-head">
@@ -356,14 +195,11 @@ footer { padding-block: 40px 48px; color: var(--ink-3); font-size: 13px; }
 </aside>
 <div class="tip" id="tip" hidden></div>
 
-<style>
-.linkish { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }
-.linkish:hover { text-decoration-color: var(--ink); }
-.inv tbody tr:focus-visible td { background: var(--accent-wash); }
-@media (min-width: 641px) { .scrim { display: none; } }
+<style>.linkish { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-align: left; text-decoration: underline; text-decoration-color: var(--axis); text-underline-offset: 3px; }.linkish:hover { text-decoration-color: var(--ink); }.inv tbody tr:focus-visible td { background: var(--accent-wash); }
+@media (min-width: 641px) {.scrim { display: none; } }
 </style><script>
 const PUBLICO = true;
-const LIVE = {"gerado":"2026-09-27T22:38:57","geradoLabel":"domingo, 27/09/2026, 22:38","minuto":1358,"dow":0,"fatos":{"ligado":"ontem 12:40 · 34 h","claude":"~US$ 0,9/dia · cota 7 d 24%","discos":"C: 1.646 GB livres · E: 706 GB livres","rodando":"5 daemons · 6 contêineres · 1 VM","vault":"41 fontes · 11 diários · 8 commits hoje"},"itens":{"s-watchdog":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"t-rb-vault":{"next":"hoje 23:00","last":"hoje 22:00 · ok"},"c-semanal":{"last":"ontem 12:50 · código 1","next":"sex 02/10 07:30","status":"warn"},"t-rb-local":{"next":"04/10 05:45","last":"hoje 05:45 · ok"},"e-cockpit":{"last":"de pé agora"},"c-gemini":{"next":"hoje 22:57","last":"hoje 22:27 · ok"},"b-email":{"next":"amanhã 06:50","last":"hoje 06:50 · ok"},"t-reboot":{"last":"hoje 04:30 · ok"},"t-prereboot":{"last":"hoje 04:20 · ok"},"c-diario":{"next":"amanhã 02:20","last":"hoje 18:20 · ok"},"t-git":{"last":"hoje 22:30 · ok"},"t-rb-check":{"next":"04/10 03:30","last":"hoje 03:30 · ok"},"c-inbox":{"next":"amanhã 02:00","last":"hoje 22:00 · ok"},"t-lint":{"next":"sex 02/10 07:00","last":"ontem 12:50 · ok"},"s-sentinel":{"last":"ontem 12:45 · ok"},"t-energia-h":{"next":"hoje 23:00","last":"hoje 17:00 · ok"},"s-lock":{"last":"ontem 12:40 · ok"},"t-rb-sis":{"next":"amanhã 03:05","last":"hoje 03:05 · ok"},"b-icloud":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"t-rb-scopy":{"next":"amanhã 05:00","last":"hoje 05:00 · ok"},"t-energia-b":{"last":"ontem 12:40 · ok"},"t-energia-d":{"last":"ontem 12:40 · ok"},"t-rb-prune":{"next":"amanhã 05:15","last":"hoje 05:15 · ok"},"t-restore":{"last":"hoje 04:00 · ok"},"t-rgb":{"last":"ontem 12:40 · ok"},"b-transcribe":{"next":"hoje 23:20","last":"hoje 22:20 · ok"},"t-rb-vcopy":{"next":"amanhã 04:45","last":"hoje 04:45 · ok"},"s-daemons":{"last":"ontem 12:41 · ok"},"t-drift":{"last":"hoje 05:00 · código 1","status":"warn"},"s-avisos":{"last":"hoje 08:00 · ok"},"e-obsidian":{"last":"de pé agora"},"d-ollama":{"last":"de pé agora"},"c-email":{"next":"amanhã 07:00","last":"hoje 07:00 · ok"},"c-local":{"next":"amanhã 09:40","last":"hoje 20:40 · ok"},"b-applaud":{"last":"de pé agora"},"t-cockpit":{"last":"ontem 12:40 · ok"},"b-bridge":{"last":"de pé agora"},"t-cockpit-wd":{"next":"hoje 22:43","last":"hoje 22:38 · ok"}},"att":[["warning","2 rotina(s) terminaram com erro","Últimas: Claude-Semanal (código 1, ontem 12:50) · Server-DriftCheck (código 1, hoje 05:00).","Abrir a rotina no inventário para ver o script e o log; as que rodam como SYSTEM pedem um terminal elevado.",null],["warning","5 job(s) do Claude falharam nos últimos 3 dias","inbox às 12:50 · semanal às 12:50 · diario às 12:50 · email às 12:50 · inbox às 02:00","Ler o jsonl da execução em _meta/logs. Quando várias recuperações caem no mesmo minuto, costuma ser disputa pelo lock do vault.","c-inbox"],["warning","Um aviso não chegou até você","O notify.ps1 registrou 1 vez(es) SEM CANAL nos últimos 7 dias (nem ntfy nem Telegram) e 5 falha(s) de envio.","Fazer o notify.ps1 guardar o que não saiu e reenviar na rodada seguinte do watchdog.","e-ntfy"],["low","A rota da Siri está sem uso","Nenhuma captura por iCloud Drive desde 12/09; a tarefa continua rodando a cada 5 min.","Testar com um lembrete pela Siri; se não chegar, conferir o Atalho no iPhone.","b-icloud"]],"memoria":[["claude",21,1915.0],["llama-server",1,983.0],["vmmemWSL",1,582.0],["msedge",9,502.0],["svchost",92,489.0],["msedgewebview2",6,262.0]],"containers":[["homeassistant","Up 34 hours"],["qbittorrent","Up 34 hours"],["jellyfin","Up 34 hours (healthy)"],["zigbee2mqtt","Up 34 hours"],["open-webui","Up 34 hours (healthy)"],["mosquitto","Up 34 hours"]],"vault":{"diario":11,"notas":2,"fontes":41,"inbox":0}};
+const LIVE = {"gerado":"2026-09-27T22:38:57","geradoLabel":"domingo, 27/09/2026, 22:38","minuto":1358,"dow":0,"fatos":{"ligado":"ontem 12:40 · 34 h","claude":"~US$ 0,9/dia · cota 7 d 24%","discos":"C: 1.646 GB livres · E: 706 GB livres","rodando":"5 daemons · 6 contêineres · 1 VM","vault":"41 fontes · 11 diários · 8 commits hoje"},"itens":{"s-watchdog":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"t-rb-vault":{"next":"hoje 23:00","last":"hoje 22:00 · ok"},"c-semanal":{"last":"ontem 12:50 · código 1","next":"sex 02/10 07:30","status":"warn"},"t-rb-local":{"next":"04/10 05:45","last":"hoje 05:45 · ok"},"e-cockpit":{"last":"de pé agora"},"c-gemini":{"next":"hoje 22:57","last":"hoje 22:27 · ok"},"b-email":{"next":"amanhã 06:50","last":"hoje 06:50 · ok"},"t-reboot":{"last":"hoje 04:30 · ok"},"t-prereboot":{"last":"hoje 04:20 · ok"},"c-diario":{"next":"amanhã 02:20","last":"hoje 18:20 · ok"},"t-git":{"last":"hoje 22:30 · ok"},"t-rb-check":{"next":"04/10 03:30","last":"hoje 03:30 · ok"},"c-inbox":{"next":"amanhã 02:00","last":"hoje 22:00 · ok"},"t-lint":{"next":"sex 02/10 07:00","last":"ontem 12:50 · ok"},"s-sentinel":{"last":"ontem 12:45 · ok"},"t-energia-h":{"next":"hoje 23:00","last":"hoje 17:00 · ok"},"s-lock":{"last":"ontem 12:40 · ok"},"t-rb-sis":{"next":"amanhã 03:05","last":"hoje 03:05 · ok"},"b-icloud":{"next":"hoje 22:40","last":"hoje 22:35 · ok"},"t-rb-scopy":{"next":"amanhã 05:00","last":"hoje 05:00 · ok"},"t-energia-b":{"last":"ontem 12:40 · ok"},"t-energia-d":{"last":"ontem 12:40 · ok"},"t-rb-prune":{"next":"amanhã 05:15","last":"hoje 05:15 · ok"},"t-restore":{"last":"hoje 04:00 · ok"},"t-rgb":{"last":"ontem 12:40 · ok"},"b-transcribe":{"next":"hoje 23:20","last":"hoje 22:20 · ok"},"t-rb-vcopy":{"next":"amanhã 04:45","last":"hoje 04:45 · ok"},"s-daemons":{"last":"ontem 12:41 · ok"},"t-drift":{"last":"hoje 05:00 · código 1","status":"warn"},"s-avisos":{"last":"hoje 08:00 · ok"},"e-obsidian":{"last":"de pé agora"},"d-ollama":{"last":"de pé agora"},"c-email":{"next":"amanhã 07:00","last":"hoje 07:00 · ok"},"c-local":{"next":"amanhã 09:40","last":"hoje 20:40 · ok"},"b-applaud":{"last":"de pé agora"},"t-cockpit":{"last":"ontem 12:40 · ok"},"b-bridge":{"last":"de pé agora"},"t-cockpit-wd":{"next":"hoje 22:43","last":"hoje 22:38 · ok"}},"att":[],"memoria":[["claude",21,1915.0],["llama-server",1,983.0],["vmmemWSL",1,582.0],["msedge",9,502.0],["svchost",92,489.0],["msedgewebview2",6,262.0]],"containers":[["homeassistant","Up 34 hours"],["qbittorrent","Up 34 hours"],["jellyfin","Up 34 hours (healthy)"],["zigbee2mqtt","Up 34 hours"],["open-webui","Up 34 hours (healthy)"],["mosquitto","Up 34 hours"]],"vault":{"diario":11,"notas":2,"fontes":41,"inbox":0}};
 
 // ─── Mapa: nós (coordenadas fixas num viewBox 1240 × 740) ───────────────────
 const COLS = { A: [16, 150], B: [240, 182], C: [488, 196], D: [760, 192], E: [1036, 188] };
@@ -371,7 +207,7 @@ const VS = 'Tarefa agendada · \\VaultServer\\';
 const NODES = [
   // Fontes (fora do PC)
   { id: 'a-iphone', c: 'A', y: 40, ext: 1, t: 'iPhone', s: 'Siri · Atalhos', k: 'Fonte externa', dom: 'cerebro',
-    out: 'Arquivos .md/.txt que o Atalho grava em iCloud Drive\\Capturas', note: 'Rota escolhida em 12/09: o Obsidian Sync no iOS só envia com o app aberto, o iCloud sincroniza em segundo plano.' },
+    out: 'Arquivos.md/.txt que o Atalho grava em iCloud Drive\\Capturas', note: 'Rota escolhida em 12/09: o Obsidian Sync no iOS só envia com o app aberto, o iCloud sincroniza em segundo plano.' },
   { id: 'a-telegram', c: 'A', y: 120, ext: 1, t: 'Telegram', s: 'captura + secretária', k: 'Fonte externa', dom: 'cerebro',
     out: 'Texto, links, áudio de voz, fotos, prints de post e perguntas', note: 'Só o seu chat é atendido; mensagens de outros chats são ignoradas e registradas.' },
   { id: 'a-plaud', c: 'A', y: 270, ext: 1, t: 'Gravador PLAUD', s: 'nuvem PLAUD', k: 'Fonte externa', dom: 'cerebro',
@@ -385,64 +221,64 @@ const NODES = [
   { id: 'b-icloud', c: 'B', y: 40, eng: 'script', warn: 1, t: 'Capture-iCloud', s: 'a cada 5 min', k: VS + 'Capture-iCloud', dom: 'cerebro', as: 'pedro (Interactive)',
     when: 'A cada 5 min, o dia todo', last: 'hoje 22:15 · ok', next: 'hoje 22:20',
     in: 'uma pasta do usuário (*.md, *.txt)', out: '00-Inbox (txt vira md; nome em conflito ganha sufixo)',
-    where: 'server-config\\scripts\\icloud-inbox.ps1', logs: '_meta/logs/icloud.log · _meta/tmp/icloud-seen.json',
+    where: '', logs: '',
     note: 'O iCloud para Windows está rodando agora, mas a pasta Capturas está vazia e a última captura movida foi em 12/09: a rota está de pé e sem uso há duas semanas.' },
   { id: 'b-bridge', c: 'B', y: 120, eng: 'script', t: 'Ponte do Telegram', s: 'pythonw · sempre ligada', k: 'Daemon · telegram-bridge.py', dom: 'cerebro', as: 'pedro',
     when: 'Sempre ligada (long polling, sem porta aberta). Sobe no logon pelo Server-Daemons; o watchdog religa em até 5 min se cair.',
     in: 'Mensagens do seu chat no bot', out: 'texto → 00-Inbox · link do YouTube → youtube.py · outro link → página limpa no inbox · áudio → 00-Inbox/_audio e transcrição na hora · foto → _assets/inbox + ponteiro · print de post → visão local → 50-Fontes/instagram · /status e perguntas → secretária',
-    where: 'server-config\\scripts\\telegram-bridge.py (estado em C:\\Tools\\telegram\\state.json)', logs: '_meta/logs/telegram.log',
-    note: 'Mensagem é dado, não comando: fora dos comandos fixos, nada do texto é executado. Hoje o log registrou quatro quedas de rede momentâneas (timeout de leitura); a ponte reconecta sozinha em 5 s.' },
+    where: '', logs: '',
+    note: 'Mensagem é dado, não comando: fora dos comandos fixos, nada do texto é executado. ' },
   { id: 'b-transcribe', c: 'B', y: 200, eng: 'local', t: 'Capture-Transcribe', s: 'hh:20 · Whisper na GPU', k: VS + 'Capture-Transcribe', dom: 'cerebro', as: 'pedro (Interactive)',
     when: 'De hora em hora, aos 20 min (e na hora, quando chega áudio pelo Telegram)', last: 'hoje 21:20 · nada novo', next: 'hoje 22:20',
     in: 'Gravações do applaud (C:\\Tools\\applaud\\data) e 00-Inbox/_audio', out: 'Transcrição com marcas de tempo em 20-Areas/Privado/transcricoes (padrão do PLAUD) ou 50-Fontes/transcricoes (etiqueta trabalho e áudios do inbox) + ponteiro em 00-Inbox',
-    where: 'scripts\\transcribe.ps1 → transcribe.py no venv C:\\Tools\\whisper (faster-whisper large-v3, float16, CUDA)', logs: '_meta/logs/transcribe.log · C:\\Tools\\whisper\\state.json (nunca transcreve duas vezes)',
+    where: '', logs: '',
     note: 'Não roda se um job do Claude estiver com o lock do vault; tenta na hora seguinte.' },
   { id: 'b-applaud', c: 'B', y: 270, eng: 'script', t: 'applaud', s: 'node 22 · IP da rede local:44471', k: 'Daemon · C:\\Tools\\applaud', dom: 'cerebro', as: 'pedro',
     when: 'Sempre ligado; sobe no logon (Server-Daemons) e o watchdog religa', in: 'Conta PLAUD (tokens em %APPDATA%\\applaud\\settings.json)', out: 'C:\\Tools\\applaud\\data\\<gravação>\\audio.ogg + metadata.json',
-    where: 'node server/dist/index.js com o Node 22 do fnm (better-sqlite3 não tem binário para o Node 24)', logs: '_meta/logs/daemons.log',
+    where: '', logs: '',
     note: 'Interface local em http://IP da rede local:44471.' },
   { id: 'b-email', c: 'B', y: 350, eng: 'script', t: 'Capture-Email', s: '06:50 · IMAP só leitura', k: VS + 'Capture-Email', dom: 'cerebro', as: 'pedro (Interactive)',
     when: 'Todo dia 06:50', last: 'hoje 06:50 · ok (25 mensagens)', next: 'amanhã 06:50',
-    in: 'Gmail por IMAP com senha de app (~\\.secrets); nunca marca como lido, nunca apaga', out: '_meta/tmp/email-<data>.md (remetente, assunto, trecho, links)',
-    where: 'scripts\\gmail-collect.ps1 → gmail-collect.py', logs: '_meta/logs/email.log' },
+    in: 'Gmail por IMAP com senha de app; nunca marca como lido, nunca apaga', out: '_meta/tmp/email-<data>.md (remetente, assunto, trecho, links)',
+    where: '', logs: '' },
   { id: 'b-gsync', c: 'B', y: 590, eng: 'script', t: 'Sync do Garmin', s: 'pelo cockpit · a cada 6 h', k: 'Rotina interna do cockpit', dom: 'saude', as: 'pedro',
     when: 'A cada 6 h desde que o cockpit subiu, e no botão ↻ (tecla G), com intervalo mínimo de 10 min', in: 'API do Garmin Connect (tokens em garmin-insights\\.garmin_tokens)', out: 'Documents\\garmin-insights\\data\\garmin.db (SQLite: daily, intraday, activities, insights)',
-    last: 'hoje 18:52 · garmin.db atualizado', where: 'garmin-insights\\sync.py --from <último dia> --refresh --intraday-days 2', note: 'O mesmo banco alimenta o dashboard Streamlit (app.py) e as análises locais (analyst.py → Ollama) do garmin-insights.' },
+    last: 'hoje 18:52 · garmin.db atualizado', where: '', note: 'O mesmo banco alimenta o dashboard Streamlit (app.py) e as análises locais (analyst.py → Ollama) do garmin-insights.' },
 
   // Processamento
   { id: 'c-secretaria', c: 'C', y: 40, eng: 'claude', t: 'Secretária', s: 'Claude só leitura · 30/dia', k: 'Camada da ponte · secretaria.py', dom: 'cerebro', as: 'pedro',
     when: 'Quando você pergunta algo no Telegram', in: 'Sua pergunta + leitura do vault (nunca 20-Areas/Privado)', out: 'Resposta no Telegram',
-    where: 'scripts\\secretaria.py · config\\claude-secretaria-settings.json · config\\prompts\\secretaria.md', logs: '_meta/logs/secretaria-ledger.csv (10 perguntas até hoje)',
+    where: '', logs: '',
     note: 'Primeiro tenta responder por leitura direta (hoje, tarefas, inbox, aniversários), sem gastar cota. O resto vai para o Claude em modo só leitura, com a conversa mantida por 6 h e disjuntor de cota.' },
   { id: 'c-vision', c: 'C', y: 120, eng: 'local', t: 'Visão local', s: 'qwen2.5vl:7b · prints de post', k: 'Etapa da ponte do Telegram', dom: 'cerebro', as: 'pedro',
     when: 'Quando chega um print de post (Instagram, Threads, TikTok, X)', in: 'Imagem', out: '50-Fontes/instagram (assunto, autor, pontos, tema → tag) + imagem em _assets/instagram',
-    where: 'telegram-bridge.py → Ollama IP da rede local:11434', note: 'Sem custo e sem sair do PC.' },
+    where: '', note: 'Sem custo e sem sair do PC.' },
   { id: 'c-local', c: 'C', y: 200, eng: 'local', t: 'Local-Reunioes', s: 'hh:40 · qwen3:14b', k: VS + 'Local-Reunioes', dom: 'cerebro', as: 'pedro (Interactive)',
     when: '09:40, 10:40, 11:40, 13:40, 14:40, 15:40, 16:40, 17:40, 19:40, 20:40 (pula 12 h e 18 h, quando roda o Claude)', last: 'hoje 20:40 · nenhum ponteiro no inbox', next: 'amanhã 09:40',
     in: 'Ponteiros de áudio em 00-Inbox + a transcrição ligada', out: 'Rascunho em 50-Fontes/reunioes (status draft, ai_generated, model qwen3:14b); ponteiro → 90-Arquivo/inbox; relatório na Central de revisão',
-    where: 'scripts\\local-job.py reunioes --max 6', logs: '_meta/logs/local-job.log',
+    where: '', logs: '',
     note: 'O modelo local faz o volume de graça; o Claude revisa depois (Claude-Inbox, passo 0).' },
   { id: 'c-inbox', c: 'C', y: 280, eng: 'claude', warn: 1, t: 'Claude-Inbox', s: '02 · 12 · 18 · 22 h', k: VS + 'Claude-Inbox', dom: 'cerebro', as: 'pedro (Interactive)',
     when: '02:00, 12:00, 18:00, 22:00', last: 'hoje 22:00 · ok (9 turnos, US$ 0,23)', next: 'amanhã 02:00',
     in: '_meta/tmp/digest-inbox.md, 00-Inbox, rascunhos do qwen', out: 'Revisa até 3 rascunhos do qwen (reviewed_by: claude); cria até 2 notas de reunião; ideias viram notas atômicas; menções vão para a nota da pessoa; capturas processadas → 90-Arquivo/inbox',
-    where: 'scripts\\claude-job.ps1 -Name inbox · teto 20 turnos e US$ 2,50', logs: '_meta/logs/job-inbox-*.jsonl · jobs-ledger.csv',
-    note: 'Lembretes, treino, alimentação, sono e frases soltas ficam para o Claude-Diario, que roda logo depois. A rodada das 02:00 de hoje falhou no primeiro turno (exit 1, sem custo), como as quatro da volta de 26/09.' },
+    where: '', logs: '',
+    note: 'Lembretes, treino, alimentação, sono e frases soltas ficam para o Claude-Diario, que roda logo depois. ' },
   { id: 'c-diario', c: 'C', y: 336, eng: 'claude', t: 'Claude-Diario', s: '02:20 · 18:20', k: VS + 'Claude-Diario', dom: 'cerebro', as: 'pedro (Interactive)',
     when: '02:20 e 18:20', last: 'hoje 18:20 · ok (6 turnos)', next: 'amanhã 02:20',
     in: '_meta/tmp/digest-diario.md, a daily anterior e o 00-Inbox', out: '70-Diario/<data>.md: seção Pendências (tarefas abertas, lembretes, Saúde, Log, links, fila de revisão); campos treino/alimentação/sono',
-    where: 'claude-job.ps1 -Name diario · teto 12 turnos e US$ 1,50', logs: '_meta/logs/job-diario-*.jsonl', note: 'Nunca edita dias anteriores.' },
+    where: '', logs: '', note: 'Nunca edita dias anteriores.' },
   { id: 'c-email', c: 'C', y: 392, eng: 'claude', t: 'Claude-Email', s: '07:00', k: VS + 'Claude-Email', dom: 'cerebro', as: 'pedro (Interactive)',
     when: 'Todo dia 07:00', last: 'hoje 07:00 · ok (10 turnos, US$ 0,39)', next: 'amanhã 07:00',
     in: '_meta/tmp/email-<data>.md', out: '50-Fontes/email/<data> E-mails.md',
-    where: 'scripts\\email-job.ps1 → claude-job.ps1 -Name email', logs: '_meta/logs/email.log',
+    where: '', logs: '',
     note: 'Desde 15/09 garante o digest antes de rodar: se o coletor não gerou o arquivo, roda o coletor; se ainda faltar, avisa em vez de fingir sucesso.' },
   { id: 'c-semanal', c: 'C', y: 448, eng: 'claude', warn: 1, t: 'Claude-Semanal', s: 'sexta 07:30', k: VS + 'Claude-Semanal', dom: 'cerebro', as: 'pedro (Interactive)',
     when: 'Sexta 07:30', last: 'não rodou em 25/09 (PC desligado); a recuperação de 26/09 falhou (exit 1)', next: '02/10 07:30',
-    in: 'Notas de 50-Fontes/instagram dos últimos 7 dias', out: 'Nota Resumo da semana', where: 'claude-job.ps1 -Name semanal · config\\prompts\\semanal.md' },
+    in: 'Notas de 50-Fontes/instagram dos últimos 7 dias', out: 'Nota Resumo da semana', where: '' },
   { id: 'c-gemini', c: 'C', y: 530, eng: 'gemini', t: 'Piloto Gemini', s: 'sombra · 30 min · até 30/09', k: 'Tarefa agendada · \\Piloto\\Gemini sombra', dom: 'ia', as: 'pedro',
     when: 'A cada 30 min (hh:27 e hh:57) de 16/09 15:24 a 30/09 15:24', last: 'hoje 18:28 · ok', next: 'hoje 22:27',
     in: 'Cada execução nova no jobs-ledger.csv + o commit que o Claude recebeu', out: 'Refaz o job com gemini-3.1-pro-high numa cópia do vault (sem Privado) e publica a comparação em _meta/piloto-gemini',
-    where: 'server-config\\scripts\\piloto-gemini\\gemini-sombra.ps1 · uma pasta do usuário', logs: 'PilotoGemini\\ledger.csv (40 comparações) · _meta/logs/piloto-gemini.log',
+    where: '', logs: '',
     note: 'O Gemini nunca escreve no vault real. O piloto termina em 30/09 às 15:24.' },
 
   // Vault
@@ -473,30 +309,30 @@ const NODES = [
     note: 'Regra 3-2-1: original no C:, off-site no B2, cópia local no E:. E: fica sem BitLocker de propósito.' },
   { id: 'e-cockpit', c: 'E', y: 590, eng: 'local', t: 'Cockpit', s: ':8765 · monitor, tablet, iPad', k: 'Daemon · C:\\Tools\\cockpit', dom: 'cockpit', as: 'pedro',
     when: 'Sobe no logon (\\Cockpit\\Cockpit) e o Cockpit-Watchdog religa a cada 5 min', in: 'Vault e _meta, jobs-ledger, watchdog.json, cota, garmin.db, Home Assistant (VM), Agendador, sensores do PC', out: 'Painel v2 no monitor (kiosk), tablet da parede /tablet, iPad /ipad com ações, alertas',
-    where: 'C:\\Tools\\cockpit (Python 3.13, SQLite em data\\cockpit.db)', logs: 'data\\cockpit.log',
-    note: 'Resumos da casa e do cérebro com qwen3:14b a cada 30 min (adiados se a GPU estiver ocupada). Quatro aparelhos pareados: o Fire da parede, o iPad e um Echo Show liberado hoje. As telas alexa-8, alexa-10 e tablet-10 apareceram em web\\ hoje e ainda não estão ligadas ao servidor.' },
+    where: '', logs: '',
+    note: 'Resumos da casa e do cérebro com qwen3:14b a cada 30 min (adiados se a GPU estiver ocupada). ' },
 
   // Supervisão
   { id: 's-lock', band: 1, x: 16, t: 'Autologon + trava', s: 'logon + 5 s', eng: 'script', k: VS + 'Server-LockAfterLogon', dom: 'servidor', as: 'pedro (Interactive)',
     when: '5 s depois de cada logon', last: '26/09 12:40 · ok', note: 'O autologon deixa a sessão de pedro aberta depois de um boot (jobs Interactive precisam dela) e a tarefa trava a tela logo em seguida. BitLocker com TPM no C:.' },
   { id: 's-daemons', band: 1, x: 196, t: 'Server-Daemons', s: 'logon + 1 min', eng: 'script', k: VS + 'Server-Daemons', dom: 'servidor', as: 'pedro (Interactive)',
-    when: '1 min depois do logon', last: '26/09 12:41 · ok', where: 'scripts\\ensure-daemons.ps1', note: 'Lança a ponte e o applaud desacoplados do console (auditoria de 15/09: eles morriam juntos com 0xC000013A). Substituiu as antigas tarefas Telegram-Bridge e Plaud-Sync.' },
+    when: '1 min depois do logon', last: '26/09 12:41 · ok', where: '', note: 'Lança a ponte e o applaud desacoplados do console (auditoria de 15/09: eles morriam juntos com 0xC000013A). Substituiu as antigas tarefas Telegram-Bridge e Plaud-Sync.' },
   { id: 's-watchdog', band: 1, x: 376, t: 'Server-Watchdog', s: 'a cada 5 min', eng: 'script', warn: 1, k: VS + 'Server-Watchdog', dom: 'servidor', as: 'pedro (Interactive)',
     when: 'A cada 5 min e 20 s depois do logon', last: 'hoje 22:15 · ok', next: 'hoje 22:20',
     out: 'Relança Obsidian e daemons; checa Tailscale, sshd, discos, login do Claude, lock, git sujo, tarefas com falha → _meta/tmp/watchdog.json; ntfy só quando algo muda e resumo às 07:00',
-    where: 'scripts\\watchdog.ps1', logs: '_meta/logs/watchdog.log', note: 'Hoje ele registra um “relançado” sem nome a cada 5 min e marca Tailscale como erro. Os dois são falsos positivos: veja Pontos de atenção.' },
+    where: '', logs: '', note: 'Hoje ele registra um “relançado” sem nome a cada 5 min e marca Tailscale como erro. Os dois são falsos positivos: veja Pontos de atenção.' },
   { id: 's-sentinel', band: 1, x: 556, t: 'Boot sentinel', s: 'boot + 4 min · SYSTEM', eng: 'script', k: VS + 'Server-BootSentinel', dom: 'servidor', as: 'SYSTEM',
-    when: '4 min depois do boot', last: '26/09 12:44 · ok', where: 'scripts\\boot-sentinel.ps1', logs: 'C:\\ProgramData\\vault-server\\logs\\sentinel.log',
+    when: '4 min depois do boot', last: '26/09 12:44 · ok', where: '', logs: '',
     note: 'A única coisa que percebe autologon quebrado: avisa se ninguém logou, reporta reboot pendente e BitLocker, limpa lock órfão.' },
   { id: 's-reboot', band: 1, x: 736, warn: 1, t: 'Manutenção', s: 'domingo 04:00–05:00', eng: 'script', k: 'Tarefas agendadas · \\VaultServer\\ (SYSTEM)', dom: 'servidor', as: 'SYSTEM',
     when: 'Domingo: RestoreTest 04:00 · PreReboot 04:20 · WeeklyReboot 04:30 · DriftCheck 05:00', last: 'hoje: restore-test passou · pre-reboot ok · reboot ok · drift código 1', next: 'domingo 04/10',
-    where: 'restore-test.ps1 · pre-reboot.ps1 · weekly-reboot.ps1 · tests\\Run-HealthCheck.ps1', logs: 'C:\\ProgramData\\vault-server\\logs',
+    where: '', logs: '',
     note: 'O reboot só acontece se o pré-reboot autorizou há menos de 15 min, há update pendente e nenhum job está rodando.' },
   { id: 's-avisos', band: 1, x: 916, t: 'Avisos-Familia', s: '08:00 · SYSTEM', eng: 'script', k: VS + 'Avisos-Familia', dom: 'servidor', as: 'SYSTEM',
-    when: 'Todo dia 08:00', last: 'hoje 08:00 · ok', where: 'scripts\\birthdays.ps1',
+    when: 'Todo dia 08:00', last: 'hoje 08:00 · ok', where: '',
     in: 'birthday: e tarefas 📅 das notas de pessoa', out: 'ntfy 7 dias antes, 1 dia antes e no dia' },
   { id: 'e-ntfy', band: 1, x: 1086, ext: 1, warn: 1, t: 'ntfy → iPhone', s: 'alertas do PC', k: 'Destino externo', dom: 'servidor',
-    where: 'scripts\\notify.ps1 (tópico privado em ProgramData\\vault-server\\secrets)', note: 'Quem avisa são os wrappers e rotinas, nunca o agente que escreve notas. Em 26/09, logo depois do boot, nem ntfy nem Telegram resolviam DNS e o aviso do watchdog se perdeu (SEM CANAL no log). O envio pelo Telegram falha por timeout com frequência.' },
+    where: '', note: 'Quem avisa são os wrappers e rotinas, nunca o agente que escreve notas. ' },
 ];
 // vault inteiro (contêiner clicável)
 const VAULT = { id: 'vault', t: 'Vault Conhecimento', k: 'Vault do Obsidian · uma pasta do usuário', dom: 'cerebro',
@@ -554,38 +390,37 @@ const CTL = {
 // ─── Inventário: o que não é caixa do mapa ───────────────────────────────────
 const RB = 'Tarefa agendada · \\resticprofile backup\\';
 const INV = [
-  { id: 't-git', cat: 'Tarefa', dom: 'backup', t: 'Server-GitAutocommit', when: 'a cada 30 min (hh:00 e hh:30)', as: 'SYSTEM', last: 'hoje 22:00 · ok', k: VS + 'Server-GitAutocommit', where: 'scripts\\git-autocommit.ps1', note: 'Commit + push com deploy key. Invisível para um usuário comum: o estado vem do log do Agendador lido pelo cockpit.' },
-  { id: 't-lint', cat: 'Tarefa', dom: 'cerebro', t: 'Vault-Lint', eng: 'script', when: 'sexta 07:00', as: 'pedro', last: '26/09 12:50 · ok (recuperação)', next: '02/10 07:00', k: VS + 'Vault-Lint', where: 'python _scripts/vault.py lint --report _meta/logs/lint-<data>.md', note: '100% script, zero tokens.' },
-  { id: 't-rb-vault', cat: 'Tarefa', dom: 'backup', t: 'restic · vault backup', when: 'de hora em hora', as: 'SYSTEM', last: 'hoje 22:00 · ok', next: 'hoje 23:00', k: RB + 'vault backup', where: 'resticprofile … run-schedule backup@vault (VSS)', note: 'Exclui _meta/logs, _meta/tmp, o lock e o workspace do Obsidian.' },
-  { id: 't-rb-sis', cat: 'Tarefa', dom: 'backup', t: 'restic · sistema backup', when: '03:05', as: 'SYSTEM', last: 'hoje 03:05 · ok', next: 'amanhã 03:05', k: RB + 'sistema backup', note: 'O que reconstrói a máquina: configs e credenciais do Claude, ~/.ssh e ProgramData\\ssh, estado do Tailscale, Obsidian, plugins, vault-server e server-config/state e tasks.' },
+  { id: 't-git', cat: 'Tarefa', dom: 'backup', t: 'Server-GitAutocommit', when: 'a cada 30 min (hh:00 e hh:30)', as: 'SYSTEM', last: 'hoje 22:00 · ok', k: VS + 'Server-GitAutocommit', where: '', note: 'Commit + push com deploy key. Invisível para um usuário comum: o estado vem do log do Agendador lido pelo cockpit.' },
+  { id: 't-lint', cat: 'Tarefa', dom: 'cerebro', t: 'Vault-Lint', eng: 'script', when: 'sexta 07:00', as: 'pedro', last: '26/09 12:50 · ok (recuperação)', next: '02/10 07:00', k: VS + 'Vault-Lint', where: '', note: '100% script, zero tokens.' },
+  { id: 't-rb-vault', cat: 'Tarefa', dom: 'backup', t: 'restic · vault backup', when: 'de hora em hora', as: 'SYSTEM', last: 'hoje 22:00 · ok', next: 'hoje 23:00', k: RB + 'vault backup', where: '', note: 'Exclui _meta/logs, _meta/tmp, o lock e o workspace do Obsidian.' },
+  { id: 't-rb-sis', cat: 'Tarefa', dom: 'backup', t: 'restic · sistema backup', when: '03:05', as: 'SYSTEM', last: 'hoje 03:05 · ok', next: 'amanhã 03:05', k: RB + 'sistema backup', note: 'O que reconstrói a máquina: as configurações e credenciais do Claude,, as chaves do Tailscale, o Obsidian e seus plugins, e o estado e as tarefas do servidor.' },
   { id: 't-rb-check', cat: 'Tarefa', dom: 'backup', t: 'restic · vault check', when: 'domingo 03:30', as: 'SYSTEM', last: 'hoje 03:30 · ok', next: '04/10 03:30', k: RB + 'vault check', note: 'Lê 10% dos dados do repositório para conferir integridade.' },
   { id: 't-rb-vcopy', cat: 'Tarefa', dom: 'backup', t: 'restic · vault copy', when: '04:45', as: 'SYSTEM', last: 'hoje 04:45 · ok', next: 'amanhã 04:45', k: RB + 'vault copy', note: 'B2 → E:\\restic-vault.' },
   { id: 't-rb-scopy', cat: 'Tarefa', dom: 'backup', t: 'restic · sistema copy', when: '05:00', as: 'SYSTEM', last: 'hoje 05:00 · ok', next: 'amanhã 05:00', k: RB + 'sistema copy' },
   { id: 't-rb-prune', cat: 'Tarefa', dom: 'backup', t: 'restic · prune forget', when: '05:15', as: 'SYSTEM', last: 'hoje 05:15 · ok', next: 'amanhã 05:15', k: RB + 'prune forget', note: 'Retenção no B2: 48 horários, 30 diários, 12 semanais, 24 mensais, 5 anuais.' },
   { id: 't-rb-local', cat: 'Tarefa', dom: 'backup', t: 'restic · local forget', when: 'domingo 05:45', as: 'SYSTEM', last: 'hoje 05:45 · ok', next: '04/10 05:45', k: RB + 'local forget', note: 'Retenção no E:: 30 diários, 12 semanais, 12 mensais.' },
-  { id: 't-restore', cat: 'Tarefa', dom: 'servidor', t: 'Server-RestoreTest', when: 'domingo 04:00', as: 'SYSTEM', last: 'hoje 04:00 · ok (passou)', next: '04/10 04:00', k: VS + 'Server-RestoreTest', where: 'scripts\\restore-test.ps1', note: 'Restaura 40-Notas e um arquivo do grupo sistema para C:\\Temp e compara com o original.' },
-  { id: 't-prereboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-PreReboot', when: 'domingo 04:20', as: 'SYSTEM', last: 'hoje 04:20 · ok', next: '04/10 04:20', k: VS + 'Server-PreReboot', where: 'scripts\\pre-reboot.ps1', note: 'Commit + push e autoriza o reboot (preboot-ok.json).' },
-  { id: 't-reboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-WeeklyReboot', when: 'domingo 04:30', as: 'SYSTEM', last: 'hoje 04:30 · ok', next: '04/10 04:30', k: VS + 'Server-WeeklyReboot', where: 'scripts\\weekly-reboot.ps1', note: 'Só reinicia com update pendente, pré-reboot recente e nenhum job rodando.' },
-  { id: 't-drift', cat: 'Tarefa', dom: 'servidor', warn: 1, t: 'Server-DriftCheck', when: 'domingo 05:00', as: 'SYSTEM', last: 'hoje 05:00 · código 1', next: '04/10 05:00', k: VS + 'Server-DriftCheck', where: 'tests\\Run-HealthCheck.ps1 (Pester)', note: 'Compara a máquina com o baseline (BitLocker, serviços, firewall, tarefas).' },
-  { id: 't-cockpit', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit', when: 'logon + 30 s', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Cockpit\\Cockpit', where: 'C:\\Tools\\cockpit\\scripts\\start.ps1 -Page v2', note: 'Sobe o servidor e abre o painel v2 em tela cheia no monitor.' },
-  { id: 't-cockpit-wd', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit-Watchdog', when: 'a cada 5 min', as: 'pedro', last: 'hoje 22:13 · ok', next: 'hoje 22:18', k: 'Tarefa agendada · \\Cockpit\\Cockpit-Watchdog', where: 'start.ps1 -NoKiosk' },
-  { id: 't-energia-h', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · horário', when: '08:00, 17:00, 23:00 e logon', as: 'pedro', last: 'hoje 17:00 · ok', next: 'hoje 23:00', k: 'Tarefa agendada · \\Energia\\Modo energia - horario', where: '%LOCALAPPDATA%\\EnergiaAuto\\modo-energia.ps1 -Evento Horario', note: 'Nas viradas de horário, vai para “Noite (sem turbo)” só se a tela estiver bloqueada. Janelas: 23–08 todo dia, 08–17 de segunda a sexta.' },
-  { id: 't-energia-b', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · bloqueio', when: 'ao bloquear a tela', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - bloqueio', where: 'modo-energia.ps1 -Evento Bloqueio', note: 'Tira o turbo se estiver dentro de uma janela.' },
-  { id: 't-energia-d', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · desbloqueio', when: 'ao desbloquear ou conectar remoto', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - desbloqueio', where: 'modo-energia.ps1 -Evento Desbloqueio', note: 'Volta sempre para Equilibrado com turbo.' },
-  { id: 't-rgb', cat: 'Tarefa', dom: 'energia', t: 'RGB apagado no bloqueio', when: 'ao bloquear a tela', as: 'pedro (elevada)', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\RGB - apagar no bloqueio', where: 'EnergiaAuto\\rgb-bloqueio.ps1 (Aura SDK)', note: 'Fica leve enquanto a tela está bloqueada; no desbloqueio devolve o RGB ao Armoury Crate.' },
+  { id: 't-restore', cat: 'Tarefa', dom: 'servidor', t: 'Server-RestoreTest', when: 'domingo 04:00', as: 'SYSTEM', last: 'hoje 04:00 · ok (passou)', next: '04/10 04:00', k: VS + 'Server-RestoreTest', where: '', note: 'Restaura 40-Notas e um arquivo do grupo sistema para C:\\Temp e compara com o original.' },
+  { id: 't-prereboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-PreReboot', when: 'domingo 04:20', as: 'SYSTEM', last: 'hoje 04:20 · ok', next: '04/10 04:20', k: VS + 'Server-PreReboot', where: '', note: 'Commit + push e autoriza o reboot (preboot-ok.json).' },
+  { id: 't-reboot', cat: 'Tarefa', dom: 'servidor', t: 'Server-WeeklyReboot', when: 'domingo 04:30', as: 'SYSTEM', last: 'hoje 04:30 · ok', next: '04/10 04:30', k: VS + 'Server-WeeklyReboot', where: '', note: 'Só reinicia com update pendente, pré-reboot recente e nenhum job rodando.' },
+  { id: 't-drift', cat: 'Tarefa', dom: 'servidor', warn: 1, t: 'Server-DriftCheck', when: 'domingo 05:00', as: 'SYSTEM', last: 'hoje 05:00 · código 1', next: '04/10 05:00', k: VS + 'Server-DriftCheck', where: '', note: 'Compara a máquina com o baseline (BitLocker, serviços, firewall, tarefas).' },
+  { id: 't-cockpit', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit', when: 'logon + 30 s', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Cockpit\\Cockpit', where: '', note: 'Sobe o servidor e abre o painel v2 em tela cheia no monitor.' },
+  { id: 't-cockpit-wd', cat: 'Tarefa', dom: 'cockpit', t: 'Cockpit-Watchdog', when: 'a cada 5 min', as: 'pedro', last: 'hoje 22:13 · ok', next: 'hoje 22:18', k: 'Tarefa agendada · \\Cockpit\\Cockpit-Watchdog', where: '' },
+  { id: 't-energia-h', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · horário', when: '08:00, 17:00, 23:00 e logon', as: 'pedro', last: 'hoje 17:00 · ok', next: 'hoje 23:00', k: 'Tarefa agendada · \\Energia\\Modo energia - horario', where: '', note: 'Nas viradas de horário, vai para “Noite (sem turbo)” só se a tela estiver bloqueada. Janelas: 23–08 todo dia, 08–17 de segunda a sexta.' },
+  { id: 't-energia-b', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · bloqueio', when: 'ao bloquear a tela', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - bloqueio', where: '', note: 'Tira o turbo se estiver dentro de uma janela.' },
+  { id: 't-energia-d', cat: 'Tarefa', dom: 'energia', t: 'Modo energia · desbloqueio', when: 'ao desbloquear ou conectar remoto', as: 'pedro', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\Modo energia - desbloqueio', where: '', note: 'Volta sempre para Equilibrado com turbo.' },
+  { id: 't-rgb', cat: 'Tarefa', dom: 'energia', t: 'RGB apagado no bloqueio', when: 'ao bloquear a tela', as: 'pedro (elevada)', last: '26/09 12:40 · ok', k: 'Tarefa agendada · \\Energia\\RGB - apagar no bloqueio', where: '', note: 'Fica leve enquanto a tela está bloqueada; no desbloqueio devolve o RGB ao Armoury Crate.' },
   { id: 't-retired', cat: 'Tarefa', dom: 'servidor', t: 'Telegram-Bridge e Plaud-Sync', when: 'aposentadas em 15/09', as: 'pedro', last: '15/09 · 0xC000013A', k: 'Tarefas antigas', note: 'Morriam juntas com 0xC000013A e ficaram 3 h fora sem aviso. Substituídas pelo Server-Daemons + watchdog.' },
   { id: 't-asus', cat: 'Tarefa', dom: 'sistema', t: 'ASUS (4 tarefas de logon)', when: 'logon', as: 'pedro', last: 'P508PowerAgent: 0x80070002', warn: 1, k: 'Tarefas agendadas · \\ASUS\\', note: 'AcPowerNotification e NoiseCancelingEngine rodando; ArmourySocketServer ok; P508PowerAgent_sdk (mouse ROG Strix Carry) falha com arquivo não encontrado.' },
   { id: 't-onedrive', cat: 'Tarefa', dom: 'sistema', t: 'OneDrive (3 tarefas)', when: 'logon + 10 min · ~17:50 · 18:00', as: 'pedro / SYSTEM', last: 'atualizador: 0x8004EE04', k: 'Tarefas agendadas · OneDrive', note: 'A inicialização do OneDrive está desativada e ele não estava rodando. O vault antigo Alimentação mora no OneDrive.' },
   { id: 't-misc', cat: 'Tarefa', dom: 'sistema', t: 'NVIDIA, PowerToys e SoftLanding', when: 'evento · logon + 3 s · 14:30 e a cada 15 min', as: 'pedro', k: 'Tarefas agendadas · fabricante e Windows', note: 'Atualizador do NVIDIA App (por evento), PowerToys no logon, SoftLanding (dicas do próprio Windows).' },
-  { id: 'd-ollama', cat: 'Daemon', dom: 'ia', eng: 'local', t: 'Ollama', when: 'sempre (atalho na Inicialização)', as: 'pedro', where: 'ollama serve · IP da rede local:11434', k: 'Daemon · IA local', note: 'Modelos: qwen3:14b (9,3 GB, cockpit e Local-Reunioes), qwen2.5vl:7b (6,0 GB, visão dos prints), ministral-3:14b, deepcoder:14b e llama3.2:1b (sem uso nas rotinas). 34,7 GB no total. Só escuta localmente.' },
-  { id: 'vm-ha', cat: 'VM', dom: 'casa', t: 'Home Assistant (VM Hyper-V)', when: 'sempre', where: 'IP da rede local:80 · switch HA-External · MAC 00-15-5D (Hyper-V)', k: 'Máquina virtual · Hyper-V', note: 'É o HA que o cockpit consulta (estados e logbook a cada 5 min, resumo com qwen3:14b). No ar há 34 h, desde o boot de 26/09.' },
-  { id: 'ct-ha', cat: 'Contêiner', dom: 'casa', warn: 1, t: 'homeassistant', when: 'sempre (unless-stopped)', where: ':8123 · C:\\Server\\HomeAssistant · 312 MB (limite 3 GB)', k: 'Contêiner · compose homeassistant', note: 'Segundo Home Assistant, além da VM. Não é o que o cockpit usa.' },
-  { id: 'ct-mqtt', cat: 'Contêiner', dom: 'casa', t: 'mosquitto', when: 'sempre', where: ':1883 · 5 MB', k: 'Contêiner · compose homeassistant', note: 'Broker MQTT.' },
-  { id: 'ct-z2m', cat: 'Contêiner', dom: 'casa', t: 'zigbee2mqtt', when: 'sempre', where: ':8099 · 29 MB', k: 'Contêiner · compose homeassistant', note: 'O dongle Zigbee ainda não está anexado (trecho devices comentado; seria via usbipd).' },
-  { id: 'ct-webui', cat: 'Contêiner', dom: 'ia', t: 'open-webui', when: 'sempre', where: ':8080 · 710 MB', k: 'Contêiner · compose homeassistant', note: 'Chat no navegador com os modelos do Ollama (host.docker.internal:11434).' },
-  { id: 'ct-jelly', cat: 'Contêiner', dom: 'casa', t: 'jellyfin', when: 'sempre', where: ':8096 e 7359/udp · 175 MB · GPU NVIDIA', k: 'Contêiner · compose mediaserver', note: 'Servidor de mídia das TVs: http://IP da rede local:8096. Biblioteca em C:\\MediaServer\\data\\media (só leitura).' },
-  { id: 'ct-qbit', cat: 'Contêiner', dom: 'casa', t: 'qbittorrent', when: 'sempre', where: ':8081 (web) e 6881 · 21 MB', k: 'Contêiner · compose mediaserver', note: 'Baixa em data/torrents; prowlarr e radarr existem no compose, desligados (perfil arr).' },
-  { id: 'sv-remote', cat: 'Serviço', dom: 'rede', t: 'Tailscale · sshd · RDP · Parsec', when: 'sempre (automático)', as: 'SYSTEM', where: ':22 · :3389 · tailnet', k: 'Serviços de acesso remoto', note: 'SSH só com chave e firewall só no tailnet; é por ele que o Claude Desktop do MacBook abre sessões aqui. RDP com NLA, só tailnet. Tailscale: MacBook Air online; debian-server e iPhone offline no retrato.' },
+  { id: 'd-ollama', cat: 'Daemon', dom: 'ia', eng: 'local', t: 'Ollama', when: 'sempre (atalho na Inicialização)', as: 'pedro', where: '', k: 'Daemon · IA local', note: 'Modelos: qwen3:14b (9,3 GB, cockpit e Local-Reunioes), qwen2.5vl:7b (6,0 GB, visão dos prints), ministral-3:14b, deepcoder:14b e llama3.2:1b (sem uso nas rotinas). 34,7 GB no total. Só escuta localmente.' },
+  { id: 'vm-ha', cat: 'VM', dom: 'casa', t: 'Home Assistant (VM Hyper-V)', when: 'sempre', where: '', k: 'Máquina virtual · Hyper-V', note: 'É o HA que o cockpit consulta (estados e logbook a cada 5 min, resumo com qwen3:14b). No ar há 34 h, desde o boot de 26/09.' },
+  { id: 'ct-ha', cat: 'Contêiner', dom: 'casa', warn: 1, t: 'homeassistant', when: 'sempre (unless-stopped)', where: '', k: 'Contêiner · compose homeassistant', note: 'Segundo Home Assistant, além da VM. Não é o que o cockpit usa.' },
+  { id: 'ct-mqtt', cat: 'Contêiner', dom: 'casa', t: 'mosquitto', when: 'sempre', where: '', k: 'Contêiner · compose homeassistant', note: 'Broker MQTT.' },
+  { id: 'ct-z2m', cat: 'Contêiner', dom: 'casa', t: 'zigbee2mqtt', when: 'sempre', where: '', k: 'Contêiner · compose homeassistant', note: 'O dongle Zigbee ainda não está anexado (trecho devices comentado; seria via usbipd).' },
+  { id: 'ct-webui', cat: 'Contêiner', dom: 'ia', t: 'open-webui', when: 'sempre', where: '', k: 'Contêiner · compose homeassistant', note: 'Chat no navegador com os modelos do Ollama (host.docker.internal:11434).' },
+  { id: 'ct-jelly', cat: 'Contêiner', dom: 'casa', t: 'jellyfin', when: 'sempre', where: '', k: 'Contêiner · compose mediaserver', note: 'Servidor de mídia das TVs: http://IP da rede local:8096. Biblioteca em C:\\MediaServer\\data\\media (só leitura).' },
+  { id: 'ct-qbit', cat: 'Contêiner', dom: 'casa', t: 'qbittorrent', when: 'sempre', where: '', k: 'Contêiner · compose mediaserver', note: 'Baixa em data/torrents; prowlarr e radarr existem no compose, desligados (perfil arr).' },
   { id: 'sv-other', cat: 'Serviço', dom: 'sistema', t: 'Outros serviços de terceiros', when: 'sempre (automático)', as: 'SYSTEM', k: 'Serviços', note: 'Claude (CoworkVMService), WSL, usbipd (:3240), Everything, Office Click-to-Run, ASUS (Armoury Crate, AURA, fan control, ROG Live, cert, com), NVIDIA LocalSystem Container, Defender. Docker Desktop Service está manual (o Docker sobe como app).' },
 ];
 
@@ -698,7 +533,7 @@ const FLOWS = [
     ['Watchdog, jobs, sentinela, reboot, avisos', 's-watchdog', 'só avisam quando algo muda; resumo às 07:00', '5 min · por evento', ''],
     ['notify.ps1', 'e-ntfy', 'tópico privado; Telegram como reserva', '', ''],
     ['iPhone', 'e-ntfy', 'app ntfy', 'segundos', 'end'] ],
-    note: 'Em 26/09, logo depois do boot, os dois canais falharam por DNS e o aviso se perdeu; o envio pelo Telegram falha por timeout com frequência.' },
+    note: '' },
   { t: 'Casa', i: 'sensores e dispositivos', o: 'painel da casa', s: [
     ['Dispositivos', null, 'luzes, portas, pessoas, clima', '', ''],
     ['Home Assistant (VM)', 'vm-ha', 'IP da rede local', 'contínuo', ''],
@@ -720,7 +555,7 @@ const RUN = [
       ['open-webui', ':8080 · 710 MB', 'chat com os modelos', 'ct-webui'],
       ['Whisper', 'sob demanda', 'C:\\Tools\\whisper, só na hora da transcrição', 'b-transcribe']]],
     ['Cockpit', ':8765 · 4 aparelhos', 'Painel ao vivo do PC, da casa, do corpo e do cérebro.', [
-      ['cockpit', 'pythonw · 2 proc', 'pareados: Fire da parede, iPad e um Echo Show (hoje)', 'e-cockpit'],
+      ['cockpit', 'pythonw · 2 proc', 'telas próprias para monitor, tablet e iPad', 'e-cockpit'],
       ['Painel do monitor', 'Edge em tela cheia', 'perfil kiosk em data\\kiosk-profile', 't-cockpit'],
       ['Telas novas', 'alexa-8 · alexa-10 · tablet-10', 'apareceram hoje em web\\, ainda sem rota no servidor', 'e-cockpit']]] ]],
   ['Casa e mídia', [
@@ -738,21 +573,12 @@ const RUN = [
       ['Docker Desktop', '4 proc + backend', 'autostart desativado; sobe como app', null],
       ['WSL2 · docker-desktop', 'Running · 757 MB', 'Ubuntu parado', null]]] ]],
   ['Acesso, Claude e sincronização', [
-    ['Acesso remoto', 'só pelo tailnet', 'Como você e o Mac chegam aqui.', [
-      ['Tailscale', 'o PC', 'MacBook Air online; debian-server e iPhone offline', 'sv-remote'],
-      ['OpenSSH (sshd)', ':22', 'só chave; sessões do Claude Desktop do Mac', 'sv-remote'],
-      ['Área de Trabalho Remota', ':3389', 'NLA, firewall só tailnet', 'sv-remote'],
-      ['Parsec', 'serviço + app · 416 MB', 'acesso com vídeo', 'sv-remote'],
-      ['usbipd', ':3240', 'USB para o WSL', 'sv-other']]],
     ['Claude', '~2 GB', 'O app, os jobs e as sessões.', [
       ['Claude Desktop', '20 proc · 3,6 GB', 'maior consumidor de memória agora', null],
       ['Claude Code', 'CLI 2.1.275', 'sessões do app e jobs claude -p (sonnet)', 'c-inbox'],
       ['CoworkVMService', 'serviço', 'VM do Cowork', 'sv-other'],
       ['statusline.py', 'a cada sessão', 'grava a cota em _meta/tmp/rate_limits.json', 'v-meta']]],
-    ['Sincronização', '', 'Por onde os arquivos saem e entram.', [
-      ['Obsidian Sync', 'ativo', 'PEDRO, MacBook e iPhone', 'e-sync'],
-      ['iCloud para Windows', 'instalado, parado', 'rota da Siri depende dele', 'b-icloud'],
-      ['OneDrive', 'desativado', 'guarda o vault antigo Alimentação', 't-onedrive']]] ]],
+    ]],
   ['Energia, hardware e utilitários', [
     ['EnergiaAuto', '4 tarefas', 'Plano de energia por horário e bloqueio; RGB apagado com a tela travada.', [
       ['Sem turbo', '23–08 todo dia', 'e 08–17 de segunda a sexta, se a tela estiver bloqueada', 't-energia-h'],
@@ -766,32 +592,15 @@ const RUN = [
       ['Everything', 'serviço', 'busca instantânea de arquivos', 'sv-other'],
       ['Defender', '~400 MB', 'antivírus do Windows', null]]] ]],
 ];
-const PORTS = [
-  ['22', 'sshd', 'todas as interfaces; firewall só tailnet'], ['3389', 'Área de Trabalho Remota', 'firewall só tailnet'],
-  ['8765', 'cockpit', 'rede local; só aparelhos pareados'], ['8080', 'open-webui', 'todas as interfaces (Docker)'],
-  ['8081 · 6881', 'qBittorrent (web · torrent)', 'todas as interfaces (Docker)'], ['8096 · 7359/udp', 'Jellyfin', 'rede local (TVs)'],
-  ['8099', 'Zigbee2MQTT', 'todas as interfaces (Docker)'], ['8123', 'Home Assistant (contêiner)', 'todas as interfaces (Docker)'],
-  ['1883', 'Mosquitto (MQTT)', 'todas as interfaces (Docker)'], ['3240', 'usbipd', 'todas as interfaces'],
-  ['11434 · 53075', 'Ollama (serviço · app)', 'só local'], ['44471', 'applaud', 'só local'],
-  ['1042 · 6850 · 9012–9013 · 13030–13032 · 22112 · 50100 · 51100', 'ASUS (Armoury, AURA, ROG Live)', 'só local'],
-  ['2179', 'Hyper-V (vmms)', 'todas as interfaces'], ['42843 · 55692', 'tailscaled', 'só tailnet'],
-  ['135 · 139 · 445 · 5040 · 5357 · 7680 · 49664–49681', 'Windows (RPC, SMB, descoberta, updates)', 'padrão do Windows'],
-];
+const PORTS = [];
 
 // ─── Pontos de atenção ───────────────────────────────────────────────────────
 // [severidade, título, texto, o que fazer, id relacionado]
-const ATT_FIXO = [
-  ['info', 'O watchdog acusa daemons que estão de pé', 'A cada 5 min ele grava “relançado pelo watchdog” sem nome e marca daemons = problema, mesmo com a ponte e o applaud rodando. O ensure-daemons.ps1 devolve o resultado em $script:DaemonsStarted, variável que some quando o watchdog o chama com &; @($null) conta como 1.', 'Fazer o ensure-daemons.ps1 devolver um objeto (Started, Problems) e o watchdog ler esse retorno.', 's-watchdog'],
-  ['info', 'O watchdog marca o Tailscale como erro', 'Com a expiração da chave desativada, KeyExpiry vem vazio e [datetime]$null gera exceção, mesmo com o Tailscale rodando.', 'Pular a checagem de expiração quando KeyExpiry estiver vazio.', 's-watchdog'],
-  ['info', 'O que o DriftCheck cobra', 'Ele compara a máquina com o baseline (BitLocker, serviços, firewall, tarefas) todo domingo às 05:00. Código 1 quer dizer que algum item saiu do lugar — e ele vem fechando em 1.', 'Rodar tests\\Run-HealthCheck.ps1 num terminal elevado para ver qual item está fora.', 't-drift'],
-  ['info', 'Dois Home Assistant ligados', 'A VM (a que o cockpit consulta) e o contêiner homeassistant com Mosquitto e Zigbee2MQTT, cujo dongle ainda não foi anexado.', 'Decidir qual fica. Se o contêiner for a pilha antiga ou de teste, desligá-lo libera memória e portas.', 'ct-ha'],
-  ['low', 'Tarefa do mouse ASUS falha no logon', 'P508PowerAgent_sdk termina com 0x80070002 (arquivo não encontrado).', 'Ruído do fabricante; reinstalar o módulo do mouse no Armoury Crate ou desativar a tarefa.', 't-asus'],
-  ['low', 'Dois áudios de 12/09 continuam em 00-Inbox/_audio', 'Já foram transcritos para 50-Fontes/transcricoes, mas os arquivos .ogg ficaram na pasta.', 'Confirmar se é de propósito.', 'v-inbox'],
-];
+const ATT_FIXO = [];
 
 // ─── Registro, utilidades e gaveta ───────────────────────────────────────────
 const REG = {};
-[...NODES, VAULT, ...INV].forEach(o => { REG[o.id] = o; });
+[...NODES, VAULT,...INV].forEach(o => { REG[o.id] = o; });
 const PUB = typeof PUBLICO !== 'undefined' && PUBLICO;
 const L = typeof LIVE !== 'undefined' ? LIVE : { itens: {}, att: [], fatos: {}, memoria: [], containers: [] };
 for (const [id, v] of Object.entries(L.itens || {})) {
@@ -819,8 +628,7 @@ function openItem(id, fromMap) {
   const o = REG[id]; if (!o) return;
   $('#dr-kind').textContent = o.k || o.cat || '';
   $('#dr-name').textContent = o.t;
-  const rows = [['Quando', o.when], ['Última', o.last], ['Próxima', o.next], ['Entrada', o.in], ['Saída', o.out], ['Onde', o.where], ['Logs', o.logs], ['Roda como', o.as], ['Motor', o.eng && o.eng !== 'script' ? ENG[o.eng] : '']]
-    .filter(r => r[1] && !(PUB && (r[0] === 'Onde' || r[0] === 'Logs')));
+  const rows = [['Quando', o.when], ['Última', o.last], ['Próxima', o.next], ['Entrada', o.in], ['Saída', o.out], ['Onde', o.where], ['Logs', o.logs], ['Roda como', o.as], ['Motor', o.eng && o.eng !== 'script' ? ENG[o.eng] : '']].filter(r => r[1] && !(PUB && (r[0] === 'Onde' || r[0] === 'Logs')));
   let h = '';
   if (o.s && !o.when) h += `<p class="dr-note">${esc(o.s)}</p>`;
   if (rows.length) h += '<dl>' + rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('') + '</dl>';
@@ -866,7 +674,7 @@ function drawMap() {
     const m = el('marker', { id, viewBox: '0 0 8 8', refX: 7.5, refY: 4, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
     const p = el('path', { d: 'M0,0 L8,4 L0,8 z' }, m); if (cls) p.setAttribute('class', cls); else p.style.fill = 'var(--ink)';
   });
-  const sheet = document.createElement('style'); sheet.textContent = '.focus .ed.on{marker-end:url(#ah-on)}'; document.head.appendChild(sheet);
+  const sheet = document.createElement('style'); sheet.textContent = '.focus.ed.on{marker-end:url(#ah-on)}'; document.head.appendChild(sheet);
   // fundos
   el('rect', { x: 0, y: BAND_Y - 32, width: W, height: H - BAND_Y + 32, class: 'band-box', rx: 0 }, svg);
   [['A', 'Fontes'], ['B', 'Coleta no PEDRO'], ['C', 'Processamento'], ['E', 'Destinos']].forEach(([c, s]) => text(svg, COLS[c][0], 20, 'col-h', s));
@@ -933,12 +741,12 @@ function drawMap() {
 }
 function focusMap(id) {
   const svg = $('#map-svg svg'); if (!svg) return;
-  svg.querySelectorAll('.on, .sel').forEach(x => x.classList.remove('on', 'sel'));
+  svg.querySelectorAll('.on,.sel').forEach(x => x.classList.remove('on', 'sel'));
   if (!id || !mapEls[id]) { svg.classList.remove('focus'); return; }
   svg.classList.add('focus');
   mapEls[id].classList.add('on', 'sel');
   const inVault = id === 'vault' ? null : (REG[id].row ? 'vault' : null);
-  svg.querySelectorAll('.ed, .el').forEach(p => {
+  svg.querySelectorAll('.ed,.el').forEach(p => {
     const hit = p.dataset.a === id || p.dataset.b === id || (id === 'vault' && (REG[p.dataset.a]?.row || REG[p.dataset.b]?.row));
     if (hit) { p.classList.add('on'); [p.dataset.a, p.dataset.b].forEach(x => mapEls[x] && mapEls[x].classList.add('on')); }
   });
@@ -985,7 +793,7 @@ function drawTimeline(day) {
         const b = el('rect', { x: X0, y: cy - 3, width: X1 - X0, height: 6, rx: 3, class: 'tl-cont tk', style: `fill:${col};opacity:${r.cont ? 0.6 : 0.32}` }, row);
         b.dataset.id = r.id; b.dataset.tip = `<b>${esc(r.n)}</b>${r.cont ? 'sempre ligado' : 'a cada ' + r.band + ' min, o dia todo'}`;
       } else if (!off) {
-        const ts = [...(r.t || []), ...((r.extra && r.extra[day]) || [])];
+        const ts = [...(r.t || []),...((r.extra && r.extra[day]) || [])];
         ts.forEach(m => {
           const k = el('rect', { x: X(m) - 2.5, y: cy - 7, width: 5, height: 14, rx: 2, class: 'tk', style: `fill:${col};stroke:var(--surface);stroke-width:1` }, row);
           k.dataset.id = r.id;
@@ -1063,7 +871,7 @@ function drawRunning() {
 // ─── Atenção ─────────────────────────────────────────────────────────────────
 const SEV = { critical: 'Crítico', serious: 'Sério', warning: 'Atenção', info: 'Aviso', low: 'Leve' };
 function drawAtt() {
-  const ATT = [...(L.att || []), ...ATT_FIXO];
+  const ATT = [...(L.att || []),...ATT_FIXO];
   $('#att').innerHTML = ATT.map(([s, t, p, fix, id]) => `
     <li class="panel">
       <span class="sev"><span class="pill ${s}"><i></i>${SEV[s]}</span></span>
@@ -1077,7 +885,7 @@ function drawAtt() {
 // ─── Inventário ──────────────────────────────────────────────────────────────
 const DOMS = [['', 'Tudo'], ['cerebro', 'Segundo cérebro'], ['backup', 'Backup'], ['servidor', 'Servidor'], ['cockpit', 'Cockpit'], ['ia', 'IA'], ['casa', 'Casa e mídia'], ['saude', 'Saúde'], ['energia', 'Energia'], ['rede', 'Rede'], ['sistema', 'Windows e fabricante']];
 const catOf = o => o.cat || (o.k || '').split(' ·')[0].replace('Tarefa agendada', 'Tarefa').replace('Rotina interna do cockpit', 'Rotina').replace(/^(Camada|Etapa).*/, 'Etapa').replace(/^Aplicativo.*/, 'App').replace(/^Disco.*/, 'Disco');
-const INV_ALL = [...NODES.filter(n => !n.ext && !n.row), ...INV];
+const INV_ALL = [...NODES.filter(n => !n.ext && !n.row),...INV];
 let invDom = '', invQ = '';
 function drawInv() {
   const q = invQ.trim().toLowerCase();
